@@ -1,0 +1,11 @@
+{
+	"LOGIN_SOCIAL_FACEBOOK": "Login with Facebook",
+	"LOGIN_SOCIAL_GOOGLE": "Login with Google",
+	"LOGIN_EMAIL": "E-mail address",
+	"LOGIN_PASSWORD": "Password",
+	"LOGIN_REMEMBER": "Remember me",
+	"LOGIN_FORGOT_PASSWORD": "Forgot Password",
+	"LOGIN_SUBMIT_BUTTON": "Login",
+	"LOGIN_SIGN_UP_HINT": "Don’t have an account?",
+	"LOGIN_SIGN_UP": "Sign up"
+}

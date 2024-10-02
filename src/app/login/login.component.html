@@ -3,47 +3,44 @@
 		<div class="row">
 			<div class="col">
 				<a href="#" class="btn login_form__social btn-primary facebook">
-					<span>Login with Facebook</span>
+					<span>{{ 'LOGIN_SOCIAL_FACEBOOK' | translate }}</span>
 					<fa-icon [icon]="faFacebook"></fa-icon>
 				</a>
 			</div>
 
 			<div class="col">
 				<a href="#" class="btn login_form__social btn-primary google">
-					<span>Login  with Google</span>
+					<span>{{ 'LOGIN_SOCIAL_GOOGLE' | translate }}</span>
 					<fa-icon [icon]="faGoogle"></fa-icon>
 				</a>
 			</div>
 		</div>
 
 		<div class="form-group">
-			<input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="E-mail address">
+			<input type="email" class="form-control" id="email" aria-describedby="emailHelp"
+				   placeholder="{{ 'LOGIN_EMAIL' | translate }}">
 		</div>
 
 		<div class="form-group mt-3">
-			<input type="password" class="form-control" id="password" placeholder="Password">
+			<input type="password" class="form-control" id="password" placeholder="{{ 'LOGIN_PASSWORD' | translate }}">
 		</div>
 
 		<div class="login_form__remember">
 			<div class="form-check">
 				<input class="form-check-input" type="checkbox" id="remember" checked>
-				<label class="form-check-label" for="remember">
-					Remember me
-				</label>
+				<label class="form-check-label" for="remember">{{ 'LOGIN_REMEMBER' | translate }}</label>
 			</div>
 
-			<a href="#" class="link-danger">
-				Forgot Password
-			</a>
+			<a href="#" class="link-danger">{{ 'LOGIN_FORGOT_PASSWORD' | translate }}</a>
 		</div>
 
 		<div class="login_form__button-wrapper">
-			<a href="#" class="btn btn-primary login-button">Login</a>
+			<a href="#" class="btn btn-primary login-button">{{ 'LOGIN_SUBMIT_BUTTON' | translate }}</a>
 		</div>
 
 		<div class="login_form__message">
-			<p>Don&rsquo;t have an account?
-				<a href="#">Sign up</a>
+			<p>{{ 'LOGIN_SIGN_UP_HINT' | translate }}
+				<a href="#">{{ 'LOGIN_SIGN_UP' | translate }}</a>
 			</p>
 		</div>
 	</form>
