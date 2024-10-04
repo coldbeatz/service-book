@@ -2,14 +2,14 @@
 	<div class="row">
 		<div class="col">
 			<a href="#" class="btn login_form__social btn-primary facebook disabled">
-				<span>{{ 'LOGIN_SOCIAL_FACEBOOK' | translate }}</span>
+				<span>{{ 'REGISTRATION_SOCIAL_FACEBOOK' | translate }}</span>
 				<fa-icon [icon]="faFacebook"></fa-icon>
 			</a>
 		</div>
 
 		<div class="col">
 			<a href="#" class="btn login_form__social btn-primary google disabled">
-				<span>{{ 'LOGIN_SOCIAL_GOOGLE' | translate }}</span>
+				<span>{{ 'REGISTRATION_SOCIAL_GOOGLE' | translate }}</span>
 				<fa-icon [icon]="faGoogle"></fa-icon>
 			</a>
 		</div>
@@ -20,23 +20,20 @@
 	</div>
 
 	<div class="form-group mt-3">
+		<input type="text" class="form-control" id="fullName" placeholder="{{ 'REGISTRATION_FULL_NAME' | translate }}">
+	</div>
+
+	<div class="form-group mt-3 mb-4">
 		<input type="password" class="form-control" id="password" placeholder="{{ 'LOGIN_PASSWORD' | translate }}">
 	</div>
 
-	<div class="login_form__remember">
-		<div class="form-check">
-			<input class="form-check-input" type="checkbox" id="remember" checked>
-			<label class="form-check-label" for="remember">{{ 'LOGIN_REMEMBER' | translate }}</label>
-		</div>
-	</div>
-
 	<div class="login_form__button-wrapper">
-		<a href="#" class="btn btn-primary login-button">{{ 'LOGIN_SUBMIT_BUTTON' | translate }}</a>
+		<a href="#" class="btn btn-primary login-button">{{ 'REGISTRATION_SUBMIT_BUTTON' | translate }}</a>
 	</div>
 
 	<div class="login_form__message">
-		<p>{{ 'LOGIN_SIGN_UP_HINT' | translate }}
-			<a routerLink="/registration">{{ 'LOGIN_SIGN_UP' | translate }}</a>
+		<p>{{ 'REGISTRATION_LOGIN_HINT' | translate }}
+			<a routerLink="/login">{{ 'REGISTRATION_LOGIN' | translate }}</a>
 			<span> or </span>
 			<a routerLink="/restore" class="link-danger">{{ 'LOGIN_FORGOT_PASSWORD' | translate }}</a>
 		</p>

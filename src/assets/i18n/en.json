@@ -7,5 +7,14 @@
 	"LOGIN_FORGOT_PASSWORD": "Forgot Password",
 	"LOGIN_SUBMIT_BUTTON": "Login",
 	"LOGIN_SIGN_UP_HINT": "Don’t have an account?",
-	"LOGIN_SIGN_UP": "Sign up"
+	"LOGIN_SIGN_UP": "Sign up",
+
+	"REGISTRATION_SOCIAL_FACEBOOK": "Sign up with Facebook",
+	"REGISTRATION_SOCIAL_GOOGLE": "Sign up with Google",
+	"REGISTRATION_FULL_NAME": "Full name",
+	"REGISTRATION_SUBMIT_BUTTON": "Sign up",
+	"REGISTRATION_LOGIN_HINT": "Do you have an account?",
+	"REGISTRATION_LOGIN": "Login",
+
+	"RESTORE_SUBMIT_BUTTON": "Restore"
 }
