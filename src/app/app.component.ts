@@ -16,7 +16,7 @@ export class AppComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
-		this.router.navigate(['/login'])
+		/*this.router.navigate(['/login'])
 			.then(success => {
 				if (success) {
 					console.log('Navigation to login successful');
@@ -26,6 +26,6 @@ export class AppComponent implements OnInit {
 			})
 			.catch(error => {
 				console.error('Error during navigation:', error);
-			});
+			});*/
 	}
 }

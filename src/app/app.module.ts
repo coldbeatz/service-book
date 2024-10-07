@@ -10,13 +10,15 @@ import { RestoreComponent } from "./restore/restore.component";
 import { FormsModule } from "@angular/forms";
 import { UserService } from "./user/user.service";
 import { provideHttpClient } from "@angular/common/http";
+import { ConfirmationComponent } from "./components/confirmation/confirmation.component";
 
 @NgModule({
 	declarations: [
 		AppComponent,
 		LoginComponent,
 		RegistrationComponent,
-		RestoreComponent
+		RestoreComponent,
+		ConfirmationComponent
 	],
     imports: [
         BrowserModule,
