@@ -7,6 +7,9 @@ import { AppRoutingModule } from "./app-routing.module";
 import { AppTranslateModule } from "./translate/translate.module";
 import { RegistrationComponent } from "./registration/registration.component";
 import { RestoreComponent } from "./restore/restore.component";
+import { FormsModule } from "@angular/forms";
+import { UserService } from "./user/user.service";
+import { provideHttpClient } from "@angular/common/http";
 
 @NgModule({
 	declarations: [
@@ -15,13 +18,14 @@ import { RestoreComponent } from "./restore/restore.component";
 		RegistrationComponent,
 		RestoreComponent
 	],
-	imports: [
-		BrowserModule,
-		AppRoutingModule,
-		AppTranslateModule,
-		FontAwesomeModule,
-	],
-	providers: [],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        AppTranslateModule,
+        FontAwesomeModule,
+		FormsModule,
+    ],
+	providers: [provideHttpClient(), UserService],
 	bootstrap: [AppComponent]
 })
 export class AppModule { }

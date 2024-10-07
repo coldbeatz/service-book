@@ -9,7 +9,8 @@ export const routes: Routes = [
 	{ path: 'login', component: LoginComponent },
 	{ path: 'registration', component: RegistrationComponent },
 	{ path: 'restore', component: RestoreComponent },
-	{ path: '', component: AppComponent }
+	{ path: '', component: AppComponent },
+	{ path: '**', redirectTo: 'login' }
 ];
 
 @NgModule({
