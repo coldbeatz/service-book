@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
-import { ConfirmationService } from "../../user/confirmation/confirmation.service";
-import { Confirmation } from "../../user/confirmation/confirmation";
+import { ConfirmationService } from "./confirmation.service";
+import { ConfirmationRequest } from "./confirmation.request";
 
 @Component({
 	selector: 'confirmation-root',
@@ -11,7 +11,10 @@ import { Confirmation } from "../../user/confirmation/confirmation";
 })
 export class ConfirmationComponent implements OnInit {
 
-	key: string | null = null;
+	confirmation: ConfirmationRequest | null = null;
+
+	errorKey: string | null = null;
+	activationSuccess: boolean = false;
 
 	constructor(private route: ActivatedRoute, private confirmationService: ConfirmationService) {
 
@@ -19,14 +22,11 @@ export class ConfirmationComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.route.paramMap.subscribe(params => {
-			this.key = params.get('key');
-			console.log('Confirmation key:', this.key);
+			this.confirmation = new ConfirmationRequest(params.get('key'));
 		});
 	}
 
 	onSubmit() {
-		if (this.key !== null) {
-			this.confirmationService.confirm(new Confirmation(this.key));
-		}
+		this.confirmationService.confirm(this);
 	}
 }
