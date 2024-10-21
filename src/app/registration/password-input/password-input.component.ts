@@ -18,7 +18,8 @@ export class PasswordInputComponent implements ControlValueAccessor {
 	faUnlock = faUnlock;
 	faLock = faLock;
 
-	showPassword = false;
+	showPassword: boolean = false;
+	isInvalid: boolean = false;
 
 	@Input() placeholder!: string;
 	@Input() formControl!: FormControl;
@@ -34,9 +35,9 @@ export class PasswordInputComponent implements ControlValueAccessor {
 		}
 	}
 
-	writeValue(value: string): void {
-		if (this.formControl) {
-			this.formControl.setValue(value);
+	writeValue(value: string | null): void {
+		if (this.formControl && this.formControl.value !== value) {
+			this.formControl.setValue(value, { emitEvent: false });
 		}
 	}
 

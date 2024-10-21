@@ -1,8 +1,9 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import {Component, ViewChild, ViewEncapsulation} from '@angular/core';
 import { faFacebook, faGooglePlus } from '@fortawesome/free-brands-svg-icons';
 import { User } from "../user/user";
 import { UserService } from "../user/user.service";
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import { PasswordInputComponent } from "./password-input/password-input.component";
 
 @Component({
 	selector: 'registration-root',
@@ -21,6 +22,9 @@ export class RegistrationComponent {
 	protected passwordsNotMatch: boolean = false;
 
 	protected success: boolean = false;
+
+	@ViewChild('passwordInput') passwordInputComponent!: PasswordInputComponent;
+	@ViewChild('passwordRepeatInput') passwordRepeatInputComponent!: PasswordInputComponent;
 
 	protected form: FormGroup;
 
@@ -44,6 +48,7 @@ export class RegistrationComponent {
 
 		if (userData.password !== userData.passwordRepeat) {
 			this.passwordsNotMatch = true;
+			this.passwordRepeatInputComponent.isInvalid = true;
 			return;
 		}
 
@@ -55,6 +60,8 @@ export class RegistrationComponent {
 			next: (response) => {
 				if (response.result === 'success') {
 					this.success = true;
+
+					this.form.reset();
 				}
 			},
 			error: (e) => {
@@ -65,6 +72,7 @@ export class RegistrationComponent {
 
 	private clearErrors(): void {
 		this.invalidEmail = this.emailExists = this.unknownError = this.passwordsNotMatch = this.success = false;
+		this.passwordRepeatInputComponent.isInvalid = false;
 	}
 
 	private onError(errorCode: string): void {

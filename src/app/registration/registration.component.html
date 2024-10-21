@@ -32,7 +32,8 @@
 	</div>
 
 	<div class="form-group">
-		<input type="email" name="email" formControlName="email"
+		<input type="text" name="email" formControlName="email"
+			   [ngClass]="{'is-invalid': invalidEmail || emailExists}"
 			   class="form-control" placeholder="{{ 'LOGIN_EMAIL' | translate }}">
 	</div>
 
@@ -41,14 +42,16 @@
 			   class="form-control" placeholder="{{ 'REGISTRATION_FULL_NAME' | translate }}">
 	</div>
 
-	<div class="alert alert-danger" role="alert" *ngIf="passwordsNotMatch">
+	<div class="alert alert-danger mt-3" role="alert" *ngIf="passwordsNotMatch">
 		{{ 'REGISTRATION_ERROR_PASSWORDS_NOT_MATCH' | translate }}
 	</div>
 
-	<password-input-root [formControl]="passwordControl"
+	<password-input-root #passwordInput
+						 [formControl]="passwordControl"
 						 placeholder="{{ 'LOGIN_PASSWORD' | translate }}"></password-input-root>
 
-	<password-input-root [formControl]="passwordRepeatControl"
+	<password-input-root #passwordRepeatInput
+						 [formControl]="passwordRepeatControl"
 						 placeholder="{{ 'REGISTRATION_PASSWORD_REPEAT' | translate }}"></password-input-root>
 
 	<div class="login_form__button-wrapper">

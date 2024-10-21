@@ -48,6 +48,12 @@ body {
 	}
 }
 
+.form-control.is-invalid {
+	&:focus {
+		border: 1px solid #dc3545 !important;
+	}
+}
+
 .default-form {
 	margin: 40px auto auto;
 	border-bottom: 1px solid #e4e4e4;
