@@ -31,6 +31,6 @@ export class ConfirmationService {
 					component.errorKey = 'unknown_error'
 				}
 			}
-		})
+		});
 	}
 }

@@ -1,4 +1,6 @@
 {
+	"UNKNOWN_ERROR": "An unknown error occurred",
+
 	"LOGIN_SOCIAL_FACEBOOK": "Login with Facebook",
 	"LOGIN_SOCIAL_GOOGLE": "Login with Google",
 	"LOGIN_EMAIL": "E-mail address",
@@ -12,9 +14,14 @@
 	"REGISTRATION_SOCIAL_FACEBOOK": "Sign up with Facebook",
 	"REGISTRATION_SOCIAL_GOOGLE": "Sign up with Google",
 	"REGISTRATION_FULL_NAME": "Full name",
+	"REGISTRATION_PASSWORD_REPEAT": "Password repeat",
 	"REGISTRATION_SUBMIT_BUTTON": "Sign up",
 	"REGISTRATION_LOGIN_HINT": "Do you have an account?",
 	"REGISTRATION_LOGIN": "Login",
+	"REGISTRATION_ERROR_EMAIL_EXISTS": "E-mail is already registered",
+	"REGISTRATION_ERROR_EMAIL_INVALID": "You entered an incorrect e-mail",
+	"REGISTRATION_ERROR_PASSWORDS_NOT_MATCH": "Passwords don't match",
+	"REGISTRATION_SUCCESS": "Success! Confirm your email address",
 
 	"RESTORE_SUBMIT_BUTTON": "Restore",
 
