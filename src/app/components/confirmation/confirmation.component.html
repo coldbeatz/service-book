@@ -1,11 +1,11 @@
-<form class="default-form" (ngSubmit)="onSubmit()">
+<form class="default-form">
 	<p class="text-muted">
 		<small>{{ 'CONFIRMATION_HINT' | translate }}</small>
 	</p>
 
-	<p class="text-danger" *ngIf="errorKey != null">
-		<small *ngIf="errorKey === 'key_is_missing'">{{ 'CONFIRMATION_KEY_IS_MISSING' | translate }}</small>
-		<small *ngIf="errorKey === 'unknown_error'">{{ 'CONFIRMATION_UNKNOWN_ERROR' | translate }}</small>
+	<p class="text-danger" *ngIf="errorCode != null">
+		<small *ngIf="errorCode === 'key_is_missing'">{{ 'CONFIRMATION_KEY_IS_MISSING' | translate }}</small>
+		<small *ngIf="errorCode === 'unknown_error'">{{ 'CONFIRMATION_UNKNOWN_ERROR' | translate }}</small>
 	</p>
 
 	<p class="text-success" *ngIf="activationSuccess">
@@ -13,11 +13,7 @@
 	</p>
 
 	<div class="confirmation__button-wrapper">
-		<button type="submit" class="btn btn-primary login-button" *ngIf="!activationSuccess">
-			{{ 'CONFIRMATION_SUBMIT_BUTTON' | translate }}
-		</button>
-
-		<a routerLink="/login" class="btn btn-primary login-button" *ngIf="activationSuccess">
+		<a routerLink="/login" class="btn btn-primary login-button">
 			{{ 'CONFIRMATION_LOGIN_BUTTON' | translate }}
 		</a>
 	</div>
