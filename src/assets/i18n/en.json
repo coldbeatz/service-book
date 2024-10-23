@@ -1,5 +1,6 @@
 {
 	"UNKNOWN_ERROR": "An unknown error occurred",
+	"SEND_MAIL_ERROR": "An error occurred while sending an e-mail",
 
 	"LOGIN_SOCIAL_FACEBOOK": "Login with Facebook",
 	"LOGIN_SOCIAL_GOOGLE": "Login with Google",
@@ -24,6 +25,9 @@
 	"REGISTRATION_SUCCESS": "Success! Confirm your email address",
 
 	"RESTORE_SUBMIT_BUTTON": "Restore",
+	"RESTORE_TIP": "Enter your e-mail address to restore access",
+	"RESTORE_EMAIL_HAS_BEEN_SEND": "A recovery message has been sent to your email",
+	"RESTORE_ERROR_EMAIL_NOT_REGISTERED": "This email is not registered",
 
 	"CONFIRMATION_HINT": "Click the button to confirm your registration",
 	"CONFIRMATION_SUBMIT_BUTTON": "Confirm",

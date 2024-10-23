@@ -11,6 +11,10 @@ export class UserService {
 
 	}
 
+	public restore(email: string): Observable<any> {
+		return this.http.post<any>(`${environment.apiUrl}/user/restore`, email);
+	}
+
 	public save(user: User): Observable<any> {
 		return this.http.post<any>(`${environment.apiUrl}/user/register`, user);
 	}
