@@ -1,7 +1,7 @@
-import {Component, ViewChild, ViewEncapsulation} from '@angular/core';
+import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { faFacebook, faGooglePlus } from '@fortawesome/free-brands-svg-icons';
-import { User } from "../user/user";
-import { UserService } from "../user/user.service";
+import { User } from "../../user/user";
+import { ApiRequestsService } from "../../services/api-requests.service";
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { PasswordInputComponent } from "./password-input/password-input.component";
 
@@ -30,7 +30,7 @@ export class RegistrationComponent {
 
 	private user: User;
 
-	constructor(private userService: UserService, private fb: FormBuilder) {
+	constructor(private userService: ApiRequestsService, private fb: FormBuilder) {
 		this.user = new User();
 
 		this.form = this.fb.group({

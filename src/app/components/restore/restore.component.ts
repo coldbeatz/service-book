@@ -1,5 +1,5 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import { UserService } from "../user/user.service";
+import { ApiRequestsService } from "../../services/api-requests.service";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
 @Component({
@@ -15,7 +15,7 @@ export class RestoreComponent {
 	protected success: boolean = false;
 	protected errorCode!: string;
 
-	constructor(private userService: UserService, private fb: FormBuilder) {
+	constructor(private userService: ApiRequestsService, private fb: FormBuilder) {
 		this.form = this.fb.group({
 			email: ['', [Validators.required]]
 		});
@@ -27,6 +27,7 @@ export class RestoreComponent {
 		const data = this.form.value;
 
 		let email = data.email;
+		if (email == null) return;
 
 		this.userService.restore(email).subscribe({
 			next: (response) => {

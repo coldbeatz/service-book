@@ -28,6 +28,10 @@
 	"RESTORE_TIP": "Enter your e-mail address to restore access",
 	"RESTORE_EMAIL_HAS_BEEN_SEND": "A recovery message has been sent to your email",
 	"RESTORE_ERROR_EMAIL_NOT_REGISTERED": "This email is not registered",
+	"RESTORE_ENTER_PASSWORDS": "Enter your new password and repeat it",
+	"RESTORE_SUCCESS_CHANGE_PASSWORD": "Your password has been successfully changed",
+	"RESTORE_ERROR_INVALID_KEY": "Key is invalid",
+	"RESTORE_ERROR_EMAIL_NOT_CONFIRMED": "Your email has not been verified",
 
 	"CONFIRMATION_HINT": "Click the button to confirm your registration",
 	"CONFIRMATION_SUBMIT_BUTTON": "Confirm",
