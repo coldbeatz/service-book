@@ -3,19 +3,21 @@ import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms"
 import { ApiRequestsService } from "../../../services/api-requests.service";
 import { PasswordInputComponent } from "../../registration/password-input/password-input.component";
 import { ActivatedRoute } from "@angular/router";
+import { ApiErrorsService } from "../../../services/api-errors.service";
 
 @Component({
 	selector: 'change-password-root',
 	encapsulation: ViewEncapsulation.None,
-	templateUrl: 'change-password.component.html',
-	styleUrls: ['../../login/login.component.scss']
+	templateUrl: 'change-password.component.html'
 })
 export class ChangePasswordComponent implements AfterViewInit, OnInit {
 
 	protected form: FormGroup;
 
 	protected success: boolean = false;
-	protected errorCode!: string;
+
+	protected errorMessage: string|null = null;
+	protected errorCode: string|null = null;
 
 	private key!: string;
 
@@ -23,6 +25,7 @@ export class ChangePasswordComponent implements AfterViewInit, OnInit {
 	@ViewChild('passwordRepeatInput') passwordRepeatInputComponent!: PasswordInputComponent;
 
 	constructor(private userService: ApiRequestsService,
+				private apiErrorsService: ApiErrorsService,
 				private fb: FormBuilder,
 				private cdr: ChangeDetectorRef,
 				private route: ActivatedRoute) {
@@ -49,6 +52,8 @@ export class ChangePasswordComponent implements AfterViewInit, OnInit {
 				},
 				error: (e) => {
 					this.errorCode = e.error?.code;
+					this.errorMessage = this.apiErrorsService.getMessage('restore', this.errorCode);
+
 					this.cdr.detectChanges();
 				}
 			});
@@ -68,6 +73,7 @@ export class ChangePasswordComponent implements AfterViewInit, OnInit {
 		this.userService.restoreSetPassword(this.key, value.password).subscribe({
 			next: (response) => {
 				if (response.result === 'success') {
+					this.errorCode = this.errorMessage = null;
 					this.success = true;
 
 					this.form.reset();
@@ -75,7 +81,11 @@ export class ChangePasswordComponent implements AfterViewInit, OnInit {
 				}
 			},
 			error: (e) => {
+				this.success = false;
+
 				this.errorCode = e.error?.code;
+				this.errorMessage = this.apiErrorsService.getMessage('restore', this.errorCode);
+
 				this.cdr.detectChanges();
 			}
 		});

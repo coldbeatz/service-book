@@ -1,52 +1,47 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
-import { ConfirmationService } from "./confirmation.service";
-import { ConfirmationRequest } from "./confirmation.request";
+import { ApiErrorsService } from "../../services/api-errors.service";
+import { ApiRequestsService } from "../../services/api-requests.service";
 
 @Component({
 	selector: 'confirmation-root',
 	encapsulation: ViewEncapsulation.None,
-	templateUrl: 'confirmation.component.html',
-	styleUrls: ['confirmation.component.scss']
+	templateUrl: 'confirmation.component.html'
 })
 export class ConfirmationComponent implements OnInit {
 
-	confirmation: ConfirmationRequest | null = null;
+	protected activationSuccess: boolean = false;
 
-	errorCode: string | null = null;
-	activationSuccess: boolean = false;
+	protected errorMessage: string|null = null;
 
-	constructor(private route: ActivatedRoute, private confirmationService: ConfirmationService) {
+	constructor(private route: ActivatedRoute,
+				private apiRequestsService: ApiRequestsService,
+				private apiErrorsService: ApiErrorsService) {
 
 	}
 
 	ngOnInit(): void {
 		this.route.paramMap.subscribe(params => {
-			this.confirmation = new ConfirmationRequest(params.get('key'));
+			const key = params.get('key');
 
-			this.activation();
+			if (key != null) {
+				this.activation(key);
+			}
 		});
 	}
 
-	private activation() {
-		if (this.confirmation?.key == null)
-			return;
-
-		this.confirmationService.confirm(this).subscribe({
+	private activation(key: string) {
+		this.apiRequestsService.confirmUser(key).subscribe({
 			next: (response) => {
 				if (response.result === 'success') {
-					this.errorCode = null;
+					this.errorMessage = null;
 					this.activationSuccess = true;
 				}
 			},
 			error: (e) => {
 				this.activationSuccess = false;
 
-				if (e.error?.code === 'key_is_missing') {
-					this.errorCode = 'key_is_missing';
-				} else {
-					this.errorCode = 'unknown_error'
-				}
+				this.errorMessage = this.apiErrorsService.getMessage('confirmation', e.error?.code);
 			}
 		});
 	}

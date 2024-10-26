@@ -15,16 +15,8 @@
 		</div>
 	</div>
 
-	<div class="alert alert-danger" role="alert" *ngIf="emailExists">
-		{{ 'REGISTRATION_ERROR_EMAIL_EXISTS' | translate }}
-	</div>
-
-	<div class="alert alert-danger" role="alert" *ngIf="invalidEmail">
-		{{ 'REGISTRATION_ERROR_EMAIL_INVALID' | translate }}
-	</div>
-
-	<div class="alert alert-danger" role="alert" *ngIf="unknownError">
-		{{ 'UNKNOWN_ERROR' | translate }}
+	<div class="alert alert-danger" role="alert" *ngIf="errorMessage != null">
+		{{ errorMessage }}
 	</div>
 
 	<div class="alert alert-success" role="alert" *ngIf="success">
@@ -33,7 +25,7 @@
 
 	<div class="form-group">
 		<input type="text" name="email" formControlName="email"
-			   [ngClass]="{'is-invalid': invalidEmail || emailExists}"
+			   [ngClass]="{'is-invalid': errorCode === 'invalid_email' || errorCode === 'email_exists'}"
 			   class="form-control" placeholder="{{ 'LOGIN_EMAIL' | translate }}">
 	</div>
 
@@ -42,7 +34,7 @@
 			   class="form-control" placeholder="{{ 'REGISTRATION_FULL_NAME' | translate }}">
 	</div>
 
-	<div class="alert alert-danger mt-3" role="alert" *ngIf="passwordsNotMatch">
+	<div class="alert alert-danger mt-3" role="alert" *ngIf="passwordRepeatInputComponent?.isInvalid">
 		{{ 'REGISTRATION_ERROR_PASSWORDS_NOT_MATCH' | translate }}
 	</div>
 
@@ -54,7 +46,7 @@
 						 [formControl]="passwordRepeatControl"
 						 placeholder="{{ 'REGISTRATION_PASSWORD_REPEAT' | translate }}"></password-input-root>
 
-	<div class="login_form__button-wrapper">
+	<div class="form__button-wrapper">
 		<button type="submit" [disabled]="form.invalid" class="btn btn-primary login-button">
 			{{ 'REGISTRATION_SUBMIT_BUTTON' | translate }}
 		</button>

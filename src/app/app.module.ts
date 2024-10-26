@@ -14,6 +14,7 @@ import { ConfirmationComponent } from "./components/confirmation/confirmation.co
 import { PasswordInputComponent } from "./components/registration/password-input/password-input.component";
 import { ChangePasswordComponent } from "./components/restore/change-password/change-password.component";
 import { NavigationService } from "./services/navigation.service";
+import {ApiErrorsService} from "./services/api-errors.service";
 
 @NgModule({
 	declarations: [
@@ -33,7 +34,7 @@ import { NavigationService } from "./services/navigation.service";
         FormsModule,
         ReactiveFormsModule,
     ],
-	providers: [provideHttpClient(), ApiRequestsService, NavigationService],
+	providers: [provideHttpClient(), ApiRequestsService, ApiErrorsService, NavigationService],
 	bootstrap: [AppComponent]
 })
 export class AppModule { }

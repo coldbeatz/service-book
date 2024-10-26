@@ -3,16 +3,15 @@
 		<small>{{ 'CONFIRMATION_HINT' | translate }}</small>
 	</p>
 
-	<p class="text-danger" *ngIf="errorCode != null">
-		<small *ngIf="errorCode === 'key_is_missing'">{{ 'CONFIRMATION_KEY_IS_MISSING' | translate }}</small>
-		<small *ngIf="errorCode === 'unknown_error'">{{ 'CONFIRMATION_UNKNOWN_ERROR' | translate }}</small>
+	<p class="text-danger" *ngIf="errorMessage != null">
+		<small>{{ errorMessage }}</small>
 	</p>
 
 	<p class="text-success" *ngIf="activationSuccess">
 		<small>{{ 'CONFIRMATION_SUCCESS' | translate }}</small>
 	</p>
 
-	<div class="confirmation__button-wrapper">
+	<div class="form__button-wrapper mb-0">
 		<a routerLink="/login" class="btn btn-primary login-button">
 			{{ 'CONFIRMATION_LOGIN_BUTTON' | translate }}
 		</a>

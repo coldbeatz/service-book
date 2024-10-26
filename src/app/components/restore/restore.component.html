@@ -1,24 +1,10 @@
-<form class="login_form form" [formGroup]="form" (ngSubmit)="onSubmit()">
+<form class="form" [formGroup]="form" (ngSubmit)="onSubmit()">
 	<div class="alert alert-success" role="alert" *ngIf="success">
 		{{ 'RESTORE_EMAIL_HAS_BEEN_SEND' | translate }}
 	</div>
 
-	<div class="alert alert-danger" role="alert" *ngIf="errorCode != null">
-		<small *ngIf="errorCode === 'email_not_registered'">
-			{{ 'RESTORE_ERROR_EMAIL_NOT_REGISTERED' | translate }}
-		</small>
-
-		<small *ngIf="errorCode === 'email_not_confirmed'">
-			{{ 'RESTORE_ERROR_EMAIL_NOT_CONFIRMED' | translate }}
-		</small>
-
-		<small *ngIf="errorCode === 'error_send_mail'">
-			{{ 'SEND_MAIL_ERROR' | translate }}
-		</small>
-
-		<small *ngIf="errorCode !== 'email_not_registered' && errorCode !== 'error_send_mail' && errorCode !== 'email_not_confirmed'">
-			{{ 'UNKNOWN_ERROR' | translate }}
-		</small>
+	<div class="alert alert-danger" role="alert" *ngIf="errorMessage != null">
+		<small>{{ errorMessage }}</small>
 	</div>
 
 	<div class="form-group">
@@ -27,10 +13,11 @@
 		</label>
 
 		<input type="email" name="email" formControlName="email" id="email"
+			   [ngClass]="{'is-invalid': errorCode === 'email_not_confirmed' || errorCode === 'email_not_registered'}"
 			   class="form-control mt-2" placeholder="{{ 'LOGIN_EMAIL' | translate }}">
 	</div>
 
-	<div class="login_form__button-wrapper mt-4">
+	<div class="form__button-wrapper mt-4">
 		<button type="submit" [disabled]="form.invalid" class="btn btn-primary login-button">
 			{{ 'RESTORE_SUBMIT_BUTTON' | translate }}
 		</button>

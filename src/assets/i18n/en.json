@@ -36,7 +36,6 @@
 	"CONFIRMATION_HINT": "Click the button to confirm your registration",
 	"CONFIRMATION_SUBMIT_BUTTON": "Confirm",
 	"CONFIRMATION_KEY_IS_MISSING": "Key is missing",
-	"CONFIRMATION_UNKNOWN_ERROR": "Unknown error",
 	"CONFIRMATION_SUCCESS": "Confirmation success",
 	"CONFIRMATION_LOGIN_BUTTON": "To login"
 }

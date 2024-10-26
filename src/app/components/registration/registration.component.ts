@@ -1,9 +1,10 @@
-import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, ViewChild, ViewEncapsulation} from '@angular/core';
 import { faFacebook, faGooglePlus } from '@fortawesome/free-brands-svg-icons';
 import { User } from "../../user/user";
 import { ApiRequestsService } from "../../services/api-requests.service";
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { PasswordInputComponent } from "./password-input/password-input.component";
+import { ApiErrorsService } from "../../services/api-errors.service";
 
 @Component({
 	selector: 'registration-root',
@@ -11,15 +12,13 @@ import { PasswordInputComponent } from "./password-input/password-input.componen
 	templateUrl: 'registration.component.html',
 	styleUrls: ['../login/login.component.scss']
 })
-export class RegistrationComponent {
+export class RegistrationComponent implements AfterViewInit {
 
 	protected faFacebook = faFacebook;
 	protected faGoogle = faGooglePlus;
 
-	protected invalidEmail: boolean = false;
-	protected emailExists: boolean = false;
-	protected unknownError: boolean = false;
-	protected passwordsNotMatch: boolean = false;
+	protected errorMessage: string|null = null;
+	protected errorCode: string|null = null;
 
 	protected success: boolean = false;
 
@@ -30,7 +29,11 @@ export class RegistrationComponent {
 
 	private user: User;
 
-	constructor(private userService: ApiRequestsService, private fb: FormBuilder) {
+	constructor(private userService: ApiRequestsService,
+				private apiErrorsService: ApiErrorsService,
+				private cdr: ChangeDetectorRef,
+				private fb: FormBuilder) {
+
 		this.user = new User();
 
 		this.form = this.fb.group({
@@ -42,12 +45,12 @@ export class RegistrationComponent {
 	}
 
 	onSubmit() {
-		this.clearErrors();
+		this.success = false;
+		this.passwordRepeatInputComponent.isInvalid = false;
 
 		const userData = this.form.value;
 
 		if (userData.password !== userData.passwordRepeat) {
-			this.passwordsNotMatch = true;
 			this.passwordRepeatInputComponent.isInvalid = true;
 			return;
 		}
@@ -60,32 +63,20 @@ export class RegistrationComponent {
 			next: (response) => {
 				if (response.result === 'success') {
 					this.success = true;
+					this.errorMessage = this.errorCode = null;
 
 					this.form.reset();
+					this.cdr.detectChanges();
 				}
 			},
 			error: (e) => {
-				this.onError(e.error?.code);
+				this.success = false;
+
+				this.errorCode = e.error?.code;
+				this.errorMessage = this.apiErrorsService.getMessage('registration', this.errorCode);
+				this.cdr.detectChanges();
 			}
 		});
-	}
-
-	private clearErrors(): void {
-		this.invalidEmail = this.emailExists = this.unknownError = this.passwordsNotMatch = this.success = false;
-		this.passwordRepeatInputComponent.isInvalid = false;
-	}
-
-	private onError(errorCode: string): void {
-		switch(errorCode) {
-			case "invalid_email":
-				this.invalidEmail = true;
-				break;
-			case "email_exists" :
-				this.emailExists = true;
-				break;
-			default:
-				this.unknownError = true;
-		}
 	}
 
 	get passwordControl(): FormControl {
@@ -94,5 +85,9 @@ export class RegistrationComponent {
 
 	get passwordRepeatControl(): FormControl {
 		return this.form.get('passwordRepeat') as FormControl;
+	}
+
+	ngAfterViewInit(): void {
+		this.cdr.detectChanges();
 	}
 }

@@ -11,6 +11,12 @@ export class ApiRequestsService {
 
 	}
 
+	public confirmUser(key: string): Observable<any> {
+		return this.http.post<any>(`${environment.apiUrl}/confirmation/confirm`, {
+			key: key
+		});
+	}
+
 	public restoreCheckKey(key: string): Observable<any> {
 		return this.http.post<any>(`${environment.apiUrl}/restore/checkkey`, {
 			key: key
