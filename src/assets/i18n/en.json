@@ -37,5 +37,13 @@
 	"CONFIRMATION_SUBMIT_BUTTON": "Confirm",
 	"CONFIRMATION_KEY_IS_MISSING": "Key is missing",
 	"CONFIRMATION_SUCCESS": "Confirmation success",
-	"CONFIRMATION_LOGIN_BUTTON": "To login"
+	"CONFIRMATION_LOGIN_BUTTON": "To login",
+
+	"HEADER_MAIN": "Main",
+	"HEADER_MY_CARS": "My cars",
+	"HEADER_CARS": "Cars",
+	"HEADER_SERVICE_TYPES": "Service Types",
+	"HEADER_ALERTS": "Alerts",
+	"HEADER_SETTINGS": "Settings",
+	"HEADER_LOGOUT": "Logout"
 }

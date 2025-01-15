@@ -6,6 +6,7 @@ import { RegistrationComponent } from "./components/registration/registration.co
 import { RestoreComponent } from "./components/restore/restore.component";
 import { ConfirmationComponent } from "./components/confirmation/confirmation.component";
 import {ChangePasswordComponent} from "./components/restore/change-password/change-password.component";
+import {MainComponent} from "./components/internal/main/main.component";
 
 export const routes: Routes = [
 	{ path: 'login', component: LoginComponent },
@@ -13,6 +14,9 @@ export const routes: Routes = [
 	{ path: 'restore', component: RestoreComponent },
 	{ path: 'restore/:key', component: ChangePasswordComponent },
 	{ path: 'confirmation/:key', component: ConfirmationComponent },
+
+	{ path: 'test', component: MainComponent },
+
 	{ path: '', component: AppComponent },
 	{ path: '**', redirectTo: 'login' }
 ];

@@ -15,6 +15,9 @@ import { PasswordInputComponent } from "./components/registration/password-input
 import { ChangePasswordComponent } from "./components/restore/change-password/change-password.component";
 import { NavigationService } from "./services/navigation.service";
 import {ApiErrorsService} from "./services/api-errors.service";
+import {MainComponent} from "./components/internal/main/main.component";
+import {HeaderComponent} from "./components/internal/main/header/header.component";
+import {FooterComponent} from "./components/internal/main/footer/footer.component";
 
 @NgModule({
 	declarations: [
@@ -24,7 +27,11 @@ import {ApiErrorsService} from "./services/api-errors.service";
 		RegistrationComponent,
 		ChangePasswordComponent,
 		RestoreComponent,
-		ConfirmationComponent
+		ConfirmationComponent,
+
+		HeaderComponent,
+		FooterComponent,
+		MainComponent
 	],
     imports: [
         BrowserModule,

@@ -1,0 +1,72 @@
+<header class="px-3 py-2 bg-dark text-white d-flex flex-wrap align-items-center justify-content-between px-3 header">
+
+	<div class="header__container">
+		<a href="/" class="d-flex align-items-center text-white text-decoration-none" style="z-index: 2;">
+			<i class="bi bi-speedometer" style="font-size: 30px;"></i>
+
+			<span class="text-secondary ms-3">Service Book</span>
+		</a>
+
+		<div class="header__menu menu">
+			<button type="button" #menuButton id="menu-button" class="icon-menu"><span></span></button>
+
+			<nav class="menu__body">
+				<ul class="nav col-12 col-lg-auto justify-content-center my-md-0 text-small">
+					<li>
+						<a href="#" class="nav-link text-secondary">
+							<i class="bi bi-house-door-fill"></i>
+
+							{{ 'HEADER_MAIN' | translate }}
+						</a>
+					</li>
+					<li>
+						<a href="#" class="nav-link text-secondary">
+							<i class="bi bi-car-front-fill"></i>
+
+							{{ 'HEADER_MY_CARS' | translate }}
+						</a>
+					</li>
+					<li>
+						<a href="#" class="nav-link text-secondary">
+							<i class="bi bi-car-front"></i>
+
+							{{ 'HEADER_CARS' | translate }} (admin)
+						</a>
+					</li>
+					<li>
+						<a href="#" class="nav-link text-secondary">
+							<i class="bi bi-clipboard-minus-fill"></i>
+
+							{{ 'HEADER_SERVICE_TYPES' | translate }} (admin)
+						</a>
+					</li>
+					<li>
+						<a href="#" class="nav-link text-secondary">
+							<i class="bi bi-send-exclamation-fill"></i>
+
+							{{ 'HEADER_ALERTS' | translate }} (admin)
+						</a>
+					</li>
+				</ul>
+
+				<div class="header__end">
+					<div class="mx-2">
+						<a href="#" class="nav-link text-secondary">
+							<i class="bi bi-gear-fill"></i>
+
+							{{ 'HEADER_SETTINGS' | translate }}
+						</a>
+					</div>
+
+					<div class="mx-2">
+						<a href="#" class="nav-link text-secondary">
+							<i class="bi bi-key-fill"></i>
+
+							{{ 'HEADER_LOGOUT' | translate }}
+						</a>
+					</div>
+				</div>
+			</nav>
+		</div>
+	</div>
+</header>
