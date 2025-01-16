@@ -3,12 +3,36 @@ import { HttpClient } from "@angular/common/http";
 import { User } from "../user/user";
 import { environment } from "../../environments/environment";
 import { Observable } from "rxjs";
+import { CookieService } from "ngx-cookie-service";
 
 @Injectable()
 export class ApiRequestsService {
 
-	constructor(private http: HttpClient) {
+	constructor(private http: HttpClient, private cookieService: CookieService) {
 
+	}
+
+	private getToken(): string {
+		return this.cookieService.get('token');
+	}
+
+	private getEmail(): string {
+		return this.cookieService.get('email');
+	}
+
+
+	public tokenValidation() {
+		return this.http.post<any>(`${environment.apiUrl}/login/validation`, {
+			email: this.getEmail(),
+			token: this.getToken()
+		});
+	}
+
+	public login(email: string, password: string): Observable<any> {
+		return this.http.post<any>(`${environment.apiUrl}/login`, {
+			email: email,
+			password: password
+		});
 	}
 
 	public confirmUser(key: string): Observable<any> {

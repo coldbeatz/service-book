@@ -18,6 +18,7 @@ import {ApiErrorsService} from "./services/api-errors.service";
 import {MainComponent} from "./components/internal/main/main.component";
 import {HeaderComponent} from "./components/internal/main/header/header.component";
 import {FooterComponent} from "./components/internal/main/footer/footer.component";
+import {BrandsComponent} from "./components/admin/brands/brands.component";
 
 @NgModule({
 	declarations: [
@@ -31,7 +32,9 @@ import {FooterComponent} from "./components/internal/main/footer/footer.componen
 
 		HeaderComponent,
 		FooterComponent,
-		MainComponent
+		MainComponent,
+
+		BrandsComponent
 	],
     imports: [
         BrowserModule,

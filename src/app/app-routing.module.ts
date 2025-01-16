@@ -1,23 +1,27 @@
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from "./components/login/login.component";
-import { AppComponent } from "./app.component";
 import { NgModule } from "@angular/core";
 import { RegistrationComponent } from "./components/registration/registration.component";
 import { RestoreComponent } from "./components/restore/restore.component";
 import { ConfirmationComponent } from "./components/confirmation/confirmation.component";
-import {ChangePasswordComponent} from "./components/restore/change-password/change-password.component";
-import {MainComponent} from "./components/internal/main/main.component";
+import { ChangePasswordComponent } from "./components/restore/change-password/change-password.component";
+import { MainComponent } from "./components/internal/main/main.component";
+import { BrandsComponent} from "./components/admin/brands/brands.component";
+import { AuthGuard } from "./guards/auth.guard";
+import { GuestGuard } from "./guards/guest.guard";
 
 export const routes: Routes = [
-	{ path: 'login', component: LoginComponent },
-	{ path: 'registration', component: RegistrationComponent },
-	{ path: 'restore', component: RestoreComponent },
-	{ path: 'restore/:key', component: ChangePasswordComponent },
+	{ path: 'login', component: LoginComponent, canActivate: [GuestGuard] },
+	{ path: 'registration', component: RegistrationComponent, canActivate: [GuestGuard] },
+	{ path: 'restore', component: RestoreComponent, canActivate: [GuestGuard] },
+	{ path: 'restore/:key', component: ChangePasswordComponent, canActivate: [GuestGuard] },
+
 	{ path: 'confirmation/:key', component: ConfirmationComponent },
 
-	{ path: 'test', component: MainComponent },
+	{ path: 'test', component: MainComponent, canActivate: [AuthGuard]},
+	{ path: 'brands', component: BrandsComponent, canActivate: [AuthGuard]},
 
-	{ path: '', component: AppComponent },
+	//{ path: '', component: AppComponent },
 	{ path: '**', redirectTo: 'login' }
 ];
 

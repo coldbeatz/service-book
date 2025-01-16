@@ -45,5 +45,7 @@
 	"HEADER_SERVICE_TYPES": "Service Types",
 	"HEADER_ALERTS": "Alerts",
 	"HEADER_SETTINGS": "Settings",
-	"HEADER_LOGOUT": "Logout"
+	"HEADER_LOGOUT": "Logout",
+
+	"LOGIN_ERROR_INCORRECT_DATA": "Incorrect login or password"
 }

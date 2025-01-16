@@ -1,6 +1,6 @@
 .header {
 	font-size: 17px;
-	position: fixed;
+	/*position: fixed;*/
 	top: 0;
 	left: 0;
 	width: 100%;
@@ -31,6 +31,7 @@
 			align-items: center;
 			width: 70%;
 			justify-content: space-between;
+			z-index: 1;
 
 			.header__end {
 				display: flex;
@@ -81,6 +82,12 @@
 		align-items: center;
 		justify-content: center;
 		flex-direction: column;
+		cursor: pointer;
+
+		&:hover {
+			color: rgba(255, 255, 255, 0.6) !important;
+			transition: all .2s;
+		}
 	}
 
 	@media (max-width: 1200px) {

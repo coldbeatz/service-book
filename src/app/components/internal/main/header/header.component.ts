@@ -1,4 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import {AuthService} from "../../../../services/auth.service";
+import {NavigationService} from "../../../../services/navigation.service";
 
 @Component({
 	selector: 'header-root',
@@ -14,7 +16,7 @@ export class HeaderComponent implements OnInit {
 
 	@ViewChild('header') header!: ElementRef<HTMLElement>;
 
-	constructor(private elementRef: ElementRef) {
+	constructor(private authService: AuthService) {
 
 	}
 
@@ -34,5 +36,9 @@ export class HeaderComponent implements OnInit {
 				setTimeout(() => this.bodyLockStatus = true, 500);
 			}
 		});
+	}
+
+	logout(): void {
+		this.authService.logout();
 	}
 }

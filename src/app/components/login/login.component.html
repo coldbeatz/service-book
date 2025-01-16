@@ -1,4 +1,4 @@
-<form class="login_form form">
+<form class="login_form form" [formGroup]="form" (ngSubmit)="onSubmit()">
 	<div class="row">
 		<div class="col">
 			<a href="#" class="btn login_form__social btn-primary facebook disabled">
@@ -15,12 +15,16 @@
 		</div>
 	</div>
 
+	<div class="alert alert-danger" role="alert" *ngIf="errorMessage != null">
+		{{ errorMessage }}
+	</div>
+
 	<div class="form-group">
-		<input type="email" class="form-control" id="email" placeholder="{{ 'LOGIN_EMAIL' | translate }}">
+		<input type="email" class="form-control" formControlName="email" placeholder="{{ 'LOGIN_EMAIL' | translate }}">
 	</div>
 
 	<div class="form-group mt-3">
-		<input type="password" class="form-control" id="password" placeholder="{{ 'LOGIN_PASSWORD' | translate }}">
+		<input type="password" class="form-control" formControlName="password" placeholder="{{ 'LOGIN_PASSWORD' | translate }}">
 	</div>
 
 	<div class="login_form__remember">
@@ -31,7 +35,7 @@
 	</div>
 
 	<div class="form__button-wrapper">
-		<a href="#" class="btn btn-primary login-button">{{ 'LOGIN_SUBMIT_BUTTON' | translate }}</a>
+		<button type="submit" class="btn btn-primary login-button">{{ 'LOGIN_SUBMIT_BUTTON' | translate }}</button>
 	</div>
 
 	<div class="form__message">
