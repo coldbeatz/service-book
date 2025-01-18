@@ -47,5 +47,13 @@
 	"HEADER_SETTINGS": "Settings",
 	"HEADER_LOGOUT": "Logout",
 
-	"LOGIN_ERROR_INCORRECT_DATA": "Incorrect login or password"
+	"LOGIN_ERROR_INCORRECT_DATA": "Incorrect login or password",
+
+	"BRANDS_DROPDOWN_SELECT_COUNTRY": "Selected country",
+	"BRANDS_DROPDOWN_SELECT_COUNTRY_ALL": "All",
+	"BRANDS_CLEAR_SEARCH_INPUT_BUTTON": "Clear",
+	"BRANDS_ADD_CAR_BRAND_BUTTON": "Add car brand",
+
+	"BREADCRUMB_HOME": "Home",
+	"BREADCRUMB_BRANDS": "Brands"
 }

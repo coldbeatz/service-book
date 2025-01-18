@@ -4,6 +4,7 @@ import { User } from "../user/user";
 import { environment } from "../../environments/environment";
 import { Observable } from "rxjs";
 import { CookieService } from "ngx-cookie-service";
+import { Brand } from "../models/brand.model";
 
 @Injectable()
 export class ApiRequestsService {
@@ -20,6 +21,9 @@ export class ApiRequestsService {
 		return this.cookieService.get('email');
 	}
 
+	public getBrands(): Observable<any> {
+		return this.http.get<Brand[]>(`${environment.apiUrl}/brands/all`);
+	}
 
 	public tokenValidation() {
 		return this.http.post<any>(`${environment.apiUrl}/login/validation`, {

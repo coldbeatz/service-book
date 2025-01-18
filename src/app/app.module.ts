@@ -19,6 +19,7 @@ import {MainComponent} from "./components/internal/main/main.component";
 import {HeaderComponent} from "./components/internal/main/header/header.component";
 import {FooterComponent} from "./components/internal/main/footer/footer.component";
 import {BrandsComponent} from "./components/admin/brands/brands.component";
+import {NgOptimizedImage} from "@angular/common";
 
 @NgModule({
 	declarations: [
@@ -36,14 +37,15 @@ import {BrandsComponent} from "./components/admin/brands/brands.component";
 
 		BrandsComponent
 	],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        AppTranslateModule,
-        FontAwesomeModule,
-        FormsModule,
-        ReactiveFormsModule,
-    ],
+	imports: [
+		BrowserModule,
+		AppRoutingModule,
+		AppTranslateModule,
+		FontAwesomeModule,
+		FormsModule,
+		ReactiveFormsModule,
+		NgOptimizedImage,
+	],
 	providers: [provideHttpClient(), ApiRequestsService, ApiErrorsService, NavigationService],
 	bootstrap: [AppComponent]
 })
