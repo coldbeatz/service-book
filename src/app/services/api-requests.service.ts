@@ -5,6 +5,7 @@ import { environment } from "../../environments/environment";
 import { Observable } from "rxjs";
 import { CookieService } from "ngx-cookie-service";
 import { Brand } from "../models/brand.model";
+import { Country } from "../models/country.model";
 
 @Injectable()
 export class ApiRequestsService {
@@ -21,8 +22,25 @@ export class ApiRequestsService {
 		return this.cookieService.get('email');
 	}
 
+	public createBrand(brand: string, country: Country | null, file: File): Observable<any> {
+		const formData = new FormData();
+
+		formData.append('brand', brand);
+		formData.append('file', file);
+
+		if (country != null) {
+			formData.append('countryId', country.id.toString());
+		}
+
+		return this.http.post<any>(`${environment.apiUrl}/admin/brands/create`, formData);
+	}
+
+	public getCountries(): Observable<any> {
+		return this.http.get<Country[]>(`${environment.apiUrl}/admin/brands/countries`);
+	}
+
 	public getBrands(): Observable<any> {
-		return this.http.get<Brand[]>(`${environment.apiUrl}/brands/all`);
+		return this.http.get<Brand[]>(`${environment.apiUrl}/admin/brands/all`);
 	}
 
 	public tokenValidation() {

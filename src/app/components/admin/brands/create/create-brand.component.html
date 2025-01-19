@@ -1,0 +1,95 @@
+<main-root>
+	<div class="mt-4">
+		<nav aria-label="breadcrumb">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item">
+					<a href="/">{{ 'BREADCRUMB_HOME' | translate }}</a>
+				</li>
+
+				<li class="breadcrumb-item" aria-current="page">
+					<a routerLink="/brands">{{ 'BREADCRUMB_BRANDS' | translate }}</a>
+				</li>
+
+				<li class="breadcrumb-item active" aria-current="page">
+					{{ 'BREADCRUMB_CREATE_BRAND' | translate }}
+				</li>
+			</ol>
+		</nav>
+	</div>
+
+	<form class="m-auto" style="max-width: 400px;" [formGroup]="form" (ngSubmit)="onSubmit()">
+		<div class="mb-4">
+			<label for="brand" class="form-label text-muted">
+				{{ 'CREATE_BRAND_NAME' | translate }}
+			</label>
+
+			<input type="text" class="form-control" formControlName="brand"
+				   placeholder="{{ 'CREATE_BRAND_NAME_INPUT_PLACEHOLDER' | translate }}" id="brand">
+		</div>
+
+		<div class="mb-4">
+			<label for="dropdown" class="form-label text-muted">
+				{{ 'CREATE_BRAND_COUNTRY' | translate }}
+			</label>
+
+			<div class="dropdown text-center dropdown-country" id="dropdown">
+				<button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+					<ng-container *ngIf="selectedCountry; else defaultContent">
+						<img [src]="environment.resourcesUrl + '/' + selectedCountry.iconResource.url"
+							 [alt]="selectedCountry.name.en"
+							 [width]="20"
+							 [height]="20"
+							 class="me-2">
+
+						{{ selectedCountry.name.en }}
+					</ng-container>
+
+					<ng-template #defaultContent>
+						{{ 'BRANDS_DROPDOWN_SELECT_COUNTRY' | translate }}
+					</ng-template>
+				</button>
+
+				<ul class="dropdown-menu">
+					<li>
+						<a class="dropdown-item" (click)="selectCountry(null)">
+							{{ 'CREATE_BRAND_DROPDOWN_SELECT_COUNTRY_UNDEFINED' | translate }}
+						</a>
+					</li>
+
+					<li *ngFor="let country of countries">
+						<a class="dropdown-item" (click)="selectCountry(country)">
+							<img src="{{ environment.resourcesUrl }}/{{country.iconResource.url}}"
+								 [alt]="country.name.en" class="me-2"
+								 [width]="20"
+								 [height]="20">
+
+							{{ country.name.en }}
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="mb-3">
+			<label class="form-label text-muted">
+				{{ 'CREATE_BRAND_IMAGE' | translate }}
+			</label>
+
+			<custom-file-upload-root (fileSelected)="onFileSelected($event)"></custom-file-upload-root>
+		</div>
+
+		<div *ngIf="imagePreview" class="mb-3 text-center">
+			<img [src]="imagePreview" class="preview-img" alt="preview">
+		</div>
+
+		<div class="flex-center">
+			<button type="submit" class="btn btn-primary flex-center mt-4" style="max-width: 300px;"
+					[disabled]="form.invalid || imagePreview === null">
+
+				<span class="mx-3">
+					{{ 'CREATE_BRAND_SUBMIT_BUTTON' | translate }}
+				</span>
+			</button>
+		</div>
+	</form>
+</main-root>

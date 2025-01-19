@@ -9,7 +9,7 @@ import { RegistrationComponent } from "./components/registration/registration.co
 import { RestoreComponent } from "./components/restore/restore.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { ApiRequestsService } from "./services/api-requests.service";
-import { provideHttpClient } from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient, withInterceptorsFromDi} from "@angular/common/http";
 import { ConfirmationComponent } from "./components/confirmation/confirmation.component";
 import { PasswordInputComponent } from "./components/registration/password-input/password-input.component";
 import { ChangePasswordComponent } from "./components/restore/change-password/change-password.component";
@@ -20,6 +20,9 @@ import {HeaderComponent} from "./components/internal/main/header/header.componen
 import {FooterComponent} from "./components/internal/main/footer/footer.component";
 import {BrandsComponent} from "./components/admin/brands/brands.component";
 import {NgOptimizedImage} from "@angular/common";
+import {CreateBrandComponent} from "./components/admin/brands/create/create-brand.component";
+import {CustomFileUploadComponent} from "./components/shared/custom-file-upload/custom-file-upload.component";
+import {AuthInterceptor} from "./services/auth.interceptor";
 
 @NgModule({
 	declarations: [
@@ -30,12 +33,14 @@ import {NgOptimizedImage} from "@angular/common";
 		ChangePasswordComponent,
 		RestoreComponent,
 		ConfirmationComponent,
+		CustomFileUploadComponent,
 
 		HeaderComponent,
 		FooterComponent,
 		MainComponent,
 
-		BrandsComponent
+		BrandsComponent,
+		CreateBrandComponent
 	],
 	imports: [
 		BrowserModule,
@@ -44,9 +49,19 @@ import {NgOptimizedImage} from "@angular/common";
 		FontAwesomeModule,
 		FormsModule,
 		ReactiveFormsModule,
-		NgOptimizedImage,
+		NgOptimizedImage
 	],
-	providers: [provideHttpClient(), ApiRequestsService, ApiErrorsService, NavigationService],
+	providers: [
+		{
+			provide: HTTP_INTERCEPTORS,
+			useClass: AuthInterceptor,
+			multi: true
+		},
+		provideHttpClient(withInterceptorsFromDi()),
+		ApiRequestsService,
+		ApiErrorsService,
+		NavigationService
+	],
 	bootstrap: [AppComponent]
 })
 export class AppModule { }

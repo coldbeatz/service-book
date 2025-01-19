@@ -9,6 +9,7 @@ import { MainComponent } from "./components/internal/main/main.component";
 import { BrandsComponent} from "./components/admin/brands/brands.component";
 import { AuthGuard } from "./guards/auth.guard";
 import { GuestGuard } from "./guards/guest.guard";
+import { CreateBrandComponent } from "./components/admin/brands/create/create-brand.component";
 
 export const routes: Routes = [
 	{ path: 'login', component: LoginComponent, canActivate: [GuestGuard] },
@@ -19,7 +20,9 @@ export const routes: Routes = [
 	{ path: 'confirmation/:key', component: ConfirmationComponent },
 
 	{ path: 'test', component: MainComponent, canActivate: [AuthGuard]},
+
 	{ path: 'brands', component: BrandsComponent, canActivate: [AuthGuard]},
+	{ path: 'brands/create', component: CreateBrandComponent, canActivate: [AuthGuard]},
 
 	//{ path: '', component: AppComponent },
 	{ path: '**', redirectTo: 'login' }

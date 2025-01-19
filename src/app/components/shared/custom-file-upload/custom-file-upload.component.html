@@ -1,0 +1,17 @@
+<div class="custom-file-upload">
+	<div class="custom-file-container form-control">
+		<button class="btn btn-secondary file-button" type="button" (click)="fileInput.click()">
+			<ng-container *ngIf="selectedFileName; else selectFile">
+				{{ 'CUSTOM_FILE_INPUT_SELECT_ANOTHER_FILE' | translate }}
+			</ng-container>
+
+			<ng-template #selectFile>
+				{{ 'CUSTOM_FILE_INPUT_SELECT_FILE' | translate }}
+			</ng-template>
+		</button>
+
+		<span class="file-name">{{ selectedFileName || 'CUSTOM_FILE_INPUT_FILE_NOT_SELECTED' | translate }}</span>
+
+		<input #fileInput type="file" class="d-none" (change)="onFileSelected($event)">
+	</div>
+</div>

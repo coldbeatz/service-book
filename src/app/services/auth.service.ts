@@ -17,6 +17,10 @@ export class AuthService {
 
 	}
 
+	getToken(): string | null {
+		return this.cookieService.get('token');
+	}
+
 	public async isAuthenticated(): Promise<boolean> {
 		if (this.isLoggedIn)
 			return true;
