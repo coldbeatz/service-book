@@ -23,6 +23,8 @@ import {NgOptimizedImage} from "@angular/common";
 import {CreateBrandComponent} from "./components/admin/brands/create/create-brand.component";
 import {CustomFileUploadComponent} from "./components/shared/custom-file-upload/custom-file-upload.component";
 import {AuthInterceptor} from "./services/auth.interceptor";
+import {EditBrandComponent} from "./components/admin/brands/edit/edit-brand.component";
+import {AlertComponent} from "./components/internal/alert/alert.component";
 
 @NgModule({
 	declarations: [
@@ -40,7 +42,9 @@ import {AuthInterceptor} from "./services/auth.interceptor";
 		MainComponent,
 
 		BrandsComponent,
-		CreateBrandComponent
+		AlertComponent,
+		CreateBrandComponent,
+		EditBrandComponent
 	],
 	imports: [
 		BrowserModule,

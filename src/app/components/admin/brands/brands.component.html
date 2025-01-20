@@ -1,5 +1,5 @@
 <main-root>
-	<div class="mt-4">
+	<div class="breadcrumb-container">
 		<nav aria-label="breadcrumb">
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item">
@@ -33,7 +33,7 @@
 						 [height]="20"
 						 class="me-2">
 
-					{{ selectedCountry.name.en }}
+					{{ selectedCountry.name.en }} ({{ getBrandsCountByCountry(selectedCountry) }})
 				</ng-container>
 
 				<ng-template #defaultContent>
@@ -44,7 +44,7 @@
 			<ul class="dropdown-menu">
 				<li>
 					<a class="dropdown-item" (click)="selectCountry(null)">
-						{{ 'BRANDS_DROPDOWN_SELECT_COUNTRY_ALL' | translate }}
+						{{ 'BRANDS_DROPDOWN_SELECT_COUNTRY_ALL' | translate }} ({{ getBrandsCountByCountry(selectedCountry) }})
 					</a>
 				</li>
 
@@ -55,7 +55,7 @@
 							 [width]="20"
 							 [height]="20">
 
-						{{ country.name.en }}
+						{{ country.name.en }} ({{ getBrandsCountByCountry(country) }})
 					</a>
 				</li>
 			</ul>
@@ -74,19 +74,27 @@
 
 	<div class="brands">
 		<ng-container *ngFor="let brand of filteredBrands">
-			<div class="card brands__card" *ngIf="!selectedCountry || brand.country.id === selectedCountry.id">
+			<div class="card brands__card" *ngIf="!selectedCountry || brand.country?.id === selectedCountry.id">
 				<img src="{{ environment.resourcesUrl }}/{{brand.imageResource.url}}"
 					 class="card-img-top" [alt]="brand.brand">
 
 				<div class="card-body">
 					<h5 class="card-title">{{ brand.brand }}</h5>
 
-					<div class="country">
-						<img src="{{ environment.resourcesUrl }}/{{brand.country.iconResource.url}}">
+					<div class="country" *ngIf="brand.country">
+						<img src="{{ environment.resourcesUrl }}/{{ brand.country.iconResource.url }}">
 						<p class="card-text">{{ brand.country.name.en }}</p>
 					</div>
 
-					<a href="#" class="btn btn-primary">Go somewhere</a>
+					<div class="card-buttons mt-3">
+						<a href="#" class="btn btn-primary" style="width: 70% !important;">
+							{{ 'BRANDS_VIEW_CARS_BUTTON' | translate }}
+						</a>
+
+						<a [routerLink]="['/brands', brand.id]" class="btn btn-primary">
+							<i class="bi bi-pencil-fill"></i>
+						</a>
+					</div>
 				</div>
 			</div>
 		</ng-container>

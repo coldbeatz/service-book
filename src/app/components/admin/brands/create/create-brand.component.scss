@@ -2,3 +2,8 @@
 	max-width: 320px;
 	box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 }
+
+.scrollable-menu {
+	max-height: 300px;
+	overflow-y: auto;
+}

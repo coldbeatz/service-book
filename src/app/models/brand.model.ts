@@ -4,6 +4,6 @@ import {Resource} from "./resource.model";
 export interface Brand {
 	id: number;
 	brand: string;
-	country: Country;
+	country: Country | null;
 	imageResource: Resource;
 }

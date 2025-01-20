@@ -22,6 +22,23 @@ export class ApiRequestsService {
 		return this.cookieService.get('email');
 	}
 
+	public editBrand(brand: Brand, file: File | null): Observable<any> {
+		const formData = new FormData();
+
+		formData.append('id', brand.id.toString());
+		formData.append('brand', brand.brand);
+
+		if (file) {
+			formData.append('file', file);
+		}
+
+		if (brand.country != null) {
+			formData.append('countryId', brand.country.id.toString());
+		}
+
+		return this.http.post<any>(`${environment.apiUrl}/admin/brands/edit`, formData);
+	}
+
 	public createBrand(brand: string, country: Country | null, file: File): Observable<any> {
 		const formData = new FormData();
 
@@ -37,6 +54,10 @@ export class ApiRequestsService {
 
 	public getCountries(): Observable<any> {
 		return this.http.get<Country[]>(`${environment.apiUrl}/admin/brands/countries`);
+	}
+
+	public getBrandById(id: number): Observable<any> {
+		return this.http.get<Brand>(`${environment.apiUrl}/admin/brands/find/${id}`);
 	}
 
 	public getBrands(): Observable<any> {

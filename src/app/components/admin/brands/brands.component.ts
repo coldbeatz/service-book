@@ -49,6 +49,13 @@ export class BrandsComponent implements OnInit {
 		});
 	}
 
+	getBrandsCountByCountry(country: Country | null): number {
+		if (country == null)
+			return this.brands.length;
+
+		return this.brands.filter(brand => brand.country?.id === country.id).length;
+	}
+
 	selectCountry(country: Country | null): void {
 		this.selectedCountry = country;
 	}
