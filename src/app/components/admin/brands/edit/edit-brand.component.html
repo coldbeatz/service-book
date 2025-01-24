@@ -1,21 +1,10 @@
 <main-root>
-	<div class="breadcrumb-container">
-		<nav aria-label="breadcrumb">
-			<ol class="breadcrumb">
-				<li class="breadcrumb-item">
-					<a href="/">{{ 'BREADCRUMB_HOME' | translate }}</a>
-				</li>
-
-				<li class="breadcrumb-item" aria-current="page">
-					<a routerLink="/brands">{{ 'BREADCRUMB_BRANDS' | translate }}</a>
-				</li>
-
-				<li class="breadcrumb-item active" aria-current="page">
-					{{ 'BREADCRUMB_CREATE_BRAND' | translate }}
-				</li>
-			</ol>
-		</nav>
-	</div>
+	<app-breadcrumb
+		[items]="[
+			{ label: 'BREADCRUMB_HOME' | translate, url: '/' },
+			{ label: 'BREADCRUMB_BRANDS' | translate, url: '/brands' },
+			{ label: 'BREADCRUMB_CHANGE_BRAND' | translate }
+	  	]"></app-breadcrumb>
 
 	<form class="m-auto mb-4" style="max-width: 400px;" [formGroup]="form" (ngSubmit)="onSubmit()">
 		<alert-root text="{{ 'EDIT_BRAND_SUCCESS' | translate }}" *ngIf="success"></alert-root>

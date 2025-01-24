@@ -1,0 +1,25 @@
+.breadcrumb-container {
+	background: rgba(255, 255, 255, 0.8);
+	height: 60px;
+	display: flex;
+	align-items: center;
+	padding: 0 25px;
+	margin-bottom: 25px;
+
+	.breadcrumb {
+		margin: 0;
+
+		.breadcrumb-item a {
+			text-decoration: none;
+			color: #007bff;
+
+			&:hover {
+				text-decoration: underline;
+			}
+		}
+
+		.breadcrumb-item.active {
+			color: #6c757d;
+		}
+	}
+}

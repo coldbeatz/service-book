@@ -1,17 +1,9 @@
 <main-root>
-	<div class="breadcrumb-container">
-		<nav aria-label="breadcrumb">
-			<ol class="breadcrumb">
-				<li class="breadcrumb-item">
-					<a href="/">{{ 'BREADCRUMB_HOME' | translate }}</a>
-				</li>
-
-				<li class="breadcrumb-item active" aria-current="page">
-					{{ 'BREADCRUMB_BRANDS' | translate }}
-				</li>
-			</ol>
-		</nav>
-	</div>
+	<app-breadcrumb
+		[items]="[
+			{ label: 'BREADCRUMB_HOME' | translate, url: '/' },
+			{ label: 'BREADCRUMB_BRANDS' | translate, url: '/brands' }
+	  	]"></app-breadcrumb>
 
 	<div class="flex-center">
 		<a routerLink="/brands/create" class="btn btn-primary flex-center" style="max-width: 400px;">
@@ -87,7 +79,7 @@
 					</div>
 
 					<div class="card-buttons mt-3">
-						<a href="#" class="btn btn-primary" style="width: 70% !important;">
+						<a [routerLink]="['/cars', brand.id]" class="btn btn-primary" style="width: 70% !important;">
 							{{ 'BRANDS_VIEW_CARS_BUTTON' | translate }}
 						</a>
 

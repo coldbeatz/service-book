@@ -6,6 +6,8 @@ import { Observable } from "rxjs";
 import { CookieService } from "ngx-cookie-service";
 import { Brand } from "../models/brand.model";
 import { Country } from "../models/country.model";
+import {Car} from "../models/car.model";
+import {Engine} from "../models/engine.model";
 
 @Injectable()
 export class ApiRequestsService {
@@ -14,12 +16,104 @@ export class ApiRequestsService {
 
 	}
 
-	private getToken(): string {
-		return this.cookieService.get('token');
+	public updateEngine(engine: Engine): Observable<Engine | any> {
+		const formData = new FormData();
+
+		formData.append("engineId", engine.id.toString());
+
+		if (engine.name != null && engine.name.length > 0) {
+			formData.append('name', engine.name);
+		}
+
+		formData.append('displacement', engine.displacement.toString());
+		formData.append('fuelType', engine.fuelType);
+		formData.append('horsepower', engine.horsepower.toString());
+
+		return this.http.post<any>(`${environment.apiUrl}/admin/engines/update`, formData);
 	}
 
-	private getEmail(): string {
-		return this.cookieService.get('email');
+	public createEngine(car: Car, name: string, displacement: number, fuelType:
+						string, horsepower: number): Observable<Engine | any> {
+
+		const formData = new FormData();
+
+		formData.append("carId", car.id.toString());
+
+		if (name != null && name.length > 0) {
+			formData.append('name', name);
+		}
+
+		formData.append('displacement', displacement.toString());
+		formData.append('fuelType', fuelType);
+		formData.append('horsepower', horsepower.toString());
+
+		return this.http.post<any>(`${environment.apiUrl}/admin/engines/create`, formData);
+	}
+
+	public getEngineById(engineId: number) {
+		return this.http.get<Engine>(`${environment.apiUrl}/admin/engines?engine=${engineId}`);
+	}
+
+	public getEnginesByCar(car: Car) {
+		return this.http.get<Engine[]>(`${environment.apiUrl}/admin/engines?car=${car.id}`);
+	}
+
+	public getAvailableFuelTypes(): Observable<string[]> {
+		return this.http.get<any>(`${environment.apiUrl}/admin/engines/fuel_types`);
+	}
+
+	public getTransmissions(): Observable<string[]> {
+		return this.http.get<any>(`${environment.apiUrl}/admin/cars/transmissions`);
+	}
+
+	public getCarById(id: number): Observable<Car> {
+		return this.http.get<Car>(`${environment.apiUrl}/admin/cars/car?id=${id}`);
+	}
+
+	public getCarsByBrand(brand: Brand): Observable<Car[]> {
+		return this.http.get<Car[]>(`${environment.apiUrl}/admin/cars?brand=${brand.id}`);
+	}
+
+	public createCar(brand: Brand,
+					 model: string,
+					 startYear: string,
+					 endYear: string,
+					 file: File,
+					 transmissions: string[]): Observable<any> {
+
+		const formData = new FormData();
+
+		formData.append('model', model);
+		formData.append('startYear', startYear);
+		formData.append('endYear', endYear);
+		formData.append('file', file);
+
+		transmissions.forEach(transmission => {
+			formData.append('transmissions', transmission);
+		});
+
+		return this.http.post<any>(`${environment.apiUrl}/admin/cars/${brand.id}`, formData);
+	}
+
+	public updateCar(car: Car, file: File | null): Observable<any> {
+		const formData = new FormData();
+
+		formData.append('model', car.model);
+		formData.append('startYear', car.startYear.toString());
+
+		if (car.endYear) {
+			formData.append('endYear', car.endYear.toString());
+		}
+
+		if (file) {
+			formData.append('file', file);
+		}
+
+		car.transmissions.forEach(transmission => {
+			formData.append('transmissions', transmission);
+		});
+
+		return this.http.post<any>(`${environment.apiUrl}/admin/cars/${car.brand.id}/${car.id}`, formData);
 	}
 
 	public editBrand(brand: Brand, file: File | null): Observable<any> {
@@ -66,8 +160,8 @@ export class ApiRequestsService {
 
 	public tokenValidation() {
 		return this.http.post<any>(`${environment.apiUrl}/login/validation`, {
-			email: this.getEmail(),
-			token: this.getToken()
+			email: this.cookieService.get('email'),
+			token: this.cookieService.get('token')
 		});
 	}
 

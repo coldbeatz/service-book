@@ -25,6 +25,11 @@ import {CustomFileUploadComponent} from "./components/shared/custom-file-upload/
 import {AuthInterceptor} from "./services/auth.interceptor";
 import {EditBrandComponent} from "./components/admin/brands/edit/edit-brand.component";
 import {AlertComponent} from "./components/internal/alert/alert.component";
+import {CreateCarComponent} from "./components/admin/cars/create/create-car.component";
+import {CarsComponent} from "./components/admin/cars/cars.component";
+import {BreadcrumbComponent} from "./components/internal/breadcrumb/breadcrumb.component";
+import {EngineComponent} from "./components/admin/cars/create/engines/engine/engine.component";
+import {EnginesComponent} from "./components/admin/cars/create/engines/engines.component";
 
 @NgModule({
 	declarations: [
@@ -44,7 +49,12 @@ import {AlertComponent} from "./components/internal/alert/alert.component";
 		BrandsComponent,
 		AlertComponent,
 		CreateBrandComponent,
-		EditBrandComponent
+		EditBrandComponent,
+
+		CarsComponent,
+		CreateCarComponent,
+		EnginesComponent,
+		EngineComponent
 	],
 	imports: [
 		BrowserModule,
@@ -53,7 +63,8 @@ import {AlertComponent} from "./components/internal/alert/alert.component";
 		FontAwesomeModule,
 		FormsModule,
 		ReactiveFormsModule,
-		NgOptimizedImage
+		NgOptimizedImage,
+		BreadcrumbComponent
 	],
 	providers: [
 		{

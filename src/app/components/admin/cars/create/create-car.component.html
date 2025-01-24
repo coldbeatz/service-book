@@ -1,0 +1,134 @@
+<main-root>
+	<app-breadcrumb
+		[items]="[
+			{ label: 'BREADCRUMB_HOME' | translate, url: '/' },
+			{ label: 'BREADCRUMB_BRANDS' | translate, url: '/brands' },
+			{ label: brand?.brand || '', url: '/cars/' + brand?.id },
+			{ label: car?.model || 'BREADCRUMB_CREATE_CAR' | translate }
+	  	]"></app-breadcrumb>
+
+	<div class="create-car-container">
+		<alert-root text="{{ 'EDIT_BRAND_SUCCESS' | translate }}" *ngIf="success"></alert-root>
+
+		<form [formGroup]="form" (ngSubmit)="onSubmit()" class="create-car__form">
+			<div class="create-car__data">
+				<div class="create-car__inputs">
+					<div class="mb-4">
+						<label for="model" class="form-label text-muted">
+							{{ 'CREATE_CAR_MODEL_NAME' | translate }} <small class="text-danger">*</small>
+						</label>
+
+						<input type="text" class="form-control" formControlName="model"
+							   placeholder="{{ 'CREATE_CAR_MODEL_INPUT_PLACEHOLDER' | translate }}" id="model">
+					</div>
+
+					<div class="mb-4">
+						<label for="startYear" class="form-label text-muted">
+							{{ 'CREATE_CAR_START_YEAR' | translate }} <small class="text-danger">*</small>
+						</label>
+
+						<input
+							type="number"
+							class="form-control"
+							[class.is-invalid]="form.get('startYear')?.invalid && form.get('startYear')?.touched"
+							[class.is-valid]="form.get('startYear')?.valid && form.get('startYear')?.touched"
+							formControlName="startYear"
+							min="1900"
+							[attr.max]="currentYear"
+							placeholder="{{ 'CREATE_CAR_START_YEAR_INPUT_PLACEHOLDER' | translate }}"
+							id="startYear">
+
+						<div *ngIf="form.get('startYear')?.invalid && form.get('startYear')?.touched" class="invalid-feedback">
+							<span *ngIf="form.get('startYear')?.errors?.['required']">
+								{{ 'ERROR_REQUIRED_FIELD' | translate }}
+						  	</span>
+
+							<span *ngIf="form.get('startYear')?.errors?.['min']">
+								{{ 'CREATE_CAR_ERROR_MIN_YEAR' | translate }}
+					  		</span>
+
+							<span *ngIf="form.get('startYear')?.errors?.['max']">
+								{{ 'CREATE_CAR_ERROR_MAX_YEAR' | translate }}
+					  		</span>
+						</div>
+					</div>
+
+					<div class="mb-4">
+						<label for="endYear" class="form-label text-muted">
+							{{ 'CREATE_CAR_END_YEAR' | translate }}
+						</label>
+
+						<input
+							type="number"
+							class="form-control"
+							[class.is-invalid]="form.get('endYear')?.invalid && form.get('endYear')?.touched"
+							[class.is-valid]="form.get('endYear')?.valid && form.get('endYear')?.touched"
+							formControlName="endYear"
+							min="1900"
+							[attr.max]="currentYear"
+							placeholder="{{ 'CREATE_CAR_END_YEAR_INPUT_PLACEHOLDER' | translate }}"
+							id="endYear">
+
+						<div *ngIf="form.get('endYear')?.invalid && form.get('endYear')?.touched" class="invalid-feedback">
+							<span *ngIf="form.get('endYear')?.errors?.['required']">
+								{{ 'ERROR_REQUIRED_FIELD' | translate }}
+						  	</span>
+
+							<span *ngIf="form.get('endYear')?.errors?.['min']">
+								{{ 'CREATE_CAR_ERROR_MIN_YEAR' | translate }}
+					  		</span>
+
+							<span *ngIf="form.get('endYear')?.errors?.['max']">
+								{{ 'CREATE_CAR_ERROR_MAX_YEAR' | translate }}
+					  		</span>
+						</div>
+					</div>
+
+					<div class="mb-3">
+						<label class="form-label text-muted">
+							{{ 'CREATE_CAR_IMAGE' | translate }} <small class="text-danger">*</small>
+						</label>
+
+						<custom-file-upload-root (fileSelected)="onFileSelected($event)"></custom-file-upload-root>
+					</div>
+
+					<label class="form-label text-muted">
+						{{ 'CREATE_CAR_TRANSMISSIONS' | translate }} <small class="text-danger">*</small>
+					</label>
+
+					<div class="mb-3 create-car__transmissions" formArrayName="transmissions">
+						<div *ngFor="let transmission of availableTransmissions; let i = index" class="form-check">
+							<input
+								class="form-check-input"
+								type="checkbox"
+								[formControlName]="transmission"
+								[id]="transmission">
+
+							<label class="form-check-label" [for]="transmission">
+								{{ 'TRANSMISSION_' + transmission | translate }}
+							</label>
+						</div>
+					</div>
+				</div>
+
+				<div *ngIf="imagePreview" class="create-car__preview">
+					<img [src]="imagePreview" class="preview-img" alt="preview">
+
+					<a [routerLink]="['/cars', brand?.id, car?.id, 'engines']" class="btn btn-primary">
+						Engines
+					</a>
+				</div>
+			</div>
+
+			<div class="flex-center">
+				<button type="submit" class="btn btn-primary flex-center mt-4 mb-4" style="max-width: 300px;"
+						[disabled]="form.invalid || imagePreview === null || getSelectedTransmissions().length === 0">
+
+					<span class="mx-3">
+						{{ (car ? 'CREATE_CAR_SUBMIT_CHANGE_BUTTON' : 'CREATE_CAR_SUBMIT_BUTTON') | translate }}
+					</span>
+				</button>
+			</div>
+		</form>
+	</div>
+</main-root>

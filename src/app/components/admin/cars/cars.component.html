@@ -1,0 +1,46 @@
+<main-root>
+	<app-breadcrumb
+		[items]="[
+			{ label: 'BREADCRUMB_HOME' | translate, url: '/' },
+			{ label: 'BREADCRUMB_BRANDS' | translate, url: '/brands' },
+			{ label: this.brand?.brand || '' }
+	  	]"></app-breadcrumb>
+
+	<div class="flex-center">
+		<a [routerLink]="['/cars', this.brand?.id, 'create']" class="btn btn-primary flex-center" style="max-width: 200px;">
+			<i class="bi bi-car-front-fill"></i>
+
+			<span class="mx-3">
+				{{ 'CARS_ADD_CAR_BUTTON' | translate }}
+			</span>
+		</a>
+	</div>
+
+	<div class="cards cars">
+		<ng-container *ngFor="let car of cars">
+			<div class="card cars__card">
+				<img src="{{ environment.resourcesUrl }}/{{car.imageResource.url}}"
+					 class="card-img-top" [alt]="car.model">
+
+				<div class="card-body">
+					<h5 class="card-title">{{ car.model }}</h5>
+
+					<p class="card-text">{{ car.startYear }} - {{ car.endYear || this.currentYear }}</p>
+
+					<div class="card-buttons mt-3">
+						<a [routerLink]="['/cars/', this.brand?.id, car.id]" class="btn btn-primary">
+							Change
+							<i class="bi bi-nut-fill"></i>
+						</a>
+
+						<a [routerLink]="['/brands', 2]" class="btn-danger btn">
+							Delete
+							<i class="bi bi-trash-fill"></i>
+						</a>
+					</div>
+				</div>
+			</div>
+		</ng-container>
+	</div>
+
+</main-root>

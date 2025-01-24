@@ -40,17 +40,24 @@ body {
 	-o-transition: all 0.3s ease 0s;
 	transition: all 0.3s ease 0s;
 	background-color: #fafafa;
+	color: rgba(0, 0, 0, 0.9);
 
 	&:focus {
-		color: #999;
+		color: rgba(0, 0, 0, 0.7);
 		background-color: #fafafa;
 		border: 1px solid #4285f4 !important;
 	}
-}
 
-.form-control.is-invalid {
-	&:focus {
-		border: 1px solid #dc3545 !important;
+	&.is-invalid {
+		&:focus {
+			border: 1px solid #dc3545 !important;
+		}
+	}
+
+	&.is-valid {
+		&:hover, &:focus {
+			border-color: #198754 !important;
+		}
 	}
 }
 
@@ -92,4 +99,23 @@ body {
 
 form {
 	padding: 0 20px;
+}
+
+.btn-danger {
+	background: #dc3545 !important;
+	border-color: #dc3545;
+
+	&:hover {
+		background: #bb2d3b !important;
+		border-color: #b02a37 !important;
+	}
+
+	&:active {
+		background: #b02a37 !important;
+		border-color: #a52834 !important;
+	}
+}
+
+select {
+	cursor: pointer;
 }

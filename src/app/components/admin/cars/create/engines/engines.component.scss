@@ -1,0 +1,13 @@
+.cars {
+	.cars__card {
+		max-width: 300px;
+
+		.card-buttons .btn {
+			width: 100%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 10px;
+		}
+	}
+}

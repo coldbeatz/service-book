@@ -39,14 +39,3 @@
 	flex-wrap: wrap;
 	gap: 20px;
 }
-
-.card-buttons {
-	display: flex;
-	align-content: center;
-	justify-content: center;
-	gap: 10px;
-
-	.btn {
-		width: max-content !important;
-	}
-}

@@ -1,0 +1,66 @@
+<main-root>
+	<app-breadcrumb
+		[items]="[
+			{ label: 'BREADCRUMB_HOME' | translate, url: '/' },
+			{ label: 'BREADCRUMB_BRANDS' | translate, url: '/brands' },
+			{ label: car?.brand?.brand || '', url: '/cars/' + car?.brand?.id },
+			{ label: car?.model || 'BREADCRUMB_CREATE_CAR' | translate, url: '/cars/' + car?.brand?.id + '/' + car?.id },
+			{ label: 'BREADCRUMB_CAR_ENGINES' | translate, url: '/cars/' + car?.brand?.id + '/' + car?.id + '/engines' },
+			{ label: (engine != null ? 'BREADCRUMB_CHANGE_ENGINE' : 'BREADCRUMB_CREATE_ENGINE') | translate }
+	  	]"></app-breadcrumb>
+
+	<div class="create-car-container">
+		<form [formGroup]="form" (ngSubmit)="onSubmit()" class="create-car__form">
+			<div class="mb-4">
+				<label for="name" class="form-label text-muted">
+					{{ 'ENGINE_NAME' | translate }}
+				</label>
+
+				<input type="text" class="form-control" formControlName="name"
+					   placeholder="{{ 'ENGINE_NAME_PLACEHOLDER' | translate }}" id="name">
+			</div>
+
+			<div class="mb-4">
+				<label for="displacement" class="form-label text-muted">
+					{{ 'ENGINE_DISPLACEMENT' | translate }} <small class="text-danger">*</small>
+				</label>
+
+				<input type="number" class="form-control" formControlName="displacement" step="0.1" min="0.1"
+					   placeholder="{{ 'ENGINE_DISPLACEMENT_PLACEHOLDER' | translate }}" id="displacement">
+			</div>
+
+			<div class="mb-4">
+				<label class="form-label text-muted">
+					{{ 'ENGINE_FUEL_TYPE' | translate }} <small class="text-danger">*</small>
+				</label>
+
+				<select class="form-select" aria-label="Default select example" formControlName="fuelType">
+					<option value="" disabled selected hidden>Select fuel type</option>
+					<option value="{{ fuelType }}" *ngFor="let fuelType of availableFuelTypes; let i = index">
+						{{ 'FUEL_TYPE_' + fuelType | translate }}
+					</option>
+				</select>
+			</div>
+
+			<div class="mb-4">
+				<label for="horsepower" class="form-label text-muted">
+					{{ 'ENGINE_HORSEPOWER' | translate }} <small class="text-danger">*</small>
+				</label>
+
+				<input type="number" class="form-control" formControlName="horsepower"
+					   placeholder="{{ 'ENGINE_HORSEPOWER_PLACEHOLDER' | translate }}" id="horsepower">
+			</div>
+
+			<div class="flex-center">
+				<button type="submit" class="btn btn-primary flex-center" style="max-width: 300px;"
+						[disabled]="form.invalid">
+
+				<span class="mx-3">
+					{{ (engine ? 'ENGINE_SUBMIT_CHANGE_BUTTON' : 'ENGINE_SUBMIT_BUTTON') | translate }}
+				</span>
+				</button>
+			</div>
+		</form>
+
+	</div>
+</main-root>

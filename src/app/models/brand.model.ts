@@ -1,5 +1,5 @@
 import { Country } from "./country.model";
-import {Resource} from "./resource.model";
+import { Resource } from "./resource.model";
 
 export interface Brand {
 	id: number;

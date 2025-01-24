@@ -1,5 +1,5 @@
 import { Localized } from "./localized.model";
-import {Resource} from "./resource.model";
+import { Resource } from "./resource.model";
 
 export interface Country {
 	id: number;

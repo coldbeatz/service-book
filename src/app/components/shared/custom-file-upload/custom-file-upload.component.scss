@@ -20,6 +20,9 @@
 		.file-name {
 			font-size: 14px;
 			color: #6c757d;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
 		}
 	}
 }
