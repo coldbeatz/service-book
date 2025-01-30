@@ -1,12 +1,23 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { ApiRequestsService } from "../../services/api-requests.service";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { ApiErrorsService } from "../../services/api-errors.service";
+import { NgClass, NgIf } from "@angular/common";
+import { RouterLink } from "@angular/router";
+import { TranslateModule } from "@ngx-translate/core";
 
 @Component({
 	selector: 'restore-root',
 	encapsulation: ViewEncapsulation.None,
-	templateUrl: 'restore.component.html'
+	templateUrl: 'restore.component.html',
+	imports: [
+		ReactiveFormsModule,
+		NgIf,
+		NgClass,
+		RouterLink,
+		TranslateModule
+	],
+	standalone: true
 })
 export class RestoreComponent {
 

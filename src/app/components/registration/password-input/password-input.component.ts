@@ -1,6 +1,8 @@
 import { Component, forwardRef, Input, ViewEncapsulation } from '@angular/core';
 import { faUnlock, faLock } from '@fortawesome/free-solid-svg-icons';
-import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from "@angular/forms";
+import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, ReactiveFormsModule } from "@angular/forms";
+import { FaIconComponent } from "@fortawesome/angular-fontawesome";
+import { NgClass } from "@angular/common";
 
 @Component({
 	selector: 'password-input-root',
@@ -11,7 +13,13 @@ import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from "@angular/f
 		provide: NG_VALUE_ACCESSOR,
 		useExisting: forwardRef(() => PasswordInputComponent),
 		multi: true
-	}]
+	}],
+	imports: [
+		ReactiveFormsModule,
+		FaIconComponent,
+		NgClass
+	],
+	standalone: true
 })
 export class PasswordInputComponent implements ControlValueAccessor {
 

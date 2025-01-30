@@ -1,17 +1,35 @@
 import { Component, OnInit, ViewEncapsulation } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { ApiRequestsService } from "../../../../services/api-requests.service";
 import { NavigationService } from "../../../../services/navigation.service";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, RouterLink } from "@angular/router";
 import { Brand } from "../../../../models/brand.model";
 import { Car } from "../../../../models/car.model";
 import { environment } from "../../../../../environments/environment";
+import { BreadcrumbComponent } from "../../../internal/breadcrumb/breadcrumb.component";
+import { NgForOf, NgIf } from "@angular/common";
+import { MainComponent } from "../../../internal/main/main.component";
+import { AlertComponent } from "../../../internal/alert/alert.component";
+import { CustomFileUploadComponent } from "../../../shared/custom-file-upload/custom-file-upload.component";
+import { TranslateModule } from "@ngx-translate/core";
 
 @Component({
 	selector: 'create-car-root',
 	encapsulation: ViewEncapsulation.None,
 	templateUrl: 'create-car.component.html',
 	styleUrls: ['create-car.component.scss'],
+	imports: [
+		BreadcrumbComponent,
+		ReactiveFormsModule,
+		NgIf,
+		MainComponent,
+		AlertComponent,
+		CustomFileUploadComponent,
+		RouterLink,
+		NgForOf,
+		TranslateModule
+	],
+	standalone: true
 })
 export class CreateCarComponent implements OnInit {
 

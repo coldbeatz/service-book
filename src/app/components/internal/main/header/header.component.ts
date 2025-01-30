@@ -1,12 +1,18 @@
 import { Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import {AuthService} from "../../../../services/auth.service";
-import {NavigationService} from "../../../../services/navigation.service";
+import { AuthService } from "../../../../services/auth.service";
+import { RouterLink } from "@angular/router";
+import { TranslateModule } from "@ngx-translate/core";
 
 @Component({
 	selector: 'header-root',
 	encapsulation: ViewEncapsulation.None,
 	templateUrl: 'header.component.html',
 	styleUrls: ['header.component.scss'],
+	imports: [
+		RouterLink,
+		TranslateModule
+	],
+	standalone: true
 })
 export class HeaderComponent implements OnInit {
 

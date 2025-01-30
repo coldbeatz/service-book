@@ -6,11 +6,13 @@ import { Observable } from "rxjs";
 import { CookieService } from "ngx-cookie-service";
 import { Brand } from "../models/brand.model";
 import { Country } from "../models/country.model";
-import {Car} from "../models/car.model";
-import {Engine} from "../models/engine.model";
-import {RegulationsMaintenance} from "../models/regulations-maintenance.model";
+import { Car } from "../models/car.model";
+import { Engine } from "../models/engine.model";
+import { RegulationsMaintenance } from "../models/regulations-maintenance.model";
 
-@Injectable()
+@Injectable({
+	providedIn: 'root'
+})
 export class ApiRequestsService {
 
 	private static readonly API_REGULATIONS_MAINTENANCE: string = `${environment.apiUrl}/admin/regulations_maintenance`;

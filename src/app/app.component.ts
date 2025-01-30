@@ -1,31 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { TranslateService } from "@ngx-translate/core";
-import { Router } from "@angular/router";
+import { RouterOutlet } from "@angular/router";
 
 @Component({
 	selector: 'app-root',
-	templateUrl: './app.component.html',
-	styleUrls: ['./app.component.scss']
+	template: '<router-outlet></router-outlet>',
+	imports: [
+		RouterOutlet
+	],
+	standalone: true
 })
-export class AppComponent implements OnInit {
-	title = 'service-book';
+export class AppComponent {
 
-	constructor(private translate: TranslateService, private router: Router) {
-		this.translate.setDefaultLang('en');
+	private translate = inject(TranslateService);
+
+	constructor() {
 		this.translate.use('en');
-	}
-
-	ngOnInit(): void {
-		/*this.router.navigate(['/login'])
-			.then(success => {
-				if (success) {
-					console.log('Navigation to login successful');
-				} else {
-					console.error('Navigation to login failed');
-				}
-			})
-			.catch(error => {
-				console.error('Error during navigation:', error);
-			});*/
 	}
 }

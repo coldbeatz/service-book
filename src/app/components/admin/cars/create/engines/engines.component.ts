@@ -1,16 +1,28 @@
-import {Component, OnInit, ViewEncapsulation} from "@angular/core";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {Car} from "../../../../../models/car.model";
-import {ApiRequestsService} from "../../../../../services/api-requests.service";
-import {NavigationService} from "../../../../../services/navigation.service";
-import {ActivatedRoute} from "@angular/router";
-import {environment} from "../../../../../../environments/environment";
+import { Component, OnInit, ViewEncapsulation } from "@angular/core";
+import { Car } from "../../../../../models/car.model";
+import { ApiRequestsService } from "../../../../../services/api-requests.service";
+import { NavigationService } from "../../../../../services/navigation.service";
+import { ActivatedRoute, RouterLink } from "@angular/router";
+import { environment } from "../../../../../../environments/environment";
+import { MainComponent } from "../../../../internal/main/main.component";
+import { BreadcrumbComponent } from "../../../../internal/breadcrumb/breadcrumb.component";
+import { NgForOf, NgIf } from "@angular/common";
+import { TranslateModule } from "@ngx-translate/core";
 
 @Component({
 	selector: 'engines-root',
 	encapsulation: ViewEncapsulation.None,
 	templateUrl: 'engines.component.html',
 	styleUrls: ['../create-car.component.scss', 'engines.component.scss'],
+	imports: [
+		MainComponent,
+		BreadcrumbComponent,
+		RouterLink,
+		NgForOf,
+		NgIf,
+		TranslateModule
+	],
+	standalone: true
 })
 export class EnginesComponent implements OnInit {
 

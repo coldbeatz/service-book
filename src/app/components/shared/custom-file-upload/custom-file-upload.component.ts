@@ -1,17 +1,17 @@
-import {Component, EventEmitter, Output, ViewEncapsulation} from "@angular/core";
-import {NgIf} from "@angular/common";
-import {AppTranslateModule} from "../../../translate/translate.module";
+import { Component, EventEmitter, Output, ViewEncapsulation } from "@angular/core";
+import { NgIf } from "@angular/common";
+import { TranslateModule } from "@ngx-translate/core";
 
 @Component({
 	selector: 'custom-file-upload-root',
 	encapsulation: ViewEncapsulation.None,
 	templateUrl: 'custom-file-upload.component.html',
 	styleUrls: ['custom-file-upload.component.scss'],
+	standalone: true,
 	imports: [
 		NgIf,
-		AppTranslateModule
-	],
-	standalone: true
+		TranslateModule
+	]
 })
 export class CustomFileUploadComponent {
 

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CookieService } from "ngx-cookie-service";
 import { ApiRequestsService } from "./api-requests.service";
 import { lastValueFrom } from "rxjs";
-import {NavigationService} from "./navigation.service";
+import { NavigationService } from "./navigation.service";
 
 @Injectable({
 	providedIn: 'root',

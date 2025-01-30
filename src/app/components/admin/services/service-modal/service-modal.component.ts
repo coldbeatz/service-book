@@ -1,26 +1,25 @@
-import {Component, OnDestroy, OnInit, ViewEncapsulation} from "@angular/core";
+import {Component, OnDestroy, OnInit, ViewEncapsulation } from "@angular/core";
 import { ApiRequestsService } from "../../../../services/api-requests.service";
-import { AppTranslateModule } from "../../../../translate/translate.module";
 import { NgForOf, NgIf } from "@angular/common";
 import { AutosizeModule } from "ngx-autosize";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RegulationsMaintenance } from "../../../../models/regulations-maintenance.model";
 import { map, Subject, takeUntil } from "rxjs";
+import { TranslateModule } from "@ngx-translate/core";
 
 @Component({
 	selector: 'service-modal-root',
 	encapsulation: ViewEncapsulation.None,
 	templateUrl: 'service-modal.component.html',
 	styleUrls: ['service-modal.component.scss'],
+	standalone: true,
 	imports: [
-		AppTranslateModule,
 		NgForOf,
 		AutosizeModule,
-		NgIf,
 		ReactiveFormsModule,
-		FormsModule
-	],
-	standalone: true
+		FormsModule,
+		TranslateModule
+	]
 })
 export class ServiceModalComponent implements OnInit, OnDestroy {
 

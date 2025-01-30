@@ -1,18 +1,32 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import { faFacebook, faGooglePlus } from '@fortawesome/free-brands-svg-icons';
-import {ApiRequestsService} from "../../../services/api-requests.service";
-import {ApiErrorsService} from "../../../services/api-errors.service";
-import {AuthService} from "../../../services/auth.service";
-import {FormBuilder, Validators} from "@angular/forms";
-import {Brand} from "../../../models/brand.model";
-import {environment} from "../../../../environments/environment";
-import {Country} from "../../../models/country.model";
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { ApiRequestsService } from "../../../services/api-requests.service";
+import { FormsModule } from "@angular/forms";
+import { Brand } from "../../../models/brand.model";
+import { environment } from "../../../../environments/environment";
+import { Country } from "../../../models/country.model";
+import { BreadcrumbComponent } from "../../internal/breadcrumb/breadcrumb.component";
+import { MainComponent } from "../../internal/main/main.component";
+import { RouterLink } from "@angular/router";
+import { DropdownComponent } from "../../shared/dropdown/dropdown.component";
+import { NgForOf, NgIf } from "@angular/common";
+import { TranslateModule } from "@ngx-translate/core";
 
 @Component({
 	selector: 'brands-root',
 	encapsulation: ViewEncapsulation.None,
 	templateUrl: 'brands.component.html',
 	styleUrls: ['brands.component.scss'],
+	imports: [
+		BreadcrumbComponent,
+		MainComponent,
+		RouterLink,
+		DropdownComponent,
+		FormsModule,
+		NgForOf,
+		NgIf,
+		TranslateModule
+	],
+	standalone: true
 })
 export class BrandsComponent implements OnInit {
 

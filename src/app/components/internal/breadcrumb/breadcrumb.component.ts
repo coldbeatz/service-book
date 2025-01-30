@@ -11,10 +11,10 @@ interface BreadcrumbItem {
 	selector: 'app-breadcrumb',
 	templateUrl: './breadcrumb.component.html',
 	styleUrls: ['./breadcrumb.component.scss'],
+	standalone: true,
 	imports: [
 		CommonModule, RouterLink
-	],
-	standalone: true
+	]
 })
 export class BreadcrumbComponent {
 

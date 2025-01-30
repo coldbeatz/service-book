@@ -1,10 +1,11 @@
 import { Component, Input, ViewEncapsulation } from "@angular/core";
 
 @Component({
-	selector: 'alert-root',
-	encapsulation: ViewEncapsulation.None,
-	templateUrl: 'alert.component.html',
-	styleUrls: [],
+    selector: 'alert-root',
+    encapsulation: ViewEncapsulation.None,
+    templateUrl: 'alert.component.html',
+    styleUrls: [],
+    standalone: true
 })
 export class AlertComponent {
 

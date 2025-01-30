@@ -1,21 +1,35 @@
-import { Component, OnInit, ViewEncapsulation } from "@angular/core";
+import { Component, Input, OnInit, ViewEncapsulation } from "@angular/core";
 import { ApiRequestsService } from "../../../../services/api-requests.service";
 import { Country } from "../../../../models/country.model";
 import { environment } from "../../../../../environments/environment";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { NavigationService } from "../../../../services/navigation.service";
-import { ActivatedRoute } from "@angular/router";
 import { Brand } from "../../../../models/brand.model";
+import { BreadcrumbComponent } from "../../../internal/breadcrumb/breadcrumb.component";
+import { MainComponent } from "../../../internal/main/main.component";
+import { AlertComponent } from "../../../internal/alert/alert.component";
+import { NgForOf, NgIf } from "@angular/common";
+import { CustomFileUploadComponent } from "../../../shared/custom-file-upload/custom-file-upload.component";
+import { TranslateModule } from "@ngx-translate/core";
 
 @Component({
 	selector: 'edit-brand-root',
 	encapsulation: ViewEncapsulation.None,
 	templateUrl: 'edit-brand.component.html',
 	styleUrls: ['../create/create-brand.component.scss'],
+	imports: [
+		BreadcrumbComponent,
+		MainComponent,
+		ReactiveFormsModule,
+		AlertComponent,
+		NgIf,
+		NgForOf,
+		CustomFileUploadComponent,
+		TranslateModule
+	],
+	standalone: true
 })
 export class EditBrandComponent implements OnInit {
-
-	id: string | null = null;
 
 	brand: Brand | null = null;
 
@@ -30,10 +44,11 @@ export class EditBrandComponent implements OnInit {
 
 	protected form: FormGroup;
 
+	@Input() id!: string;
+
 	constructor(private apiRequestsService: ApiRequestsService,
 				private fb: FormBuilder,
-				private navigationService: NavigationService,
-				private route: ActivatedRoute) {
+				private navigationService: NavigationService) {
 
 		this.form = this.fb.group({
 			brand: ['', [Validators.required]]
@@ -41,8 +56,6 @@ export class EditBrandComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
-		this.id = this.route.snapshot.paramMap.get('id');
-
 		this.apiRequestsService.getCountries().subscribe({
 			next: (response) => {
 				this.countries = response;

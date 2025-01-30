@@ -1,12 +1,24 @@
 import { Component, OnInit, ViewEncapsulation } from "@angular/core";
 import { ApiRequestsService } from "../../../services/api-requests.service";
-import { ButtonModule } from 'primeng/button';
+import { Button } from 'primeng/button';
+import { MainComponent } from "../../internal/main/main.component";
+import { BreadcrumbComponent } from "../../internal/breadcrumb/breadcrumb.component";
+import { ServiceModalComponent } from "./service-modal/service-modal.component";
+import { TranslateModule } from "@ngx-translate/core";
 
 @Component({
 	selector: 'services-root',
 	encapsulation: ViewEncapsulation.None,
 	templateUrl: 'services.component.html',
 	styleUrls: ['services.component.scss'],
+	imports: [
+		MainComponent,
+		BreadcrumbComponent,
+		Button,
+		ServiceModalComponent,
+		TranslateModule
+	],
+	standalone: true
 })
 export class ServicesComponent implements OnInit {
 

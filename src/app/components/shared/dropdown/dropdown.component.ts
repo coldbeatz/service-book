@@ -4,12 +4,12 @@ import { NgForOf, NgIf, NgTemplateOutlet } from "@angular/common";
 @Component({
 	selector: 'app-dropdown',
 	templateUrl: 'dropdown.component.html',
-	standalone: true,
 	imports: [
 		NgIf,
 		NgTemplateOutlet,
 		NgForOf
 	],
+	standalone: true,
 	styleUrls: ['dropdown.component.scss']
 })
 export class DropdownComponent<T> {

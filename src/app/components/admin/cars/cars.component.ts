@@ -1,16 +1,30 @@
-import { Component, OnInit, ViewEncapsulation } from "@angular/core";
+import { Component, Input, OnInit, ViewEncapsulation } from "@angular/core";
 import { Brand } from "../../../models/brand.model";
 import { ApiRequestsService } from "../../../services/api-requests.service";
 import { NavigationService } from "../../../services/navigation.service";
-import { ActivatedRoute } from "@angular/router";
+import { RouterLink} from "@angular/router";
 import { environment } from "../../../../environments/environment";
 import { Car } from "../../../models/car.model";
+import { MainComponent } from "../../internal/main/main.component";
+import { BreadcrumbComponent } from "../../internal/breadcrumb/breadcrumb.component";
+import { NgForOf } from "@angular/common";
+import { TranslateModule } from "@ngx-translate/core";
+import { FormsModule } from "@angular/forms";
 
 @Component({
 	selector: 'cars-root',
 	encapsulation: ViewEncapsulation.None,
 	templateUrl: 'cars.component.html',
 	styleUrls: ['cars.component.scss'],
+	imports: [
+		RouterLink,
+		MainComponent,
+		BreadcrumbComponent,
+		NgForOf,
+		TranslateModule,
+		FormsModule
+	],
+	standalone: true
 })
 export class CarsComponent implements OnInit {
 
@@ -29,24 +43,22 @@ export class CarsComponent implements OnInit {
 
 	protected readonly environment = environment;
 
+	@Input() id!: string;
+
 	constructor(private apiRequestsService: ApiRequestsService,
-				private navigationService: NavigationService,
-				private route: ActivatedRoute) {
+				private navigationService: NavigationService) {
 
 		this.currentYear = new Date().getFullYear();
 	}
 
 	ngOnInit(): void {
-		let id = this.route.snapshot.paramMap.get('id');
-
-		this.apiRequestsService.getBrandById(Number(id)).subscribe({
+		this.apiRequestsService.getBrandById(Number(this.id)).subscribe({
 			next: (brand) => {
 				this.brand = brand;
 
 				this.apiRequestsService.getCarsByBrand(brand).subscribe({
 					next: (cars) => {
 						this.cars = cars;
-						console.log(cars);
 					}
 				});
 			},
@@ -60,15 +72,6 @@ export class CarsComponent implements OnInit {
 		this.apiRequestsService.getTransmissions().subscribe({
 			next: (transmissions) => {
 				this.availableTransmissions = transmissions;
-
-				//const formGroupConfig: { [key: string]: boolean } = {};
-				//transmissions.forEach((transmission) => {
-				//	formGroupConfig[transmission] = false;
-				//});
-
-				//this.form.setControl('transmissions', this.fb.group(formGroupConfig));
-
-				//this.initCar();
 			}
 		});
 	}

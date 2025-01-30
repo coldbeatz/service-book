@@ -2,14 +2,29 @@ import { Component, OnInit, ViewEncapsulation } from "@angular/core";
 import { ApiRequestsService } from "../../../../services/api-requests.service";
 import { Country } from "../../../../models/country.model";
 import { environment } from "../../../../../environments/environment";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { NavigationService } from "../../../../services/navigation.service";
+import { MainComponent } from "../../../internal/main/main.component";
+import { BreadcrumbComponent } from "../../../internal/breadcrumb/breadcrumb.component";
+import { NgForOf, NgIf } from "@angular/common";
+import { CustomFileUploadComponent } from "../../../shared/custom-file-upload/custom-file-upload.component";
+import { TranslateModule } from "@ngx-translate/core";
 
 @Component({
 	selector: 'create-brand-root',
 	encapsulation: ViewEncapsulation.None,
 	templateUrl: 'create-brand.component.html',
 	styleUrls: ['create-brand.component.scss'],
+	imports: [
+		MainComponent,
+		BreadcrumbComponent,
+		ReactiveFormsModule,
+		NgIf,
+		NgForOf,
+		CustomFileUploadComponent,
+		TranslateModule
+	],
+	standalone: true
 })
 export class CreateBrandComponent implements OnInit {
 

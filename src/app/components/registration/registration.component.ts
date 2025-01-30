@@ -2,15 +2,29 @@ import {AfterViewInit, ChangeDetectorRef, Component, ViewChild, ViewEncapsulatio
 import { faFacebook, faGooglePlus } from '@fortawesome/free-brands-svg-icons';
 import { User } from "../../user/user";
 import { ApiRequestsService } from "../../services/api-requests.service";
-import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { PasswordInputComponent } from "./password-input/password-input.component";
 import { ApiErrorsService } from "../../services/api-errors.service";
+import { FaIconComponent } from "@fortawesome/angular-fontawesome";
+import { NgClass, NgIf } from "@angular/common";
+import { RouterLink } from "@angular/router";
+import { TranslateModule } from "@ngx-translate/core";
 
 @Component({
 	selector: 'registration-root',
 	encapsulation: ViewEncapsulation.None,
 	templateUrl: 'registration.component.html',
-	styleUrls: ['../login/login.component.scss']
+	styleUrls: ['../login/login.component.scss'],
+	imports: [
+		ReactiveFormsModule,
+		FaIconComponent,
+		NgIf,
+		NgClass,
+		PasswordInputComponent,
+		RouterLink,
+		TranslateModule
+	],
+	standalone: true
 })
 export class RegistrationComponent implements AfterViewInit {
 

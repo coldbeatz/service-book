@@ -1,12 +1,20 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, RouterLink } from "@angular/router";
 import { ApiErrorsService } from "../../services/api-errors.service";
 import { ApiRequestsService } from "../../services/api-requests.service";
+import { NgIf } from "@angular/common";
+import { TranslateModule } from "@ngx-translate/core";
 
 @Component({
 	selector: 'confirmation-root',
 	encapsulation: ViewEncapsulation.None,
-	templateUrl: 'confirmation.component.html'
+	templateUrl: 'confirmation.component.html',
+	imports: [
+		NgIf,
+		RouterLink,
+		TranslateModule
+	],
+	standalone: true
 })
 export class ConfirmationComponent implements OnInit {
 

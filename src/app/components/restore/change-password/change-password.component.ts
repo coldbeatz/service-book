@@ -1,14 +1,24 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import { ApiRequestsService } from "../../../services/api-requests.service";
 import { PasswordInputComponent } from "../../registration/password-input/password-input.component";
-import { ActivatedRoute } from "@angular/router";
+import {ActivatedRoute, RouterLink} from "@angular/router";
 import { ApiErrorsService } from "../../../services/api-errors.service";
+import {NgIf} from "@angular/common";
+import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
 	selector: 'change-password-root',
 	encapsulation: ViewEncapsulation.None,
-	templateUrl: 'change-password.component.html'
+	templateUrl: 'change-password.component.html',
+	imports: [
+		ReactiveFormsModule,
+		NgIf,
+		RouterLink,
+		PasswordInputComponent,
+		TranslateModule
+	],
+	standalone: true
 })
 export class ChangePasswordComponent implements AfterViewInit, OnInit {
 

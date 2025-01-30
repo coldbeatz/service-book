@@ -1,15 +1,27 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { faFacebook, faGooglePlus } from '@fortawesome/free-brands-svg-icons';
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { ApiRequestsService } from "../../services/api-requests.service";
 import { ApiErrorsService } from "../../services/api-errors.service";
 import { AuthService } from "../../services/auth.service";
+import { FaIconComponent } from "@fortawesome/angular-fontawesome";
+import { NgIf } from "@angular/common";
+import { RouterLink } from "@angular/router";
+import { TranslateModule } from "@ngx-translate/core";
 
 @Component({
 	selector: 'login-root',
 	encapsulation: ViewEncapsulation.None,
 	templateUrl: 'login.component.html',
-	styleUrls: ['login.component.scss']
+	styleUrls: ['login.component.scss'],
+	imports: [
+		ReactiveFormsModule,
+		FaIconComponent,
+		NgIf,
+		RouterLink,
+		TranslateModule
+	],
+	standalone: true
 })
 export class LoginComponent {
 
