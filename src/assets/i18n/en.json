@@ -119,7 +119,20 @@
 	"TRANSMISSION_ELECTRIC_DRIVE": "Electric drive",
 	"TRANSMISSION_OTHER": "Other",
 
+	"SERVICE_MODAL_HEADER": "Service",
+	"SERVICE_MODAL_INPUT_DESCRIPTION": "Description of work",
+	"SERVICE_MODAL_INPUT_INTERVAL": "Interval (km)",
+	"SERVICE_MODAL_INPUT_INTERVAL_PLACEHOLDER": "Enter interval",
+	"SERVICE_MODAL_INPUT_INTERVAL_HELP": "Interval maintenance in kilometers",
+	"SERVICE_MODAL_INPUT_SPECIFIC_MILEAGE": "Specific mileage",
+	"SERVICE_MODAL_INPUT_SPECIFIC_MILEAGE_PLACEHOLDER": "Enter mileage",
+	"SERVICE_MODAL_INPUT_SPECIFIC_MILEAGE_HELP": "Maintenance at a specific mileage in kilometers",
+	"SERVICE_MODAL_INPUT_USE_DEFAULT": "Use as default for all vehicles",
+
 	"CUSTOM_FILE_INPUT_FILE_NOT_SELECTED": "File not selected",
 	"CUSTOM_FILE_INPUT_SELECT_FILE": "Select file",
-	"CUSTOM_FILE_INPUT_SELECT_ANOTHER_FILE": "Select another file"
+	"CUSTOM_FILE_INPUT_SELECT_ANOTHER_FILE": "Select another file",
+
+	"CLOSE_BUTTON": "Close",
+	"SAVE_CHANGES_BUTTON": "Save changes"
 }

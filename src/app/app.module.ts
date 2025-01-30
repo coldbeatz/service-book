@@ -9,7 +9,7 @@ import { RegistrationComponent } from "./components/registration/registration.co
 import { RestoreComponent } from "./components/restore/restore.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { ApiRequestsService } from "./services/api-requests.service";
-import {HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient, withInterceptorsFromDi} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi} from "@angular/common/http";
 import { ConfirmationComponent } from "./components/confirmation/confirmation.component";
 import { PasswordInputComponent } from "./components/registration/password-input/password-input.component";
 import { ChangePasswordComponent } from "./components/restore/change-password/change-password.component";
@@ -30,7 +30,11 @@ import {CarsComponent} from "./components/admin/cars/cars.component";
 import {BreadcrumbComponent} from "./components/internal/breadcrumb/breadcrumb.component";
 import {EngineComponent} from "./components/admin/cars/create/engines/engine/engine.component";
 import {EnginesComponent} from "./components/admin/cars/create/engines/engines.component";
-
+import {DropdownComponent} from "./components/shared/dropdown/dropdown.component";
+import {ServicesComponent} from "./components/admin/services/services.component";
+import {ServiceModalComponent} from "./components/admin/services/service-modal/service-modal.component";
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { NgbPaginationModule, NgbAlertModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 @NgModule({
 	declarations: [
 		AppComponent,
@@ -40,7 +44,6 @@ import {EnginesComponent} from "./components/admin/cars/create/engines/engines.c
 		ChangePasswordComponent,
 		RestoreComponent,
 		ConfirmationComponent,
-		CustomFileUploadComponent,
 
 		HeaderComponent,
 		FooterComponent,
@@ -54,7 +57,8 @@ import {EnginesComponent} from "./components/admin/cars/create/engines/engines.c
 		CarsComponent,
 		CreateCarComponent,
 		EnginesComponent,
-		EngineComponent
+		EngineComponent,
+		ServicesComponent
 	],
 	imports: [
 		BrowserModule,
@@ -64,7 +68,12 @@ import {EnginesComponent} from "./components/admin/cars/create/engines/engines.c
 		FormsModule,
 		ReactiveFormsModule,
 		NgOptimizedImage,
-		BreadcrumbComponent
+		BreadcrumbComponent,
+		DropdownComponent,
+		CustomFileUploadComponent,
+		ServiceModalComponent,
+		NgxDatatableModule,
+  NgbModule, NgbPaginationModule, NgbAlertModule
 	],
 	providers: [
 		{

@@ -15,6 +15,7 @@ import {CreateCarComponent} from "./components/admin/cars/create/create-car.comp
 import {CarsComponent} from "./components/admin/cars/cars.component";
 import {EngineComponent} from "./components/admin/cars/create/engines/engine/engine.component";
 import {EnginesComponent} from "./components/admin/cars/create/engines/engines.component";
+import {ServicesComponent} from "./components/admin/services/services.component";
 
 export const routes: Routes = [
 
@@ -38,6 +39,8 @@ export const routes: Routes = [
 	{ path: 'cars/:brand/:car/engines', component: EnginesComponent, canActivate: [AuthGuard] },
 	{ path: 'cars/:brand/:car/engines/create', component: EngineComponent, canActivate: [AuthGuard] },
 	{ path: 'cars/:brand/:car/engines/:engine', component: EngineComponent, canActivate: [AuthGuard] },
+
+	{ path: 'services', component: ServicesComponent, canActivate: [AuthGuard] },
 
 	//{ path: '', component: AppComponent },
 	{ path: '**', redirectTo: 'login' }

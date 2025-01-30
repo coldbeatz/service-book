@@ -9,7 +9,7 @@
 	<form class="m-auto" style="max-width: 400px;" [formGroup]="form" (ngSubmit)="onSubmit()">
 		<div class="mb-4">
 			<label for="brand" class="form-label text-muted">
-				{{ 'CREATE_BRAND_NAME' | translate }}
+				{{ 'CREATE_BRAND_NAME' | translate }} <small class="text-danger">*</small>
 			</label>
 
 			<input type="text" class="form-control" formControlName="brand"
@@ -61,7 +61,7 @@
 
 		<div class="mb-3">
 			<label class="form-label text-muted">
-				{{ 'CREATE_BRAND_IMAGE' | translate }}
+				{{ 'CREATE_BRAND_IMAGE' | translate }} <small class="text-danger">*</small>
 			</label>
 
 			<custom-file-upload-root (fileSelected)="onFileSelected($event)"></custom-file-upload-root>

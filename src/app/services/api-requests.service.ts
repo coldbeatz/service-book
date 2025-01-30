@@ -8,12 +8,31 @@ import { Brand } from "../models/brand.model";
 import { Country } from "../models/country.model";
 import {Car} from "../models/car.model";
 import {Engine} from "../models/engine.model";
+import {RegulationsMaintenance} from "../models/regulations-maintenance.model";
 
 @Injectable()
 export class ApiRequestsService {
 
+	private static readonly API_REGULATIONS_MAINTENANCE: string = `${environment.apiUrl}/admin/regulations_maintenance`;
+
 	constructor(private http: HttpClient, private cookieService: CookieService) {
 
+	}
+
+	public saveOrUpdateRegulationsMaintenance(maintenance: RegulationsMaintenance): Observable<RegulationsMaintenance> {
+		const requestBody = {
+			workDescriptionEn: maintenance.workDescription.en,
+			workDescriptionUa: maintenance.workDescription.ua,
+			interval: maintenance.interval,
+			specificMileage: maintenance.specificMileage,
+			useDefault: maintenance.useDefault,
+			transmissions: maintenance.transmissions,
+			fuelTypes: maintenance.fuelTypes
+		};
+
+		return maintenance.id
+			? this.http.put<RegulationsMaintenance>(`${ApiRequestsService.API_REGULATIONS_MAINTENANCE}/${maintenance.id}`, requestBody)
+			: this.http.post<RegulationsMaintenance>(ApiRequestsService.API_REGULATIONS_MAINTENANCE, requestBody);
 	}
 
 	public updateEngine(engine: Engine): Observable<Engine | any> {

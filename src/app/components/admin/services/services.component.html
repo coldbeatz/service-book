@@ -1,0 +1,38 @@
+<main-root>
+	<app-breadcrumb
+		[items]="[
+			{ label: 'BREADCRUMB_HOME' | translate, url: '/' },
+			{ label: 'Services' },
+	  	]"></app-breadcrumb>
+
+	<div class="flex-center">
+		<table class="table table-striped">
+			<thead>
+			<tr>
+				<th scope="col">#</th>
+				<th scope="col">Name</th>
+				<th scope="col">Price</th>
+			</tr>
+			</thead>
+			<tbody>
+				@for (product of products; track product.name) {
+					<tr>
+						<th scope="row">{{ product.id }}</th>
+						<td>
+							{{ product.name }}
+						</td>
+						<td>{{ product.price }}</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	</div>
+
+	<!-- Button trigger modal -->
+	<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#serviceModal">
+		Launch demo modal
+	</button>
+
+	<service-modal-root></service-modal-root>
+
+</main-root>

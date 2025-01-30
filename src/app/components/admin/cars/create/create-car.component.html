@@ -114,7 +114,7 @@
 				<div *ngIf="imagePreview" class="create-car__preview">
 					<img [src]="imagePreview" class="preview-img" alt="preview">
 
-					<a [routerLink]="['/cars', brand?.id, car?.id, 'engines']" class="btn btn-primary">
+					<a [routerLink]="['/cars', brand?.id, car.id, 'engines']" class="btn btn-primary" *ngIf="car">
 						Engines
 					</a>
 				</div>

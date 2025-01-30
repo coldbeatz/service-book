@@ -1,0 +1,25 @@
+<div class="dropdown text-center">
+	<button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+		<ng-container *ngIf="selectedItem; else defaultContent">
+			<ng-container *ngTemplateOutlet="itemTemplate; context: { $implicit: selectedItem }"></ng-container>
+		</ng-container>
+
+		<ng-template #defaultContent>
+			{{ placeholder }}
+		</ng-template>
+	</button>
+
+	<ul class="dropdown-menu">
+		<li *ngIf="firstItemText != null">
+			<a class="dropdown-item" (click)="selectItem(null)">
+				{{ firstItemText }}
+			</a>
+		</li>
+
+		<li *ngFor="let item of items">
+			<a class="dropdown-item" (click)="selectItem(item)">
+				<ng-container *ngTemplateOutlet="itemTemplate; context: { $implicit: item }"></ng-container>
+			</a>
+		</li>
+	</ul>
+</div>

@@ -6,41 +6,81 @@
 			{ label: this.brand?.brand || '' }
 	  	]"></app-breadcrumb>
 
-	<div class="flex-center">
-		<a [routerLink]="['/cars', this.brand?.id, 'create']" class="btn btn-primary flex-center" style="max-width: 200px;">
-			<i class="bi bi-car-front-fill"></i>
+	<div class="d-flex flex-no-wrap">
+		<div class="left-menu">
+			<div class="left-menu__item">
+				<a [routerLink]="['/cars', this.brand?.id, 'create']" class="btn btn-primary flex-center">
+					<i class="bi bi-car-front-fill"></i>
 
-			<span class="mx-3">
-				{{ 'CARS_ADD_CAR_BUTTON' | translate }}
-			</span>
-		</a>
-	</div>
+					<span class="mx-3">
+						{{ 'CARS_ADD_CAR_BUTTON' | translate }}
+					</span>
+				</a>
+			</div>
 
-	<div class="cards cars">
-		<ng-container *ngFor="let car of cars">
-			<div class="card cars__card">
-				<img src="{{ environment.resourcesUrl }}/{{car.imageResource.url}}"
-					 class="card-img-top" [alt]="car.model">
+			<div class="left-menu__item">
+				<label class="form-label text-muted">
+					Search
+				</label>
 
-				<div class="card-body">
-					<h5 class="card-title">{{ car.model }}</h5>
+				<div class="flex-center">
+					<div class="input-group me-2" style="min-width: 200px">
+						<input type="text" class="form-control" placeholder="Search" [(ngModel)]="searchTerm">
+					</div>
 
-					<p class="card-text">{{ car.startYear }} - {{ car.endYear || this.currentYear }}</p>
+					<button class="btn btn-primary" (click)="clearSearchInput()">
+						{{ 'BRANDS_CLEAR_SEARCH_INPUT_BUTTON' | translate }}
+					</button>
+				</div>
+			</div>
 
-					<div class="card-buttons mt-3">
-						<a [routerLink]="['/cars/', this.brand?.id, car.id]" class="btn btn-primary">
-							Change
-							<i class="bi bi-nut-fill"></i>
-						</a>
+			<hr>
 
-						<a [routerLink]="['/brands', 2]" class="btn-danger btn">
-							Delete
-							<i class="bi bi-trash-fill"></i>
-						</a>
+			<div class="left-menu__item">
+				<label class="form-label text-muted">
+					{{ 'CREATE_CAR_TRANSMISSIONS' | translate }}
+				</label>
+				<div class="transmissions">
+					<div *ngFor="let transmission of availableTransmissions; let i = index" class="form-check">
+						<input
+							class="form-check-input"
+							type="checkbox"
+							[id]="transmission"
+							(click)="onClickTransmission(transmission)">
+
+						<label class="form-check-label" [for]="transmission">
+							{{ 'TRANSMISSION_' + transmission | translate }}
+						</label>
 					</div>
 				</div>
 			</div>
-		</ng-container>
-	</div>
+		</div>
 
+		<div class="cards cars">
+			<ng-container *ngFor="let car of filteredCars">
+				<div class="card cars__card">
+					<img src="{{ environment.resourcesUrl }}/{{car.imageResource.url}}"
+						 class="card-img-top" [alt]="car.model">
+
+					<div class="card-body">
+						<h5 class="card-title">{{ car.model }}</h5>
+
+						<p class="card-text">{{ car.startYear }} - {{ car.endYear || this.currentYear }}</p>
+
+						<div class="card-buttons mt-3">
+							<a [routerLink]="['/cars/', this.brand?.id, car.id]" class="btn btn-primary">
+								Change
+								<i class="bi bi-nut-fill"></i>
+							</a>
+
+							<a [routerLink]="['/brands', 2]" class="btn-danger btn">
+								Delete
+								<i class="bi bi-trash-fill"></i>
+							</a>
+						</div>
+					</div>
+				</div>
+			</ng-container>
+		</div>
+	</div>
 </main-root>

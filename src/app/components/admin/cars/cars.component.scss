@@ -1,6 +1,11 @@
 .cars {
+	max-width: 960px !important;
+	margin: 0 50px !important;
+	margin-bottom: 20px !important;
+
 	.cars__card {
 		max-width: 300px;
+		height: max-content;
 
 		.card-buttons .btn {
 			width: 100%;
@@ -10,4 +15,20 @@
 			gap: 10px;
 		}
 	}
+}
+
+.left-menu {
+	background: rgba(255, 255, 255, 0.8);
+	padding: 20px;
+	height: 100%;
+
+	&__item {
+		margin-bottom: 20px;
+	}
+}
+
+.transmissions {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	grid-gap: 10px;
 }

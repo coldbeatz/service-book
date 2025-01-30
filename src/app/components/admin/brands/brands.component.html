@@ -16,42 +16,23 @@
 	</div>
 
 	<div class="mt-4 buttons-group">
-		<div class="dropdown text-center dropdown-country">
-			<button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-				<ng-container *ngIf="selectedCountry; else defaultContent">
-					<img [src]="environment.resourcesUrl + '/' + selectedCountry.iconResource.url"
-						 [alt]="selectedCountry.name.en"
-						 [width]="20"
-						 [height]="20"
-						 class="me-2">
+		<app-dropdown
+			[items]="countries"
+			[selectedItem]="selectedCountry"
+			[firstItemText]="('BRANDS_DROPDOWN_SELECT_COUNTRY_ALL' | translate) + ' (' + (getBrandsCountByCountry(selectedCountry)) + ')'"
+			placeholder="{{ 'BRANDS_DROPDOWN_SELECT_COUNTRY' | translate }}"
+			(itemSelected)="selectCountry($event)"
+			[itemTemplate]="countryTemplate">
+		</app-dropdown>
 
-					{{ selectedCountry.name.en }} ({{ getBrandsCountByCountry(selectedCountry) }})
-				</ng-container>
-
-				<ng-template #defaultContent>
-					{{ 'BRANDS_DROPDOWN_SELECT_COUNTRY' | translate }}
-				</ng-template>
-			</button>
-
-			<ul class="dropdown-menu">
-				<li>
-					<a class="dropdown-item" (click)="selectCountry(null)">
-						{{ 'BRANDS_DROPDOWN_SELECT_COUNTRY_ALL' | translate }} ({{ getBrandsCountByCountry(selectedCountry) }})
-					</a>
-				</li>
-
-				<li *ngFor="let country of countries">
-					<a class="dropdown-item" (click)="selectCountry(country)">
-						<img src="{{ environment.resourcesUrl }}/{{country.iconResource.url}}"
-							 [alt]="country.name.en" class="me-2"
-							 [width]="20"
-							 [height]="20">
-
-						{{ country.name.en }} ({{ getBrandsCountByCountry(country) }})
-					</a>
-				</li>
-			</ul>
-		</div>
+		<ng-template #countryTemplate let-country>
+			<img [src]="environment.resourcesUrl + '/' + country.iconResource.url"
+				 [alt]="country.name.en"
+				 [width]="20"
+				 [height]="20"
+				 class="me-2">
+			{{ country.name.en }} ({{ getBrandsCountByCountry(country) }})
+		</ng-template>
 
 		<div class="flex-center">
 			<div class="input-group me-2" style="min-width: 250px">
