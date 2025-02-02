@@ -12,6 +12,9 @@ import { AuthInterceptor } from "./services/auth.interceptor";
 import { providePrimeNG } from "primeng/config";
 
 import Aura from '@primeng/themes/aura';
+import Lara from '@primeng/themes/lara';
+import Nora from '@primeng/themes/nora';
+import { MessageService } from "primeng/api";
 
 export function HttpLoaderFactory(http: HttpClient) {
 	return new TranslateHttpLoader(http, '/assets/i18n/', '.json');
@@ -45,6 +48,7 @@ export const appConfig: ApplicationConfig = {
 			theme: {
 				preset: Aura
 			}
-		})
+		}),
+		MessageService
 	]
 };

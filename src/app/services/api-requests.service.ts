@@ -21,16 +21,12 @@ export class ApiRequestsService {
 
 	}
 
+	public getRegulationsMaintenance(): Observable<RegulationsMaintenance[]> {
+		return this.http.get<RegulationsMaintenance[]>(`${ApiRequestsService.API_REGULATIONS_MAINTENANCE}`);
+	}
+
 	public saveOrUpdateRegulationsMaintenance(maintenance: RegulationsMaintenance): Observable<RegulationsMaintenance> {
-		const requestBody = {
-			workDescriptionEn: maintenance.workDescription.en,
-			workDescriptionUa: maintenance.workDescription.ua,
-			interval: maintenance.interval,
-			specificMileage: maintenance.specificMileage,
-			useDefault: maintenance.useDefault,
-			transmissions: maintenance.transmissions,
-			fuelTypes: maintenance.fuelTypes
-		};
+		const requestBody = maintenance;
 
 		return maintenance.id
 			? this.http.put<RegulationsMaintenance>(`${ApiRequestsService.API_REGULATIONS_MAINTENANCE}/${maintenance.id}`, requestBody)

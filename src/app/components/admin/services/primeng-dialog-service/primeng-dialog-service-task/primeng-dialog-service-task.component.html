@@ -1,0 +1,74 @@
+<div>
+	<div class="row mb-4">
+		<div class="col-md-6 col-12">
+			<label class="form-label text-muted">
+				{{ 'SERVICE_MODAL_INPUT_INTERVAL' | translate }}
+			</label>
+
+			<p-inputnumber
+				[(ngModel)]="task.interval"
+				[showButtons]="true"
+				buttonLayout="horizontal"
+				inputId="interval"
+				spinnerMode="horizontal"
+				[step]="1000"
+				[min]="0"
+				mode="decimal"
+				class="w-100">
+
+				<ng-template #incrementbuttonicon>
+					<span class="pi pi-plus"></span>
+				</ng-template>
+
+				<ng-template #decrementbuttonicon>
+					<span class="pi pi-minus"></span>
+				</ng-template>
+			</p-inputnumber>
+
+			<small class="form-text">
+				{{ 'SERVICE_MODAL_INPUT_INTERVAL_HELP' | translate }}
+			</small>
+		</div>
+
+		<div class="col-md-6 col-12">
+			<label class="form-label text-muted">
+				{{ 'SERVICE_MODAL_INPUT_SPECIFIC_MILEAGE' | translate }}
+			</label>
+
+			<p-inputnumber
+				[(ngModel)]="task.specificMileage"
+				[showButtons]="true"
+				buttonLayout="horizontal"
+				inputId="mileage"
+				spinnerMode="horizontal"
+				[step]="1000"
+				[min]="0"
+				mode="decimal"
+				class="w-100">
+
+				<ng-template #incrementbuttonicon>
+					<span class="pi pi-plus"></span>
+				</ng-template>
+
+				<ng-template #decrementbuttonicon>
+					<span class="pi pi-minus"></span>
+				</ng-template>
+			</p-inputnumber>
+
+			<small class="form-text">
+				{{ 'SERVICE_MODAL_INPUT_SPECIFIC_MILEAGE_HELP' | translate }}
+			</small>
+		</div>
+	</div>
+
+	<div class="d-flex flex-column mb-4">
+		<p-selectbutton
+			[(ngModel)]="task.workType"
+			[options]="stateOptions"
+			optionLabel="label"
+			optionValue="value"
+			class="m-auto"
+			aria-labelledby="basic">
+		</p-selectbutton>
+	</div>
+</div>

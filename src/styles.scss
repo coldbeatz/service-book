@@ -1,3 +1,4 @@
+@import "primeicons/primeicons.css";
 
 input[type="checkbox"],
 input[type="checkbox"]+label {
@@ -154,5 +155,6 @@ select,
 	grid-gap: 10px;
 }
 
-/* Importing Bootstrap SCSS file. */
-//@import 'bootstrap/scss/bootstrap';
+.p-inputnumber-input {
+	z-index: 100;
+}
