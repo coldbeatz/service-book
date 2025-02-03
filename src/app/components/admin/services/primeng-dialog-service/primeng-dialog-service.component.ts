@@ -17,6 +17,7 @@ import { PrimengDialogServiceTaskComponent } from "./primeng-dialog-service-task
 import { CarTransmissionType } from "../../../../models/car-transmission-type.model";
 import { FuelType } from "../../../../models/fuel-type.model";
 import { RegulationsMaintenanceTask } from "../../../../models/regulations-maintenance-task.model";
+import { cloneDeep } from "lodash";
 
 @Component({
 	selector: 'primeng-dialog-service-root',
@@ -51,7 +52,8 @@ export class PrimengDialogServiceComponent implements OnInit {
 	@Input()
 	set maintenance(value: RegulationsMaintenance | null) {
 		if (value) {
-			this._maintenance = value;
+			// Клонуємо, щоб під час редагування об'єкта не змінювались дані в таблиці без збереження
+			this._maintenance = cloneDeep(value);
 
 			if (this.maintenance.tasks.length === 0) {
 				this.addTask();
