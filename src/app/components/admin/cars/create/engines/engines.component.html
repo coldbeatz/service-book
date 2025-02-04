@@ -1,12 +1,5 @@
 <main-root>
-	<app-breadcrumb
-		[items]="[
-			{ label: 'BREADCRUMB_HOME' | translate, url: '/' },
-			{ label: 'BREADCRUMB_BRANDS' | translate, url: '/brands' },
-			{ label: car?.brand?.brand || '', url: '/cars/' + car?.brand?.id },
-			{ label: car?.model || 'BREADCRUMB_CREATE_CAR' | translate, url: '/cars/' + car?.brand?.id + '/' + car?.id },
-			{ label: 'BREADCRUMB_CAR_ENGINES' | translate }
-	  	]"></app-breadcrumb>
+	<app-breadcrumb [car]="car"></app-breadcrumb>
 
 	<div class="flex-center">
 		<a [routerLink]="['/cars', car?.brand?.id, car?.id, 'engines', 'create']" class="btn btn-primary flex-center" style="max-width: 200px;">

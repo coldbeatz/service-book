@@ -1,16 +1,21 @@
-<div class="breadcrumb-container">
+<div class="breadcrumb-container" *ngIf="items.length > 1">
 	<nav aria-label="breadcrumb">
 		<ol class="breadcrumb">
-			<li *ngFor="let item of items; let isLast = last" class="breadcrumb-item"
+			<li *ngFor="let item of items; let index = index; let isLast = last"
+				class="breadcrumb-item"
 				[class.active]="isLast"
 				[attr.aria-current]="isLast ? 'page' : null">
 
-				<ng-container *ngIf="!isLast">
-					<a [routerLink]="item.url">{{ item.label }}</a>
-				</ng-container>
+				<ng-container *ngIf="item.label">
+					<ng-container *ngIf="!isLast">
+						<a [routerLink]="getFullUrl(index)">
+							{{ (item.label | translate) || item.label }}
+						</a>
+					</ng-container>
 
-				<ng-container *ngIf="isLast">
-					{{ item.label }}
+					<ng-container *ngIf="isLast">
+						{{ (item.label | translate) || item.label }}
+					</ng-container>
 				</ng-container>
 			</li>
 		</ol>

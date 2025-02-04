@@ -1,11 +1,5 @@
 <main-root>
-	<app-breadcrumb
-		[items]="[
-			{ label: 'BREADCRUMB_HOME' | translate, url: '/' },
-			{ label: 'BREADCRUMB_BRANDS' | translate, url: '/brands' },
-			{ label: brand?.brand || '', url: '/cars/' + brand?.id },
-			{ label: car?.model || 'BREADCRUMB_CREATE_CAR' | translate }
-	  	]"></app-breadcrumb>
+	<app-breadcrumb [brand]="brand" [car]="car"></app-breadcrumb>
 
 	<div class="create-car-container">
 		<alert-root text="{{ 'EDIT_BRAND_SUCCESS' | translate }}" *ngIf="success"></alert-root>
@@ -101,11 +95,11 @@
 							<input
 								class="form-check-input"
 								type="checkbox"
-								[formControlName]="transmission"
-								[id]="transmission">
+								[formControlName]="transmission.value"
+								[id]="transmission.value">
 
-							<label class="form-check-label" [for]="transmission">
-								{{ 'TRANSMISSION_' + transmission | translate }}
+							<label class="form-check-label no-select" [for]="transmission.value">
+								{{ transmission.label }}
 							</label>
 						</div>
 					</div>

@@ -1,6 +1,7 @@
 import { Brand } from "./brand.model";
 import { Resource } from "./resource.model";
 import { Engine } from "./engine.model";
+import { CarTransmissionType } from "./car-transmission-type.model";
 
 export interface Car {
 	id: number;
@@ -11,6 +12,6 @@ export interface Car {
 	imageResource: Resource;
 	createdAt: Date | null;
 	updatedAt: Date | null;
-	transmissions: string[];
+	transmissions: CarTransmissionType[];
 	engines: Engine[];
 }

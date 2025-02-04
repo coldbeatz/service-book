@@ -1,14 +1,8 @@
 <main-root>
-	<app-breadcrumb
-		[items]="[
-			{ label: 'BREADCRUMB_HOME' | translate, url: '/' },
-			{ label: 'BREADCRUMB_BRANDS' | translate, url: '/brands' },
-			{ label: (brand.id && brand.id != 0 ? 'BREADCRUMB_CHANGE_BRAND' : 'BREADCRUMB_CREATE_BRAND') | translate }
-	  	]"></app-breadcrumb>
+	<app-breadcrumb [brand]="brand"></app-breadcrumb>
 
 	<form class="m-auto" style="max-width: 400px;" (ngSubmit)="onSubmit()">
 		<alert-root text="{{ 'EDIT_BRAND_SUCCESS' | translate }}" *ngIf="success"></alert-root>
-		<alert-root text="{{ errorMessage }}" type="danger" *ngIf="errorMessage"></alert-root>
 
 		<div class="mb-4">
 			<label for="brand" class="form-label text-muted">
@@ -18,7 +12,14 @@
 			<input type="text" class="form-control"
 				   [(ngModel)]="brand.brand"
 				   name="brandName"
+				   [class.is-invalid]="this.errorCode === 'car_brand_not_unique'"
 				   placeholder="{{ 'CREATE_BRAND_NAME_INPUT_PLACEHOLDER' | translate }}" id="brand">
+
+			<div *ngIf="this.errorCode === 'car_brand_not_unique'" class="invalid-feedback">
+				<span>
+					{{ 'BRAND_EXCEPTION_NOT_UNIQUE' | translate }}
+				</span>
+			</div>
 		</div>
 
 		<div class="mb-4">

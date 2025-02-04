@@ -128,7 +128,7 @@ export class ApiRequestsService {
 		}
 
 		car.transmissions.forEach(transmission => {
-			formData.append('transmissions', transmission);
+			formData.append('transmissions', transmission.toString());
 		});
 
 		return this.http.post<any>(`${environment.apiUrl}/admin/cars/${car.brand.id}/${car.id}`, formData);

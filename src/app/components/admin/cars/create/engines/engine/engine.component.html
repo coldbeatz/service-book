@@ -1,13 +1,5 @@
 <main-root>
-	<app-breadcrumb
-		[items]="[
-			{ label: 'BREADCRUMB_HOME' | translate, url: '/' },
-			{ label: 'BREADCRUMB_BRANDS' | translate, url: '/brands' },
-			{ label: car?.brand?.brand || '', url: '/cars/' + car?.brand?.id },
-			{ label: car?.model || 'BREADCRUMB_CREATE_CAR' | translate, url: '/cars/' + car?.brand?.id + '/' + car?.id },
-			{ label: 'BREADCRUMB_CAR_ENGINES' | translate, url: '/cars/' + car?.brand?.id + '/' + car?.id + '/engines' },
-			{ label: (engine != null ? 'BREADCRUMB_CHANGE_ENGINE' : 'BREADCRUMB_CREATE_ENGINE') | translate }
-	  	]"></app-breadcrumb>
+	<app-breadcrumb [engine]="engine" [car]="car"></app-breadcrumb>
 
 	<div class="create-car-container">
 		<form [formGroup]="form" (ngSubmit)="onSubmit()" class="create-car__form">

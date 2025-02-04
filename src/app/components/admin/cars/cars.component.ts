@@ -8,8 +8,9 @@ import { Car } from "../../../models/car.model";
 import { MainComponent } from "../../internal/main/main.component";
 import { BreadcrumbComponent } from "../../internal/breadcrumb/breadcrumb.component";
 import { NgForOf } from "@angular/common";
-import { TranslateModule } from "@ngx-translate/core";
+import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { FormsModule } from "@angular/forms";
+import { CarTransmissionType } from "../../../models/car-transmission-type.model";
 
 @Component({
 	selector: 'cars-root',
@@ -33,8 +34,9 @@ export class CarsComponent implements OnInit {
 
 	currentYear: number;
 
-	availableTransmissions: string[] = [];
-	selectedTransmissions: string[] = [];
+	availableTransmissions: { value: CarTransmissionType; label: string } [] = [];
+
+	selectedTransmissions: CarTransmissionType[] = [];
 
 	/**
 	 * Текст для пошуку
@@ -46,9 +48,24 @@ export class CarsComponent implements OnInit {
 	@Input() id!: string;
 
 	constructor(private apiRequestsService: ApiRequestsService,
-				private navigationService: NavigationService) {
+				private navigationService: NavigationService,
+				private translateService: TranslateService) {
 
 		this.currentYear = new Date().getFullYear();
+	}
+
+	private initAvailableTransmissions(): void {
+		const enumKeys = Object.keys(CarTransmissionType)
+			.filter(key => isNaN(Number(key)) && key !== "OTHER");
+
+		const translationKeys = enumKeys.map(key => `TRANSMISSION_${key}`);
+
+		this.translateService.get(translationKeys).subscribe((translations: { [key: string]: string }) => {
+			this.availableTransmissions = enumKeys.map(key => ({
+				value: CarTransmissionType[key as keyof typeof CarTransmissionType],
+				label: translations[`TRANSMISSION_${key}`]
+			}));
+		});
 	}
 
 	ngOnInit(): void {
@@ -69,11 +86,7 @@ export class CarsComponent implements OnInit {
 			}
 		});
 
-		this.apiRequestsService.getTransmissions().subscribe({
-			next: (transmissions) => {
-				this.availableTransmissions = transmissions;
-			}
-		});
+		this.initAvailableTransmissions();
 	}
 
 	get filteredCars() {
@@ -97,7 +110,7 @@ export class CarsComponent implements OnInit {
 		this.searchTerm = '';
 	}
 
-	onClickTransmission(transmission: string) {
+	onClickTransmission(transmission: CarTransmissionType) {
 		if (this.selectedTransmissions.includes(transmission)) {
 			this.selectedTransmissions = this.selectedTransmissions.filter(t => t !== transmission);
 		} else {

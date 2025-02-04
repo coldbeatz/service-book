@@ -11,7 +11,8 @@ import { NgForOf, NgIf } from "@angular/common";
 import { MainComponent } from "../../../internal/main/main.component";
 import { AlertComponent } from "../../../internal/alert/alert.component";
 import { CustomFileUploadComponent } from "../../../shared/custom-file-upload/custom-file-upload.component";
-import { TranslateModule } from "@ngx-translate/core";
+import { TranslateModule, TranslateService } from "@ngx-translate/core";
+import { CarTransmissionType } from "../../../../models/car-transmission-type.model";
 
 @Component({
 	selector: 'create-car-root',
@@ -43,14 +44,15 @@ export class CreateCarComponent implements OnInit {
 	selectedFile: File | null = null;
 	imagePreview: string | null = null;
 
-	availableTransmissions: string[] = [];
+	availableTransmissions: { value: CarTransmissionType; label: string } [] = [];
 
 	success: boolean = false;
 
 	constructor(private apiRequestsService: ApiRequestsService,
 				private fb: FormBuilder,
 				private navigationService: NavigationService,
-				private route: ActivatedRoute) {
+				private route: ActivatedRoute,
+				private translate: TranslateService) {
 
 		this.currentYear = new Date().getFullYear();
 
@@ -69,6 +71,27 @@ export class CreateCarComponent implements OnInit {
 		});
 	}
 
+	private initAvailableTransmissions(): void {
+		const enumKeys = Object.keys(CarTransmissionType)
+			.filter(key => isNaN(Number(key)) && key !== "OTHER");
+
+		const translationKeys = enumKeys.map(key => `TRANSMISSION_${key}`);
+
+		this.translate.get(translationKeys).subscribe((translations: { [key: string]: string }) => {
+			this.availableTransmissions = enumKeys.map(key => ({
+				value: CarTransmissionType[key as keyof typeof CarTransmissionType],
+				label: translations[`TRANSMISSION_${key}`]
+			}));
+
+			const formGroupConfig: { [key: string]: boolean } = {};
+			this.availableTransmissions.forEach((transmission) => {
+				formGroupConfig[transmission.value] = false;
+			});
+
+			this.form.setControl('transmissions', this.fb.group(formGroupConfig));
+		});
+	}
+
 	ngOnInit(): void {
 		let id = this.route.snapshot.paramMap.get('id');
 
@@ -83,20 +106,8 @@ export class CreateCarComponent implements OnInit {
 			}
 		});
 
-		this.apiRequestsService.getTransmissions().subscribe({
-			next: (transmissions) => {
-				this.availableTransmissions = transmissions;
-
-				const formGroupConfig: { [key: string]: boolean } = {};
-				transmissions.forEach((transmission) => {
-					formGroupConfig[transmission] = false;
-				});
-
-				this.form.setControl('transmissions', this.fb.group(formGroupConfig));
-
-				this.initCar();
-			}
-		});
+		this.initAvailableTransmissions();
+		this.initCar();
 	}
 
 	initCar() {
@@ -144,9 +155,11 @@ export class CreateCarComponent implements OnInit {
 		}
 	}
 
-	getSelectedTransmissions(): string[] {
+	getSelectedTransmissions(): CarTransmissionType[] {
 		const transmissions = this.form.get('transmissions')?.value || {};
-		return Object.keys(transmissions).filter((key) => transmissions[key]);
+
+		return Object.keys(transmissions)
+			.filter((key) => transmissions[key]) as unknown as CarTransmissionType[];
 	}
 
 	onSubmit() {
@@ -174,7 +187,9 @@ export class CreateCarComponent implements OnInit {
 			if (this.selectedFile == null)
 				return;
 
-			this.apiRequestsService.createCar(this.brand, data.model, data.startYear, data.endYear,
+			console.log(transmissions);
+
+			/*this.apiRequestsService.createCar(this.brand, data.model, data.startYear, data.endYear,
 											  this.selectedFile, transmissions).subscribe({
 				next: (car) => {
 					this.navigationService.navigate([`/cars/${this.brand?.id}/${car?.id}`]);
@@ -182,7 +197,7 @@ export class CreateCarComponent implements OnInit {
 				error: (e) => {
 					console.log(e);
 				}
-			});
+			});*/
 		}
 
 

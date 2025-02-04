@@ -46,8 +46,6 @@ export class EnginesComponent implements OnInit {
 			next: (car) => {
 				if (car == null) return;
 				this.car = car;
-
-				console.log(car);
 			}
 		});
 	}

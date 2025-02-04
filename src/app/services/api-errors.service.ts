@@ -22,9 +22,6 @@ export class ApiErrorsService {
 			email_not_registered: 'RESTORE_ERROR_EMAIL_NOT_REGISTERED',
 			error_send_mail: 'SEND_MAIL_ERROR'
 		},
-		brand: {
-			car_brand_not_unique: 'BRAND_EXCEPTION_NOT_UNIQUE'
-		},
 		login: {
 			incorrect_login_or_password: 'LOGIN_ERROR_INCORRECT_DATA'
 		}

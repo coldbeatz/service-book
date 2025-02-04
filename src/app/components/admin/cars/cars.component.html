@@ -1,10 +1,5 @@
 <main-root>
-	<app-breadcrumb
-		[items]="[
-			{ label: 'BREADCRUMB_HOME' | translate, url: '/' },
-			{ label: 'BREADCRUMB_BRANDS' | translate, url: '/brands' },
-			{ label: this.brand?.brand || '' }
-	  	]"></app-breadcrumb>
+	<app-breadcrumb [brand]="brand"></app-breadcrumb>
 
 	<div class="d-flex flex-no-wrap">
 		<div class="left-menu">
@@ -45,11 +40,11 @@
 						<input
 							class="form-check-input"
 							type="checkbox"
-							[id]="transmission"
-							(click)="onClickTransmission(transmission)">
+							[id]="transmission.value"
+							(click)="onClickTransmission(transmission.value)">
 
-						<label class="form-check-label" [for]="transmission">
-							{{ 'TRANSMISSION_' + transmission | translate }}
+						<label class="form-check-label no-select" [for]="transmission.value">
+							{{ transmission.label }}
 						</label>
 					</div>
 				</div>

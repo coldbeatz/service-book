@@ -11,7 +11,6 @@ import { CustomFileUploadComponent } from "../../../shared/custom-file-upload/cu
 import { TranslateModule } from "@ngx-translate/core";
 import { Brand } from "../../../../models/brand.model";
 import { AlertComponent } from "../../../internal/alert/alert.component";
-import { ApiErrorsService } from "../../../../services/api-errors.service";
 import { ActivatedRoute } from "@angular/router";
 
 @Component({
@@ -40,13 +39,12 @@ export class BrandComponent implements OnInit {
 
 	success: boolean = false;
 
-	errorMessage: string | null = null;
+	errorCode: string | null = null;
 
 	@Input() brand!: Brand;
 
 	constructor(private apiRequestsService: ApiRequestsService,
 				private navigationService: NavigationService,
-				private apiErrorsService: ApiErrorsService,
 				private route: ActivatedRoute) {
 
 	}
@@ -110,7 +108,7 @@ export class BrandComponent implements OnInit {
 
 		this.apiRequestsService.saveOrUpdateBrand(this.brand, this.selectedFile).subscribe({
 			next: (brand) => {
-				this.errorMessage = null;
+				this.errorCode = null;
 
 				const isNewBrand = this.brand.id == 0;
 
@@ -123,13 +121,13 @@ export class BrandComponent implements OnInit {
 				}
 			},
 			error: (e) => {
-				this.errorMessage = null;
+				this.errorCode = null;
 				this.success = false;
 
 				if (e.error.code == 'car_brand_not_found') {
 					this.navigationService.navigate(['brands']);
 				} else {
-					this.errorMessage = this.apiErrorsService.getMessage('brand', e.error);
+					this.errorCode = e.error;
 				}
 			}
 		});
