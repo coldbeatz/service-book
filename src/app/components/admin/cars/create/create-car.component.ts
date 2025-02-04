@@ -78,7 +78,7 @@ export class CreateCarComponent implements OnInit {
 			},
 			error: (e) => {
 				if (e.error.code == 'car_brand_not_found') {
-					this.navigationService.navigate('brands');
+					this.navigationService.navigate(['brands']);
 				}
 			}
 		});
@@ -177,7 +177,7 @@ export class CreateCarComponent implements OnInit {
 			this.apiRequestsService.createCar(this.brand, data.model, data.startYear, data.endYear,
 											  this.selectedFile, transmissions).subscribe({
 				next: (car) => {
-					this.navigationService.navigate(`/cars/${this.brand?.id}/${car?.id}`);
+					this.navigationService.navigate([`/cars/${this.brand?.id}/${car?.id}`]);
 				},
 				error: (e) => {
 					console.log(e);

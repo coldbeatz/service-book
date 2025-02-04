@@ -64,7 +64,7 @@ export class CarsComponent implements OnInit {
 			},
 			error: (e) => {
 				if (e.error.code == 'car_brand_not_found') {
-					this.navigationService.navigate('brands');
+					this.navigationService.navigate(['brands']);
 				}
 			}
 		});

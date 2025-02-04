@@ -11,6 +11,8 @@ export class AlertComponent {
 
 	@Input() text!: string;
 
+	@Input() type: 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark' = 'success';
+
 	getFormattedText(): string {
 		const words = this.text.split(' ');
 		if (words.length > 0) {

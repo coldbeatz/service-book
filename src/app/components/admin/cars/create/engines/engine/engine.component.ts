@@ -102,14 +102,14 @@ export class EngineComponent implements OnInit {
 
 			this.apiRequestsService.updateEngine(this.engine).subscribe({
 				next: (engine) => {
-					this.navigationService.navigate(`/cars/${this.car?.brand?.id}/${this.car?.id}/engines`);
+					this.navigationService.navigate([`/cars/${this.car?.brand?.id}/${this.car?.id}/engines`]);
 				}
 			});
 		} else {
 			this.apiRequestsService.createEngine(this.car, data.name, data.displacement, data.fuelType,
 												 data.horsepower).subscribe({
 				next: (engine) => {
-					this.navigationService.navigate(`/cars/${this.car?.brand?.id}/${this.car?.id}/engines`);
+					this.navigationService.navigate([`/cars/${this.car?.brand?.id}/${this.car?.id}/engines`]);
 				}
 			});
 		}

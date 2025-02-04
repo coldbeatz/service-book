@@ -1,13 +1,11 @@
 import { Component, Input, Output, EventEmitter, TemplateRef } from '@angular/core';
-import { NgForOf, NgIf, NgTemplateOutlet } from "@angular/common";
+import { CommonModule } from "@angular/common";
 
 @Component({
 	selector: 'app-dropdown',
 	templateUrl: 'dropdown.component.html',
 	imports: [
-		NgIf,
-		NgTemplateOutlet,
-		NgForOf
+		CommonModule
 	],
 	standalone: true,
 	styleUrls: ['dropdown.component.scss']

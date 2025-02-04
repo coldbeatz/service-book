@@ -16,7 +16,7 @@ export class GuestGuard implements CanActivate {
 		const authenticated = await this.authService.isAuthenticated();
 
 		if (authenticated) {
-			this.navigationService.navigate('brands');
+			this.navigationService.navigate(['brands']);
 			return false;
 		}
 

@@ -1,6 +1,5 @@
-import { RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 import { LoginComponent } from "./components/login/login.component";
-import { NgModule } from "@angular/core";
 import { RegistrationComponent } from "./components/registration/registration.component";
 import { RestoreComponent } from "./components/restore/restore.component";
 import { ConfirmationComponent } from "./components/confirmation/confirmation.component";
@@ -9,13 +8,12 @@ import { MainComponent } from "./components/internal/main/main.component";
 import { BrandsComponent} from "./components/admin/brands/brands.component";
 import { AuthGuard } from "./guards/auth.guard";
 import { GuestGuard } from "./guards/guest.guard";
-import { CreateBrandComponent } from "./components/admin/brands/create/create-brand.component";
-import {EditBrandComponent} from "./components/admin/brands/edit/edit-brand.component";
-import {CreateCarComponent} from "./components/admin/cars/create/create-car.component";
-import {CarsComponent} from "./components/admin/cars/cars.component";
-import {EngineComponent} from "./components/admin/cars/create/engines/engine/engine.component";
-import {EnginesComponent} from "./components/admin/cars/create/engines/engines.component";
-import {ServicesComponent} from "./components/admin/services/services.component";
+import { CreateCarComponent } from "./components/admin/cars/create/create-car.component";
+import { CarsComponent } from "./components/admin/cars/cars.component";
+import { EngineComponent } from "./components/admin/cars/create/engines/engine/engine.component";
+import { EnginesComponent } from "./components/admin/cars/create/engines/engines.component";
+import { ServicesComponent } from "./components/admin/services/services.component";
+import { BrandComponent } from "./components/admin/brands/brand/brand.component";
 
 export const routes: Routes = [
 
@@ -29,8 +27,8 @@ export const routes: Routes = [
 	{ path: 'test', component: MainComponent, canActivate: [AuthGuard] },
 
 	{ path: 'brands', component: BrandsComponent, canActivate: [AuthGuard] },
-	{ path: 'brands/create', component: CreateBrandComponent, canActivate: [AuthGuard] },
-	{ path: 'brands/:id', component: EditBrandComponent, canActivate: [AuthGuard] },
+	{ path: 'brands/create', component: BrandComponent, canActivate: [AuthGuard] },
+	{ path: 'brands/:id', component: BrandComponent, canActivate: [AuthGuard] },
 
 	{ path: 'cars/:id', component: CarsComponent, canActivate: [AuthGuard] },
 	{ path: 'cars/:id/create', component: CreateCarComponent, canActivate: [AuthGuard] },

@@ -61,6 +61,7 @@
 	"CREATE_BRAND_COUNTRY": "Brand country",
 	"CREATE_BRAND_IMAGE": "Brand image",
 	"CREATE_BRAND_SUBMIT_BUTTON": "Create brand",
+	"BRAND_EXCEPTION_NOT_UNIQUE": "Car brand not unique",
 
 	"EDIT_BRAND_SUBMIT_BUTTON": "Save changes",
 	"EDIT_BRAND_SUCCESS": "Changes saved successfully",

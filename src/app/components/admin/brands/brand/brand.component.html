@@ -3,16 +3,21 @@
 		[items]="[
 			{ label: 'BREADCRUMB_HOME' | translate, url: '/' },
 			{ label: 'BREADCRUMB_BRANDS' | translate, url: '/brands' },
-			{ label: 'BREADCRUMB_CREATE_BRAND' | translate }
+			{ label: (brand.id && brand.id != 0 ? 'BREADCRUMB_CHANGE_BRAND' : 'BREADCRUMB_CREATE_BRAND') | translate }
 	  	]"></app-breadcrumb>
 
-	<form class="m-auto" style="max-width: 400px;" [formGroup]="form" (ngSubmit)="onSubmit()">
+	<form class="m-auto" style="max-width: 400px;" (ngSubmit)="onSubmit()">
+		<alert-root text="{{ 'EDIT_BRAND_SUCCESS' | translate }}" *ngIf="success"></alert-root>
+		<alert-root text="{{ errorMessage }}" type="danger" *ngIf="errorMessage"></alert-root>
+
 		<div class="mb-4">
 			<label for="brand" class="form-label text-muted">
 				{{ 'CREATE_BRAND_NAME' | translate }} <small class="text-danger">*</small>
 			</label>
 
-			<input type="text" class="form-control" formControlName="brand"
+			<input type="text" class="form-control"
+				   [(ngModel)]="brand.brand"
+				   name="brandName"
 				   placeholder="{{ 'CREATE_BRAND_NAME_INPUT_PLACEHOLDER' | translate }}" id="brand">
 		</div>
 
@@ -23,14 +28,14 @@
 
 			<div class="dropdown text-center dropdown-country" id="dropdown">
 				<button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-					<ng-container *ngIf="selectedCountry; else defaultContent">
-						<img [src]="environment.resourcesUrl + '/' + selectedCountry.iconResource.url"
-							 [alt]="selectedCountry.name.en"
+					<ng-container *ngIf="brand.country; else defaultContent">
+						<img [src]="environment.resourcesUrl + '/' + brand.country.iconResource.url"
+							 [alt]="brand.country.name.en"
 							 [width]="20"
 							 [height]="20"
 							 class="me-2">
 
-						{{ selectedCountry.name.en }}
+						{{ brand.country.name.en }}
 					</ng-container>
 
 					<ng-template #defaultContent>
@@ -40,13 +45,13 @@
 
 				<ul class="dropdown-menu scrollable-menu">
 					<li>
-						<a class="dropdown-item" (click)="selectCountry(null)">
+						<a class="dropdown-item" (click)="brand.country = null">
 							{{ 'CREATE_BRAND_DROPDOWN_SELECT_COUNTRY_UNDEFINED' | translate }}
 						</a>
 					</li>
 
 					<li *ngFor="let country of countries">
-						<a class="dropdown-item" (click)="selectCountry(country)">
+						<a class="dropdown-item" (click)="brand.country = country">
 							<img src="{{ environment.resourcesUrl }}/{{country.iconResource.url}}"
 								 [alt]="country.name.en" class="me-2"
 								 [width]="20"
@@ -73,10 +78,10 @@
 
 		<div class="flex-center">
 			<button type="submit" class="btn btn-primary flex-center mt-4" style="max-width: 300px;"
-					[disabled]="form.invalid || imagePreview === null">
+					[disabled]="!brand.brand || !imagePreview">
 
 				<span class="mx-3">
-					{{ 'CREATE_BRAND_SUBMIT_BUTTON' | translate }}
+					{{ (brand.id && brand.id != 0 ? 'EDIT_BRAND_SUBMIT_BUTTON' : 'CREATE_BRAND_SUBMIT_BUTTON') | translate }}
 				</span>
 			</button>
 		</div>

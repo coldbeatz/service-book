@@ -42,7 +42,7 @@ export class AuthService {
 
 		this.isLoggedIn = true;
 
-		this.navigationService.navigate('brands');
+		this.navigationService.navigate(['brands']);
 	}
 
 	public logout(): void {
@@ -51,7 +51,7 @@ export class AuthService {
 
 		this.isLoggedIn = false;
 
-		this.navigationService.navigate('login');
+		this.navigationService.navigate(['login']);
 	}
 
 	private setCookie(name: string, value: string): void {

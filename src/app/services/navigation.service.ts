@@ -10,14 +10,14 @@ export class NavigationService {
 
 	}
 
-	public navigate(path: string, extras: NavigationExtras = {}) {
-		this.router.navigate([path], extras)
-			.then(success => this.logNavigationStatus(path, success))
+	public navigate(commands: any[], extras: NavigationExtras = {}) {
+		this.router.navigate(commands, extras)
+			.then(success => this.logNavigationStatus(commands, success))
 			.catch(this.logNavigationError);
 	}
 
-	private logNavigationStatus(path: string, success: boolean): void {
-		const statusMessage = `Navigation to "${path}" ${success ? 'successful' : 'failed'}.`;
+	private logNavigationStatus(commands: any[], success: boolean): void {
+		const statusMessage = `Navigation to "${commands}" ${success ? 'successful' : 'failed'}.`;
 		console[success ? 'log' : 'warn'](statusMessage);
 	}
 

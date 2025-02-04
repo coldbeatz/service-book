@@ -15,6 +15,7 @@ import { RegulationsMaintenance } from "../models/regulations-maintenance.model"
 })
 export class ApiRequestsService {
 
+	private static readonly API_BRANDS: string = `${environment.apiUrl}/admin/brands`;
 	private static readonly API_REGULATIONS_MAINTENANCE: string = `${environment.apiUrl}/admin/regulations_maintenance`;
 
 	constructor(private http: HttpClient, private cookieService: CookieService) {
@@ -164,15 +165,32 @@ export class ApiRequestsService {
 	}
 
 	public getCountries(): Observable<any> {
-		return this.http.get<Country[]>(`${environment.apiUrl}/admin/brands/countries`);
+		return this.http.get<Country[]>(`${environment.apiUrl}/admin/countries`);
+	}
+
+	public saveOrUpdateBrand(brand: Brand, file: File | null): Observable<Brand> {
+		const formData = new FormData();
+
+		formData.append('brand', brand.brand);
+
+		file && formData.append('file', file);
+		brand.country && formData.append('countryId', brand.country.id.toString());
+
+		if (brand.country) {
+			formData.append('countryId', brand.country.id.toString());
+		}
+
+		return brand.id && brand.id !== 0
+			? this.http.put<Brand>(`${ApiRequestsService.API_BRANDS}/${brand.id}`, formData)
+			: this.http.post<Brand>(ApiRequestsService.API_BRANDS, formData);
 	}
 
 	public getBrandById(id: number): Observable<any> {
-		return this.http.get<Brand>(`${environment.apiUrl}/admin/brands/find/${id}`);
+		return this.http.get<Brand>(`${ApiRequestsService.API_BRANDS}/${id}`);
 	}
 
 	public getBrands(): Observable<any> {
-		return this.http.get<Brand[]>(`${environment.apiUrl}/admin/brands/all`);
+		return this.http.get<Brand[]>(`${ApiRequestsService.API_BRANDS}`);
 	}
 
 	public tokenValidation() {
