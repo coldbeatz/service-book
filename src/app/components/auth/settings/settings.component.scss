@@ -1,0 +1,31 @@
+.settings-container {
+	margin: 0 20px;
+}
+.settings-form {
+	max-width: 500px;
+	background: white;
+	padding: 30px;
+	border-radius: 20px;
+
+	&__icon-circle {
+		background: rgba(0, 0, 0, 0.08);
+		width: 60px;
+		height: 60px;
+		display: flex;
+		border-radius: 100px;
+		align-items: center;
+		justify-content: center;
+		margin: auto;
+		transition: width 0.3s ease, height 0.3s ease;
+		cursor: pointer;
+
+		.pi, .bi {
+			font-size: 1.7rem;
+		}
+
+		&:hover {
+			width: 90px;
+			height: 90px;
+		}
+	}
+}

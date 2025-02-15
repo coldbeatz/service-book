@@ -113,6 +113,8 @@
 	"BREADCRUMB_CHANGE_ENGINE": "Change engine",
 	"BREADCRUMB_CAR_ENGINES": "Engines",
 	"BREADCRUMB_SERVICES": "Services",
+	"BREADCRUMB_ALERTS": "Alerts",
+	"BREADCRUMB_SETTINGS": "Settings",
 
 	"TRANSMISSION_MANUAL": "Manual",
 	"TRANSMISSION_AUTOMATIC": "Automatic",
@@ -130,6 +132,7 @@
 	"SERVICE_MODAL_INPUT_SPECIFIC_MILEAGE_PLACEHOLDER": "Enter mileage",
 	"SERVICE_MODAL_INPUT_SPECIFIC_MILEAGE_HELP": "Maintenance at a specific mileage in kilometers",
 	"SERVICE_MODAL_INPUT_USE_DEFAULT": "Use as default for all vehicles",
+	"SERVICE_MODAL_INPUT_TASKS": "Tasks",
 
 	"PRIMENG_DIALOG_SERVICE_SELECT_TRANSMISSIONS": "Select transmissions",
 	"PRIMENG_DIALOG_SERVICE_SELECT_FUEL": "Select fuel types",
@@ -154,5 +157,39 @@
 	"SAVE_CHANGES_BUTTON": "Save changes",
 
 	"TOAST_SUCCESS": "Success",
-	"TOAST_SUCCESS_DETAIL": "The operation was successfully performed"
+	"TOAST_SUCCESS_DETAIL": "The operation was successfully performed",
+
+	"NEWS_EDITOR_HEADER": "News editor",
+	"NEWS_EDITOR_DELAYED_POSTING_DATE_LABEL": "Date of message sending",
+	"NEWS_EDITOR_DELAYED_POSTING_DATE_HELP": "The date on which the message will be displayed or sent to users",
+	"NEWS_EDITOR_POSTING_OPTIONS_LABEL": "Posting options",
+	"NEWS_EDITOR_POSTING_OPTIONS_HELP": "You can select one or more",
+	"NEWS_EDITOR_TITLE_LABEL": "Title",
+	"NEWS_EDITOR_POSTING_OPTION_WEBSITE": "Website news",
+	"NEWS_EDITOR_POSTING_OPTION_EMAIL": "E-mail newsletter",
+
+	"SETTINGS_INPUT_EMAIL_LABEL": "E-mail",
+	"SETTINGS_INPUT_EMAIL_PLACEHOLDER": "Enter e-mail",
+	"SETTINGS_INPUT_EMAIL_HELP": "An e-mail will be sent to the post office to confirm your e-mail address",
+
+	"SETTINGS_INPUT_FULL_NAME_LABEL": "Full name",
+	"SETTINGS_INPUT_FULL_NAME_PLACEHOLDER": "Enter full name",
+	"SETTINGS_INPUT_FULL_NAME_ERROR_EMPTY": "Full name cannot be empty",
+	"SETTINGS_INPUT_EMAIL_NEWSLETTER": "Receive e-mail newsletters",
+
+	"SETTINGS_RESPONSE_EMAIL_SENT": "A confirmation email has been sent to {{email}}",
+	"SETTINGS_RESPONSE_USER_UPDATED": "User data has been successfully updated",
+	"SETTINGS_RESPONSE_ERROR_INVALID_EMAIL": "An e-mail address like this can't exist",
+	"SETTINGS_RESPONSE_ERROR_EMAIL_EXISTS": "Such an e-mail address is already in use",
+	"SETTINGS_RESPONSE_ERROR_INCORRECT_PASSWORD": "You have entered an incorrect current password",
+
+	"PASSWORD_WITH_REPEAT_INPUT_CURRENT_PASSWORD_LABEL": "Current password",
+	"PASSWORD_WITH_REPEAT_INPUT_CURRENT_PASSWORD_PLACEHOLDER": "Enter current password",
+	"PASSWORD_WITH_REPEAT_INPUT_NEW_PASSWORD_LABEL": "New password",
+	"PASSWORD_WITH_REPEAT_INPUT_PASSWORD_LABEL": "Password",
+	"PASSWORD_WITH_REPEAT_INPUT_PASSWORD_PLACEHOLDER": "Enter password",
+	"PASSWORD_WITH_REPEAT_INPUT_PASSWORD_REPEAT_LABEL": "Password repeat",
+	"PASSWORD_WITH_REPEAT_INPUT_PASSWORD_REPEAT_PLACEHOLDER": "Enter password repeat",
+	"PASSWORD_WITH_REPEAT_ERROR_PASSWORDS_DONT_MATCH": "Passwords don't match",
+	"PASSWORD_WITH_REPEAT_ERROR_PASSWORD_EMPTY": "The password cannot be empty"
 }

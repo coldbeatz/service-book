@@ -1,6 +1,35 @@
 export class User {
 
-	email!: string;
-	fullName!: string;
-	password!: string;
+	/**
+	 * Ідентифікатор користувача в БД
+	 */
+	id: number | null;
+
+	/**
+	 * Електронна адреса користувача
+	 */
+	email: string;
+
+	/**
+	 * Ім'я користувача
+	 */
+	fullName: string;
+
+	/**
+	 * Пароль користувача
+	 */
+	password: string | null;
+
+	/**
+	 * Чи підписаний користувач на email-розсилку
+	 */
+	enableEmailNewsletter: boolean;
+
+	constructor(user?: Partial<User>) {
+		this.id = user?.id ?? null;
+		this.email = user?.email ?? '';
+		this.fullName = user?.fullName ?? '';
+		this.password = user?.password ?? null;
+		this.enableEmailNewsletter = user?.enableEmailNewsletter ?? false;
+	}
 }

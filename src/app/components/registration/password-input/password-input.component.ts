@@ -1,6 +1,6 @@
 import { Component, forwardRef, Input, ViewEncapsulation } from '@angular/core';
 import { faUnlock, faLock } from '@fortawesome/free-solid-svg-icons';
-import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, ReactiveFormsModule } from "@angular/forms";
+import { ControlValueAccessor, FormControl, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from "@angular/forms";
 import { FaIconComponent } from "@fortawesome/angular-fontawesome";
 import { NgClass } from "@angular/common";
 
@@ -17,7 +17,8 @@ import { NgClass } from "@angular/common";
 	imports: [
 		ReactiveFormsModule,
 		FaIconComponent,
-		NgClass
+		NgClass,
+		FormsModule
 	],
 	standalone: true
 })
@@ -37,16 +38,15 @@ export class PasswordInputComponent implements ControlValueAccessor {
 
 	onSwitchPassword() {
 		this.showPassword = !this.showPassword;
-
-		if (this.showPassword) {
-
-		}
 	}
 
 	writeValue(value: string | null): void {
-		if (this.formControl && this.formControl.value !== value) {
-			this.formControl.setValue(value, { emitEvent: false });
+		if (this.formControl) {
+			if (this.formControl.value !== value) {
+				this.formControl.setValue(value, { emitEvent: false });
+			}
 		}
+		this.onChange(value ?? '');
 	}
 
 	registerOnChange(fn: (value: string) => void): void {

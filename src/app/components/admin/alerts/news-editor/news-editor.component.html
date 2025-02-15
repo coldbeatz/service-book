@@ -1,0 +1,89 @@
+<p-dialog
+	[(visible)]="displayModal"
+	[modal]="true"
+	[style]="{ margin: '20px', maxWidth: '650px' }"
+	[closable]="true"
+	[dismissableMask]="true">
+
+	<ng-template pTemplate="header">
+		<h5>
+			{{ 'NEWS_EDITOR_HEADER' | translate }}
+		</h5>
+	</ng-template>
+
+	<ng-template pTemplate="content">
+		<div class="flex-center flex-column">
+			<div class="mb-4 d-flex gap-3">
+				<div class="d-flex flex-column w-50">
+					<label class="form-label text-muted">
+						{{ 'NEWS_EDITOR_DELAYED_POSTING_DATE_LABEL' | translate }}
+					</label>
+
+					<p-datepicker inputId="calendar-24h"
+								  [(ngModel)]="news.delayedPostingDate"
+								  [showTime]="true"
+								  [hourFormat]="'24'"
+								  showIcon iconDisplay="input"></p-datepicker>
+
+					<small class="form-text">
+						{{ 'NEWS_EDITOR_DELAYED_POSTING_DATE_HELP' | translate }}
+					</small>
+				</div>
+
+				<div class="d-flex flex-column w-50">
+					<label class="form-label text-muted">
+						{{ 'NEWS_EDITOR_POSTING_OPTIONS_LABEL' | translate }}
+					</label>
+
+					<p-selectbutton
+						[options]="postingOptions"
+						[(ngModel)]="news.postingOptions"
+						[multiple]="true"
+						optionLabel="name"
+						optionValue="value">
+
+						<ng-template let-option pTemplate="item">
+							{{ option.name | translate }}
+						</ng-template>
+					</p-selectbutton>
+
+					<small class="form-text">
+						{{ 'NEWS_EDITOR_POSTING_OPTIONS_HELP' | translate }}
+					</small>
+				</div>
+			</div>
+
+
+			<div class="flex-center flex-column">
+				<p-selectbutton [options]="stateOptions"
+								[(ngModel)]="selectedTextLocalizationOption"
+								optionLabel="label"
+								optionValue="value"
+								aria-labelledby="basic"
+								class="mb-3 m-auto">
+				</p-selectbutton>
+
+				<div class="w-100 mt-2">
+					<p-floatlabel variant="on">
+						<textarea autosize
+								  pTextarea
+								  rows="1"
+								  style="resize: none" class="h-full w-100"
+								  [(ngModel)]="localizedTitle"></textarea>
+
+						<label>
+							{{ 'NEWS_EDITOR_TITLE_LABEL' | translate }}
+						</label>
+					</p-floatlabel>
+				</div>
+
+				<p-editor [(ngModel)]="localizedContent" [style]="{ height: '220px' }"></p-editor>
+			</div>
+		</div>
+	</ng-template>
+
+	<ng-template pTemplate="footer">
+		<p-button label="{{ 'CLOSE_BUTTON' | translate }}" icon="pi pi-times" (click)="closeModal()" severity="secondary"></p-button>
+		<p-button label="{{ 'SAVE_CHANGES_BUTTON' | translate }}" icon="pi pi-check" (click)="onSaveChangesClick()"></p-button>
+	</ng-template>
+</p-dialog>

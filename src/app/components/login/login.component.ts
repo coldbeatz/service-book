@@ -39,7 +39,8 @@ export class LoginComponent {
 
 		this.form = this.fb.group({
 			email: ['', [Validators.required]],
-			password: ['', [Validators.required]]
+			password: ['', [Validators.required]],
+			remember: [true]
 		});
 	}
 
@@ -53,7 +54,7 @@ export class LoginComponent {
 				if (token != null) {
 					this.errorMessage = null;
 
-					this.authService.login(data.email, token);
+					this.authService.login(data.email, token, data.remember);
 				}
 			},
 			error: (e) => {

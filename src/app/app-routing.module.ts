@@ -14,6 +14,8 @@ import { EngineComponent } from "./components/admin/cars/create/engines/engine/e
 import { EnginesComponent } from "./components/admin/cars/create/engines/engines.component";
 import { ServicesComponent } from "./components/admin/services/services.component";
 import { BrandComponent } from "./components/admin/brands/brand/brand.component";
+import { AlertsComponent } from "./components/admin/alerts/alerts.component";
+import { SettingsComponent } from "./components/auth/settings/settings.component";
 
 export const routes: Routes = [
 
@@ -30,15 +32,17 @@ export const routes: Routes = [
 	{ path: 'brands/create', component: BrandComponent, canActivate: [AuthGuard] },
 	{ path: 'brands/:id', component: BrandComponent, canActivate: [AuthGuard] },
 
-	{ path: 'cars/:id', component: CarsComponent, canActivate: [AuthGuard] },
-	{ path: 'cars/:id/create', component: CreateCarComponent, canActivate: [AuthGuard] },
-	{ path: 'cars/:id/:carId', component: CreateCarComponent, canActivate: [AuthGuard] },
-
+	{ path: 'cars/:brand', component: CarsComponent, canActivate: [AuthGuard] },
+	{ path: 'cars/:brand/create', component: CreateCarComponent, canActivate: [AuthGuard] },
+	{ path: 'cars/:brand/:carId', component: CreateCarComponent, canActivate: [AuthGuard] },
 	{ path: 'cars/:brand/:car/engines', component: EnginesComponent, canActivate: [AuthGuard] },
 	{ path: 'cars/:brand/:car/engines/create', component: EngineComponent, canActivate: [AuthGuard] },
 	{ path: 'cars/:brand/:car/engines/:engine', component: EngineComponent, canActivate: [AuthGuard] },
 
+	{ path: 'alerts', component: AlertsComponent, canActivate: [AuthGuard] },
 	{ path: 'services', component: ServicesComponent, canActivate: [AuthGuard] },
+
+	{ path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] },
 
 	//{ path: '', component: AppComponent },
 	{ path: '**', redirectTo: 'login' }

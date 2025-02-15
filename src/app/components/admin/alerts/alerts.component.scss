@@ -1,0 +1,14 @@
+.news-container {
+	max-width: 800px;
+	margin: auto;
+	background: white;
+	border-radius: 20px;
+	padding: 20px;
+}
+
+.news {
+	&__date {
+		font-weight: 500;
+		font-size: 14px;
+	}
+}

@@ -30,21 +30,23 @@
 
 				<ul class="nav col-12 col-lg-auto justify-content-center my-md-0 text-small">
 					<li>
-						<a routerLink="/brands" class="nav-link text-secondary">
+						<a [routerLink]="['/brands']" class="nav-link text-secondary">
 							<i class="bi bi-car-front"></i>
 
 							{{ 'HEADER_CARS' | translate }}
 						</a>
 					</li>
+
 					<li>
-						<a routerLink="/services" class="nav-link text-secondary">
+						<a [routerLink]="['/services']" class="nav-link text-secondary">
 							<i class="bi bi-clipboard-minus-fill"></i>
 
 							{{ 'HEADER_SERVICE_TYPES' | translate }}
 						</a>
 					</li>
+
 					<li>
-						<a href="#" class="nav-link text-secondary">
+						<a [routerLink]="['/alerts']" class="nav-link text-secondary">
 							<i class="bi bi-send-exclamation-fill"></i>
 
 							{{ 'HEADER_ALERTS' | translate }}
@@ -54,7 +56,7 @@
 
 				<div class="header__end">
 					<div class="mx-2">
-						<a href="#" class="nav-link text-secondary">
+						<a [routerLink]="['/settings']" class="nav-link text-secondary">
 							<i class="bi bi-gear-fill"></i>
 
 							{{ 'HEADER_SETTINGS' | translate }}

@@ -1,0 +1,100 @@
+<main-root>
+	<app-breadcrumb></app-breadcrumb>
+	<div class="settings-container">
+		<form class="m-auto settings-form" (ngSubmit)="onSubmit()" *ngIf="user">
+			<div class="settings-form__icon-circle">
+				<!--<i class="pi pi-user-edit"></i>-->
+				<i class="bi bi-person-fill-gear"></i>
+
+			</div>
+
+			<div class="mb-4">
+				<div class="mt-3">
+					<alert-root *ngIf="desiredEmailHtml"
+								text="{{ 'SETTINGS_RESPONSE_EMAIL_SENT' | translate:{email: desiredEmailHtml } }}">
+					</alert-root>
+
+					<alert-root *ngIf="errorCode === 'invalid_email'"
+								type="danger"
+								text="{{ 'SETTINGS_RESPONSE_ERROR_INVALID_EMAIL' | translate }}">
+					</alert-root>
+
+					<alert-root *ngIf="errorCode === 'email_already_registered'"
+								type="danger"
+								text="{{ 'SETTINGS_RESPONSE_ERROR_EMAIL_EXISTS' | translate }}">
+					</alert-root>
+				</div>
+
+				<label for="email" class="form-label text-muted">
+					{{ 'SETTINGS_INPUT_EMAIL_LABEL' | translate }} <small class="text-danger">*</small>
+				</label>
+
+				<input type="email" class="form-control"
+					   [class.is-invalid]="!user.email"
+					   placeholder="{{ 'SETTINGS_INPUT_EMAIL_PLACEHOLDER' | translate }}"
+					   id="email"
+					   name="email"
+					   [(ngModel)]="user.email">
+
+				<div class="form-text">
+					{{ 'SETTINGS_INPUT_EMAIL_HELP' | translate }}
+				</div>
+			</div>
+
+			<div class="mb-4">
+				<div *ngIf="userUpdated">
+					<alert-root text="{{ 'SETTINGS_RESPONSE_USER_UPDATED' | translate }}"></alert-root>
+				</div>
+
+				<label for="fullName" class="form-label text-muted">
+					{{ 'SETTINGS_INPUT_FULL_NAME_LABEL' | translate }} <small class="text-danger">*</small>
+				</label>
+
+				<input type="text" class="form-control"
+					   [class.is-invalid]="!user.fullName"
+					   placeholder="{{ 'SETTINGS_INPUT_FULL_NAME_PLACEHOLDER' | translate }}"
+					   id="fullName"
+					   name="fullName"
+					   [(ngModel)]="user.fullName">
+
+				<div *ngIf="!user.fullName" class="invalid-feedback">
+					<span>
+						{{ 'SETTINGS_INPUT_FULL_NAME_ERROR_EMPTY' | translate }}
+					</span>
+				</div>
+			</div>
+
+			<div class="form-check form-switch">
+				<label class="form-check-label no-select text-muted" for="enableEmailNewsletter">
+					{{ 'SETTINGS_INPUT_EMAIL_NEWSLETTER' | translate }}
+				</label>
+
+				<input class="form-check-input" type="checkbox" role="switch" id="enableEmailNewsletter"
+					   name="enableEmailNewsletter"
+					   [(ngModel)]="user.enableEmailNewsletter">
+			</div>
+
+			<div class="mt-3">
+				<alert-root *ngIf="errorCode === 'incorrect_old_password'"
+							type="danger"
+							text="{{ 'SETTINGS_RESPONSE_ERROR_INCORRECT_PASSWORD' | translate }}">
+				</alert-root>
+
+				<password-with-repeat-root #passwordWithRepeat
+										   [useFieldCurrentPassword]="true">
+
+				</password-with-repeat-root>
+			</div>
+
+			<div class="flex-center">
+				<button type="submit" class="btn btn-primary flex-center mt-4" style="max-width: 300px;"
+						[disabled]="disabledSubmitButton()">
+
+					<span class="mx-3">
+						{{ ('EDIT_BRAND_SUBMIT_BUTTON') | translate }}
+					</span>
+				</button>
+			</div>
+		</form>
+	</div>
+</main-root>

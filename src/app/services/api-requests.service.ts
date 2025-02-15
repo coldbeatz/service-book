@@ -9,6 +9,7 @@ import { Country } from "../models/country.model";
 import { Car } from "../models/car.model";
 import { Engine } from "../models/engine.model";
 import { RegulationsMaintenance } from "../models/regulations-maintenance.model";
+import { News } from "../models/news.model";
 
 @Injectable({
 	providedIn: 'root'
@@ -17,9 +18,27 @@ export class ApiRequestsService {
 
 	private static readonly API_BRANDS: string = `${environment.apiUrl}/admin/brands`;
 	private static readonly API_REGULATIONS_MAINTENANCE: string = `${environment.apiUrl}/admin/regulations_maintenance`;
+	private static readonly API_NEWS: string = `${environment.apiUrl}/admin/news`;
 
 	constructor(private http: HttpClient, private cookieService: CookieService) {
 
+	}
+
+	public getUser(): Observable<User> {
+		return this.http.get<User>(`${environment.apiUrl}/user/me`);
+	}
+
+	public getNews(): Observable<News[]> {
+		return this.http.get<News[]>(`${ApiRequestsService.API_NEWS}`);
+	}
+
+	public saveOrUpdateNews(news: News): Observable<News> {
+		const url = ApiRequestsService.API_NEWS;
+		const requestBody = news;
+
+		return news.id
+			? this.http.put<News>(`${url}/${news.id}`, requestBody)
+			: this.http.post<News>(url, requestBody);
 	}
 
 	public getRegulationsMaintenance(): Observable<RegulationsMaintenance[]> {

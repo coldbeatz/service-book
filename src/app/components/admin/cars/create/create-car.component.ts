@@ -93,9 +93,9 @@ export class CreateCarComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
-		let id = this.route.snapshot.paramMap.get('id');
+		let brandId = Number(this.route.snapshot.paramMap.get('brand'));
 
-		this.apiRequestsService.getBrandById(Number(id)).subscribe({
+		this.apiRequestsService.getBrandById(brandId).subscribe({
 			next: (brand) => {
 				this.brand = brand;
 			},

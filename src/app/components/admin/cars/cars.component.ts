@@ -2,7 +2,7 @@ import { Component, Input, OnInit, ViewEncapsulation } from "@angular/core";
 import { Brand } from "../../../models/brand.model";
 import { ApiRequestsService } from "../../../services/api-requests.service";
 import { NavigationService } from "../../../services/navigation.service";
-import { RouterLink} from "@angular/router";
+import { ActivatedRoute, RouterLink } from "@angular/router";
 import { environment } from "../../../../environments/environment";
 import { Car } from "../../../models/car.model";
 import { MainComponent } from "../../internal/main/main.component";
@@ -45,11 +45,10 @@ export class CarsComponent implements OnInit {
 
 	protected readonly environment = environment;
 
-	@Input() id!: string;
-
 	constructor(private apiRequestsService: ApiRequestsService,
 				private navigationService: NavigationService,
-				private translateService: TranslateService) {
+				private translateService: TranslateService,
+				private route: ActivatedRoute) {
 
 		this.currentYear = new Date().getFullYear();
 	}
@@ -69,7 +68,9 @@ export class CarsComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
-		this.apiRequestsService.getBrandById(Number(this.id)).subscribe({
+		const brandId = Number(this.route.snapshot.paramMap.get("brand"));
+
+		this.apiRequestsService.getBrandById(brandId).subscribe({
 			next: (brand) => {
 				this.brand = brand;
 

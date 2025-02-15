@@ -4,6 +4,7 @@ import { ApiErrorsService } from "../../services/api-errors.service";
 import { ApiRequestsService } from "../../services/api-requests.service";
 import { NgIf } from "@angular/common";
 import { TranslateModule } from "@ngx-translate/core";
+import { AuthService } from "../../services/auth.service";
 
 @Component({
 	selector: 'confirmation-root',
@@ -24,7 +25,8 @@ export class ConfirmationComponent implements OnInit {
 
 	constructor(private route: ActivatedRoute,
 				private apiRequestsService: ApiRequestsService,
-				private apiErrorsService: ApiErrorsService) {
+				private apiErrorsService: ApiErrorsService,
+				private authService: AuthService) {
 
 	}
 
@@ -41,9 +43,15 @@ export class ConfirmationComponent implements OnInit {
 	private activation(key: string) {
 		this.apiRequestsService.confirmUser(key).subscribe({
 			next: (response) => {
-				if (response.result === 'success') {
+				console.log(response);
+
+				const { token, email } = response;
+
+				if (token && email) {
 					this.errorMessage = null;
 					this.activationSuccess = true;
+
+					this.authService.updateAuthData(email, token);
 				}
 			},
 			error: (e) => {
