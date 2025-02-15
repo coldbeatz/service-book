@@ -13,6 +13,7 @@ import { AlertComponent } from "../../../internal/alert/alert.component";
 import { CustomFileUploadComponent } from "../../../shared/custom-file-upload/custom-file-upload.component";
 import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { CarTransmissionType } from "../../../../models/car-transmission-type.model";
+import { BrandService } from "../../../../services/api/brand.service";
 
 @Component({
 	selector: 'create-car-root',
@@ -49,6 +50,7 @@ export class CreateCarComponent implements OnInit {
 	success: boolean = false;
 
 	constructor(private apiRequestsService: ApiRequestsService,
+				private brandService: BrandService,
 				private fb: FormBuilder,
 				private navigationService: NavigationService,
 				private route: ActivatedRoute,
@@ -95,7 +97,7 @@ export class CreateCarComponent implements OnInit {
 	ngOnInit(): void {
 		let brandId = Number(this.route.snapshot.paramMap.get('brand'));
 
-		this.apiRequestsService.getBrandById(brandId).subscribe({
+		this.brandService.getBrandById(brandId).subscribe({
 			next: (brand) => {
 				this.brand = brand;
 			},

@@ -3,54 +3,24 @@ import { HttpClient } from "@angular/common/http";
 import { User } from "../user/user";
 import { environment } from "../../environments/environment";
 import { Observable } from "rxjs";
-import { CookieService } from "ngx-cookie-service";
 import { Brand } from "../models/brand.model";
-import { Country } from "../models/country.model";
 import { Car } from "../models/car.model";
 import { Engine } from "../models/engine.model";
-import { RegulationsMaintenance } from "../models/regulations-maintenance.model";
-import { News } from "../models/news.model";
 
+/**
+ * @deprecated
+ */
 @Injectable({
 	providedIn: 'root'
 })
 export class ApiRequestsService {
 
-	private static readonly API_BRANDS: string = `${environment.apiUrl}/admin/brands`;
-	private static readonly API_REGULATIONS_MAINTENANCE: string = `${environment.apiUrl}/admin/regulations_maintenance`;
-	private static readonly API_NEWS: string = `${environment.apiUrl}/admin/news`;
-
-	constructor(private http: HttpClient, private cookieService: CookieService) {
+	constructor(private http: HttpClient) {
 
 	}
 
 	public getUser(): Observable<User> {
 		return this.http.get<User>(`${environment.apiUrl}/user/me`);
-	}
-
-	public getNews(): Observable<News[]> {
-		return this.http.get<News[]>(`${ApiRequestsService.API_NEWS}`);
-	}
-
-	public saveOrUpdateNews(news: News): Observable<News> {
-		const url = ApiRequestsService.API_NEWS;
-		const requestBody = news;
-
-		return news.id
-			? this.http.put<News>(`${url}/${news.id}`, requestBody)
-			: this.http.post<News>(url, requestBody);
-	}
-
-	public getRegulationsMaintenance(): Observable<RegulationsMaintenance[]> {
-		return this.http.get<RegulationsMaintenance[]>(`${ApiRequestsService.API_REGULATIONS_MAINTENANCE}`);
-	}
-
-	public saveOrUpdateRegulationsMaintenance(maintenance: RegulationsMaintenance): Observable<RegulationsMaintenance> {
-		const requestBody = maintenance;
-
-		return maintenance.id
-			? this.http.put<RegulationsMaintenance>(`${ApiRequestsService.API_REGULATIONS_MAINTENANCE}/${maintenance.id}`, requestBody)
-			: this.http.post<RegulationsMaintenance>(ApiRequestsService.API_REGULATIONS_MAINTENANCE, requestBody);
 	}
 
 	public updateEngine(engine: Engine): Observable<Engine | any> {
@@ -151,72 +121,6 @@ export class ApiRequestsService {
 		});
 
 		return this.http.post<any>(`${environment.apiUrl}/admin/cars/${car.brand.id}/${car.id}`, formData);
-	}
-
-	public editBrand(brand: Brand, file: File | null): Observable<any> {
-		const formData = new FormData();
-
-		formData.append('id', brand.id.toString());
-		formData.append('brand', brand.brand);
-
-		if (file) {
-			formData.append('file', file);
-		}
-
-		if (brand.country != null) {
-			formData.append('countryId', brand.country.id.toString());
-		}
-
-		return this.http.post<any>(`${environment.apiUrl}/admin/brands/edit`, formData);
-	}
-
-	public createBrand(brand: string, country: Country | null, file: File): Observable<any> {
-		const formData = new FormData();
-
-		formData.append('brand', brand);
-		formData.append('file', file);
-
-		if (country != null) {
-			formData.append('countryId', country.id.toString());
-		}
-
-		return this.http.post<any>(`${environment.apiUrl}/admin/brands/create`, formData);
-	}
-
-	public getCountries(): Observable<any> {
-		return this.http.get<Country[]>(`${environment.apiUrl}/admin/countries`);
-	}
-
-	public saveOrUpdateBrand(brand: Brand, file: File | null): Observable<Brand> {
-		const formData = new FormData();
-
-		formData.append('brand', brand.brand);
-
-		file && formData.append('file', file);
-		brand.country && formData.append('countryId', brand.country.id.toString());
-
-		if (brand.country) {
-			formData.append('countryId', brand.country.id.toString());
-		}
-
-		return brand.id && brand.id !== 0
-			? this.http.put<Brand>(`${ApiRequestsService.API_BRANDS}/${brand.id}`, formData)
-			: this.http.post<Brand>(ApiRequestsService.API_BRANDS, formData);
-	}
-
-	public getBrandById(id: number): Observable<any> {
-		return this.http.get<Brand>(`${ApiRequestsService.API_BRANDS}/${id}`);
-	}
-
-	public getBrands(): Observable<any> {
-		return this.http.get<Brand[]>(`${ApiRequestsService.API_BRANDS}`);
-	}
-
-	public tokenValidation() {
-		return this.http.post<any>(`${environment.apiUrl}/login/validation`, {
-			email: this.cookieService.get('email'),
-			token: this.cookieService.get('token')
-		});
 	}
 
 	public login(email: string, password: string): Observable<any> {

@@ -1,5 +1,4 @@
 import { Component, Input, OnInit, ViewEncapsulation } from "@angular/core";
-import { ApiRequestsService } from "../../../../services/api-requests.service";
 import { Country } from "../../../../models/country.model";
 import { environment } from "../../../../../environments/environment";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
@@ -12,6 +11,8 @@ import { TranslateModule } from "@ngx-translate/core";
 import { Brand } from "../../../../models/brand.model";
 import { AlertComponent } from "../../../internal/alert/alert.component";
 import { ActivatedRoute } from "@angular/router";
+import { BrandService } from "../../../../services/api/brand.service";
+import { CountryService } from "../../../../services/api/country.service";
 
 @Component({
 	selector: 'create-brand-root',
@@ -43,7 +44,8 @@ export class BrandComponent implements OnInit {
 
 	@Input() brand!: Brand;
 
-	constructor(private apiRequestsService: ApiRequestsService,
+	constructor(private brandService: BrandService,
+				private countryService: CountryService,
 				private navigationService: NavigationService,
 				private route: ActivatedRoute) {
 
@@ -63,7 +65,7 @@ export class BrandComponent implements OnInit {
 	ngOnInit(): void {
 		this.brand = this.createEmptyBrand();
 
-		this.apiRequestsService.getCountries().subscribe({
+		this.countryService.getCountries().subscribe({
 			next: (countries) => {
 				this.countries = countries;
 			}
@@ -71,7 +73,7 @@ export class BrandComponent implements OnInit {
 
 		const id = this.route.snapshot.paramMap.get("id");
 		if (id) {
-			this.apiRequestsService.getBrandById(Number(id)).subscribe({
+			this.brandService.getBrandById(Number(id)).subscribe({
 				next: (brand) => {
 					this.brand = brand;
 
@@ -106,7 +108,7 @@ export class BrandComponent implements OnInit {
 				return;
 		}
 
-		this.apiRequestsService.saveOrUpdateBrand(this.brand, this.selectedFile).subscribe({
+		this.brandService.saveOrUpdateBrand(this.brand, this.selectedFile).subscribe({
 			next: (brand) => {
 				this.errorCode = null;
 

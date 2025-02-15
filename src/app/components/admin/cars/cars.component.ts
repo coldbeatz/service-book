@@ -11,6 +11,7 @@ import { NgForOf } from "@angular/common";
 import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { FormsModule } from "@angular/forms";
 import { CarTransmissionType } from "../../../models/car-transmission-type.model";
+import { BrandService } from "../../../services/api/brand.service";
 
 @Component({
 	selector: 'cars-root',
@@ -46,6 +47,7 @@ export class CarsComponent implements OnInit {
 	protected readonly environment = environment;
 
 	constructor(private apiRequestsService: ApiRequestsService,
+				private brandService: BrandService,
 				private navigationService: NavigationService,
 				private translateService: TranslateService,
 				private route: ActivatedRoute) {
@@ -70,7 +72,7 @@ export class CarsComponent implements OnInit {
 	ngOnInit(): void {
 		const brandId = Number(this.route.snapshot.paramMap.get("brand"));
 
-		this.apiRequestsService.getBrandById(brandId).subscribe({
+		this.brandService.getBrandById(brandId).subscribe({
 			next: (brand) => {
 				this.brand = brand;
 

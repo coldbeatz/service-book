@@ -34,7 +34,7 @@ export interface SettingsRequest {
 })
 export class SettingsService {
 
-	private static readonly API_URL: string = `${environment.apiUrl}/settings`;
+	private readonly API_URL: string = `${environment.apiUrl}/settings`;
 
 	constructor(private http: HttpClient) {
 
@@ -47,6 +47,6 @@ export class SettingsService {
 	 * @returns Observable<SettingsResponse>
 	 */
 	public updateUserSettings(settings: SettingsRequest): Observable<SettingsResponse>  {
-		return this.http.put<any>(SettingsService.API_URL, settings);
+		return this.http.put<any>(this.API_URL, settings);
 	}
 }

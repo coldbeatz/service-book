@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from "@angular/core";
-import { ApiRequestsService } from "../../../services/api-requests.service";
 import { Button } from 'primeng/button';
 import { MainComponent } from "../../internal/main/main.component";
 import { BreadcrumbComponent } from "../../internal/breadcrumb/breadcrumb.component";
@@ -16,6 +15,7 @@ import { InputIcon } from "primeng/inputicon";
 import { InputText } from "primeng/inputtext";
 import { MessageService } from "primeng/api";
 import { Toast } from "primeng/toast";
+import { RegulationsMaintenanceService } from "../../../services/api/regulations-maintenance.service";
 
 @Component({
 	selector: 'services-root',
@@ -51,7 +51,7 @@ export class ServicesComponent implements OnInit {
 
 	@ViewChild(PrimengDialogServiceComponent) modalComponent!: PrimengDialogServiceComponent;
 
-	constructor(private apiRequestsService: ApiRequestsService,
+	constructor(private regulationsMaintenanceService: RegulationsMaintenanceService,
 				private translateService: TranslateService,
 				private messageService: MessageService) {
 
@@ -109,7 +109,7 @@ export class ServicesComponent implements OnInit {
 			this.mileageSuffix = value;
 		});
 
-		this.apiRequestsService.getRegulationsMaintenance().subscribe({
+		this.regulationsMaintenanceService.getRegulationsMaintenance().subscribe({
 			next: (regulationsMaintenance) => {
 				this.regulationsMaintenance = regulationsMaintenance;
 				this.buildMileageColumns();

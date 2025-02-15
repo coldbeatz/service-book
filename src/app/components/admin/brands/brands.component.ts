@@ -10,6 +10,7 @@ import { RouterLink } from "@angular/router";
 import { DropdownComponent } from "../../shared/dropdown/dropdown.component";
 import { NgForOf, NgIf } from "@angular/common";
 import { TranslateModule } from "@ngx-translate/core";
+import { BrandService } from "../../../services/api/brand.service";
 
 @Component({
 	selector: 'brands-root',
@@ -42,19 +43,20 @@ export class BrandsComponent implements OnInit {
 	brands: Brand[] = [];
 	countries: Country[] = [];
 
-	constructor(private apiRequestsService: ApiRequestsService) {
+	constructor(private brandService: BrandService) {
 
 	}
 
 	ngOnInit(): void {
-		this.apiRequestsService.getBrands().subscribe({
+		this.brandService.getBrands().subscribe({
 			next: (response) => {
 				this.brands = response;
 
 				this.countries = response
 					.map((brand: Brand) => brand.country)
+					.filter((country: Country | null): country is Country => country !== null)
 					.filter((country: Country, index: number, self: Country[]) =>
-						self.findIndex((c: Country) => c.id === country.id) === index
+						self.findIndex((c: Country) => c?.id === country.id) === index
 					);
 			},
 			error: (e) => {

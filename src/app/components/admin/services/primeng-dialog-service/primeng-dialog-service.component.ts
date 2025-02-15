@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from "@angular/core";
-import { ApiRequestsService } from "../../../../services/api-requests.service";
 import { CommonModule } from "@angular/common";
 import { AutosizeModule } from "ngx-autosize";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
@@ -18,6 +17,7 @@ import { CarTransmissionType } from "../../../../models/car-transmission-type.mo
 import { FuelType } from "../../../../models/fuel-type.model";
 import { RegulationsMaintenanceTask } from "../../../../models/regulations-maintenance-task.model";
 import { cloneDeep } from "lodash";
+import { RegulationsMaintenanceService } from "../../../../services/api/regulations-maintenance.service";
 
 @Component({
 	selector: 'primeng-dialog-service-root',
@@ -71,7 +71,7 @@ export class PrimengDialogServiceComponent implements OnInit {
 
 	@Output() maintenanceSaved: EventEmitter<RegulationsMaintenance> = new EventEmitter();
 
-	constructor(private apiRequestsService: ApiRequestsService,
+	constructor(private regulationsMaintenanceService: RegulationsMaintenanceService,
 				private translateService: TranslateService) {
 
 		this.maintenance = this.createEmptyMaintenance();
@@ -150,7 +150,7 @@ export class PrimengDialogServiceComponent implements OnInit {
 
 	onSaveChangesClick() {
 		if (this.maintenance) {
-			this.apiRequestsService.saveOrUpdateRegulationsMaintenance(this.maintenance).subscribe({
+			this.regulationsMaintenanceService.saveOrUpdateRegulationsMaintenance(this.maintenance).subscribe({
 				next: (maintenance) => {
 					this.maintenanceSaved.emit(maintenance);
 					this.closeModal();

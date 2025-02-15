@@ -15,9 +15,8 @@ import { Textarea } from "primeng/textarea";
 import { News } from "../../../../models/news.model";
 import { Localization } from "../../../../models/localization/localization.model";
 import { LocalizationHandlers } from "../../../../models/localization/localization-handlers";
-import { ApiRequestsService } from "../../../../services/api-requests.service";
-import { RegulationsMaintenance } from "../../../../models/regulations-maintenance.model";
 import { cloneDeep } from "lodash";
+import { NewsService } from "../../../../services/api/news.service";
 
 @Component({
 	selector: 'news-editor-root',
@@ -80,7 +79,7 @@ export class NewsEditorComponent implements OnInit {
 
 	@Output() onSaved = new EventEmitter<News>();
 
-	constructor(private apiRequestsService: ApiRequestsService) {
+	constructor(private newsService: NewsService) {
 		this.news = new News();
 	}
 
@@ -125,7 +124,7 @@ export class NewsEditorComponent implements OnInit {
 			this.news.delayedPostingDate = localDate.toISOString();
 		}
 
-		this.apiRequestsService.saveOrUpdateNews(this.news).subscribe({
+		this.newsService.saveOrUpdateNews(this.news).subscribe({
 			next: (news) => {
 				this.news = new News(news);
 				this.onSaved.emit(this.news);

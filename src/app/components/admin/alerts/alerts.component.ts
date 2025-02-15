@@ -5,7 +5,6 @@ import { BreadcrumbComponent } from "../../internal/breadcrumb/breadcrumb.compon
 import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { Toast } from "primeng/toast";
 import { NewsEditorComponent } from "./news-editor/news-editor.component";
-import { ApiRequestsService } from "../../../services/api-requests.service";
 import { News } from "../../../models/news.model";
 import { DataView } from "primeng/dataview";
 import { LocalizationHandlers } from "../../../models/localization/localization-handlers";
@@ -15,6 +14,7 @@ import { Localization } from "../../../models/localization/localization.model";
 import { Button } from "primeng/button";
 import { TooltipDirective } from "ngx-bootstrap/tooltip";
 import { MessageService } from "primeng/api";
+import { NewsService } from "../../../services/api/news.service";
 
 @Component({
 	selector: 'alerts-root',
@@ -41,14 +41,14 @@ export class AlertsComponent implements OnInit {
 
 	news?: News[];
 
-	constructor(private apiRequestsService: ApiRequestsService,
+	constructor(private newsService: NewsService,
 				private translateService: TranslateService,
 				private messageService: MessageService) {
 
 	}
 
 	ngOnInit(): void {
-		this.apiRequestsService.getNews().subscribe({
+		this.newsService.getNews().subscribe({
 			next: (news) => this.news = news.map(n => new News(n))
 		})
 	}
