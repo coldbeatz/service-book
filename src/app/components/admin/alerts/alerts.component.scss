@@ -7,8 +7,35 @@
 }
 
 .news {
+	max-width: 750px;
+	width: 100%;
+
 	&__date {
 		font-weight: 500;
 		font-size: 14px;
 	}
+
+	&__bottom {
+		display: flex;
+		justify-content: space-between;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 10px;
+
+		.bottom-item {
+			display: flex;
+			flex-direction: row;
+			gap: 8px;
+		}
+
+		@media (max-width: 420px) {
+			flex-direction: column;
+		}
+	}
+}
+
+li {
+	white-space: normal;
+	word-wrap: normal;
+	overflow-wrap: anywhere;
 }

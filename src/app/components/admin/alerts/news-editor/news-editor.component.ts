@@ -117,6 +117,14 @@ export class NewsEditorComponent implements OnInit {
 	}
 
 	onSaveChangesClick() {
+		if (this.news.delayedPostingDate instanceof Date) {
+			const time = this.news.delayedPostingDate.getTime();
+			const timezoneOffset = this.news.delayedPostingDate.getTimezoneOffset();
+			const localDate = new Date(time - timezoneOffset * 60000);
+
+			this.news.delayedPostingDate = localDate.toISOString();
+		}
+
 		this.apiRequestsService.saveOrUpdateNews(this.news).subscribe({
 			next: (news) => {
 				this.news = new News(news);

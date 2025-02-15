@@ -76,6 +76,10 @@ export class AlertsComponent implements OnInit {
 
 	}
 
+	formattedText(text: string): string {
+		return text.replace(/&nbsp;/g, " ");
+	}
+
 	handleNewsSaved(updatedNews: News) {
 		if (!this.news) return;
 

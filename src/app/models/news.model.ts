@@ -21,7 +21,7 @@ export class News {
 	/**
 	 * Дата відкладеного постингу новини
 	 */
-	delayedPostingDate: Date;
+	delayedPostingDate: Date | string;
 
 	/**
 	 * Типи постингу новин
