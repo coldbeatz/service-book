@@ -3,7 +3,6 @@ import { HttpClient } from "@angular/common/http";
 import { User } from "../user/user";
 import { environment } from "../../environments/environment";
 import { Observable } from "rxjs";
-import { Brand } from "../models/brand.model";
 import { Car } from "../models/car.model";
 import { Engine } from "../models/engine.model";
 
@@ -17,10 +16,6 @@ export class ApiRequestsService {
 
 	constructor(private http: HttpClient) {
 
-	}
-
-	public getUser(): Observable<User> {
-		return this.http.get<User>(`${environment.apiUrl}/user/me`);
 	}
 
 	public updateEngine(engine: Engine): Observable<Engine | any> {
@@ -57,70 +52,12 @@ export class ApiRequestsService {
 		return this.http.post<any>(`${environment.apiUrl}/admin/engines/create`, formData);
 	}
 
-	public getEngineById(engineId: number) {
-		return this.http.get<Engine>(`${environment.apiUrl}/admin/engines?engine=${engineId}`);
-	}
-
-	public getEnginesByCar(car: Car) {
-		return this.http.get<Engine[]>(`${environment.apiUrl}/admin/engines?car=${car.id}`);
-	}
-
 	public getAvailableFuelTypes(): Observable<string[]> {
 		return this.http.get<any>(`${environment.apiUrl}/admin/engines/fuel_types`);
 	}
 
-	public getTransmissions(): Observable<string[]> {
-		return this.http.get<any>(`${environment.apiUrl}/admin/cars/transmissions`);
-	}
-
-	public getCarById(id: number): Observable<Car> {
-		return this.http.get<Car>(`${environment.apiUrl}/admin/cars/car?id=${id}`);
-	}
-
-	public getCarsByBrand(brand: Brand): Observable<Car[]> {
-		return this.http.get<Car[]>(`${environment.apiUrl}/admin/cars?brand=${brand.id}`);
-	}
-
-	public createCar(brand: Brand,
-					 model: string,
-					 startYear: string,
-					 endYear: string,
-					 file: File,
-					 transmissions: string[]): Observable<any> {
-
-		const formData = new FormData();
-
-		formData.append('model', model);
-		formData.append('startYear', startYear);
-		formData.append('endYear', endYear);
-		formData.append('file', file);
-
-		transmissions.forEach(transmission => {
-			formData.append('transmissions', transmission);
-		});
-
-		return this.http.post<any>(`${environment.apiUrl}/admin/cars/${brand.id}`, formData);
-	}
-
-	public updateCar(car: Car, file: File | null): Observable<any> {
-		const formData = new FormData();
-
-		formData.append('model', car.model);
-		formData.append('startYear', car.startYear.toString());
-
-		if (car.endYear) {
-			formData.append('endYear', car.endYear.toString());
-		}
-
-		if (file) {
-			formData.append('file', file);
-		}
-
-		car.transmissions.forEach(transmission => {
-			formData.append('transmissions', transmission.toString());
-		});
-
-		return this.http.post<any>(`${environment.apiUrl}/admin/cars/${car.brand.id}/${car.id}`, formData);
+	public getUser(): Observable<User> {
+		return this.http.get<User>(`${environment.apiUrl}/user/me`);
 	}
 
 	public login(email: string, password: string): Observable<any> {

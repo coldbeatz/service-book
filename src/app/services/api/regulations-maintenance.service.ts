@@ -17,6 +17,7 @@ export class RegulationsMaintenanceService {
 
 	/**
 	 * Отримує список регламентного технічного обслуговування
+	 *
 	 * @returns Observable<RegulationsMaintenance[]>
 	 */
 	public getRegulationsMaintenance(): Observable<RegulationsMaintenance[]> {
@@ -27,6 +28,7 @@ export class RegulationsMaintenanceService {
 	 * Оновлює або зберігає регламентне технічне обслуговування
 	 *
 	 * @param maintenance Регламенте технічне обслуговування
+	 *
 	 * @returns Observable<RegulationsMaintenance>
 	 */
 	public saveOrUpdateRegulationsMaintenance(maintenance: RegulationsMaintenance): Observable<RegulationsMaintenance> {

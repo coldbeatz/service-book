@@ -1,0 +1,38 @@
+<div class="mb-4">
+	<label [for]="id" class="form-label text-muted">
+		{{ label }} <small *ngIf="required" class="text-danger">*</small>
+	</label>
+
+	<input type="number"
+		   class="form-control"
+		   [class.is-invalid]="hasErrors()"
+		   [class.is-valid]="isValid()"
+		   [placeholder]="placeholder"
+		   [min]="min"
+		   [max]="max"
+		   [step]="step"
+		   [id]="id"
+		   [name]="id"
+		   [ngModel]="inputModel"
+		   (ngModelChange)="onInputChange($event)" (keydown)="onKeyDown($event)">
+
+	<div #errorContainer class="invalid-feedback">
+		<ng-container *ngTemplateOutlet="errorTemplate"></ng-container>
+
+		<ng-container *ngIf="userInteracted">
+			<span *ngIf="required && (inputModel == null || inputModel.toString().trim() === '')">
+				{{ 'NUMBER_FORM_INPUT_INVALID_REQUIRED' | translate }}
+			</span>
+
+			<ng-container *ngIf="inputModel">
+				<span *ngIf="value > max">
+					{{ 'NUMBER_FORM_INPUT_INVALID_MAX' | translate:{ max: max } }}
+				</span>
+
+				<span *ngIf="value < min">
+					{{ 'NUMBER_FORM_INPUT_INVALID_MIN' | translate:{ min: min } }}
+				</span>
+			</ng-container>
+		</ng-container>
+	</div>
+</div>

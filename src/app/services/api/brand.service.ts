@@ -4,6 +4,11 @@ import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Brand } from "../../models/brand.model";
 
+export interface BrandOption {
+	value: Brand;
+	label: string;
+}
+
 @Injectable({
 	providedIn: 'root'
 })
@@ -20,6 +25,7 @@ export class BrandService {
 	 *
 	 * @param brand Марка автомобіля
 	 * @param file Фото марки
+	 *
 	 * @returns Observable<Brand>
 	 */
 	public saveOrUpdateBrand(brand: Brand, file: File | null): Observable<Brand> {
@@ -43,6 +49,7 @@ export class BrandService {
 
 	/**
 	 * Отримує марку автомобілей за ідентифікатором
+	 *
 	 * @returns Observable<Brand>
 	 */
 	public getBrandById(id: number): Observable<Brand> {
@@ -51,6 +58,7 @@ export class BrandService {
 
 	/**
 	 * Отримує список марок автомобілей
+	 *
 	 * @returns Observable<Brand[]>
 	 */
 	public getBrands(): Observable<Brand[]> {

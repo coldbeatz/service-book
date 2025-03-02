@@ -17,6 +17,7 @@ export class NewsService {
 
 	/**
 	 * Отримує список новин
+	 *
 	 * @returns Observable<News[]>
 	 */
 	public getNews(): Observable<News[]> {
@@ -27,6 +28,7 @@ export class NewsService {
 	 * Оновлює або зберігає новину
 	 *
 	 * @param news Новина
+	 *
 	 * @returns Observable<News>
 	 */
 	public saveOrUpdateNews(news: News): Observable<News> {
@@ -35,5 +37,17 @@ export class NewsService {
 		return news.id
 			? this.http.put<News>(`${url}/${news.id}`, news)
 			: this.http.post<News>(url, news);
+	}
+
+	/**
+	 * Видалити новину
+	 *
+	 * @param news Новина
+	 *
+	 * @returns Observable<News>
+	 */
+	public deleteNews(news: News): Observable<void> {
+		const url = `${this.API_URL}/${news.id}`;
+		return this.http.delete<void>(url);
 	}
 }

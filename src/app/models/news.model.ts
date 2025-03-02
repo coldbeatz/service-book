@@ -28,11 +28,21 @@ export class News {
 	 */
 	postingOptions: NewsPostingOption[];
 
+	updatedAt: Date | null;
+	createdAt: Date | null;
+
 	constructor(news?: Partial<News>) {
+
 		this.id = news?.id ?? null;
 		this.title = news?.title ?? { en: '', ua: '' };
 		this.content = news?.content ?? { en: '', ua: '' };
 		this.delayedPostingDate = news?.delayedPostingDate ? new Date(news.delayedPostingDate) : new Date();
 		this.postingOptions = news?.postingOptions ?? [NewsPostingOption.WEBSITE];
+		this.updatedAt = news?.updatedAt ? new Date(news.updatedAt) : null;
+		this.createdAt = news?.createdAt ? new Date(news.createdAt) : null;
+	}
+
+	hasBeenUpdated(): boolean {
+		return this.updatedAt?.getTime() !== this.createdAt?.getTime();
 	}
 }

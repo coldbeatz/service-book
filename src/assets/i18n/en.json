@@ -115,6 +115,8 @@
 	"BREADCRUMB_SERVICES": "Services",
 	"BREADCRUMB_ALERTS": "Alerts",
 	"BREADCRUMB_SETTINGS": "Settings",
+	"BREADCRUMB_MY_CARS": "My cars",
+	"BREADCRUMB_CREATE_USER_CAR": "New car",
 
 	"TRANSMISSION_MANUAL": "Manual",
 	"TRANSMISSION_AUTOMATIC": "Automatic",
@@ -159,6 +161,17 @@
 	"TOAST_SUCCESS": "Success",
 	"TOAST_SUCCESS_DETAIL": "The operation was successfully performed",
 
+	"NEWS_SORT_LABEL": "Sort by",
+	"NEWS_SORT_NEWEST": "New ones first",
+	"NEWS_SORT_OLDEST": "Old ones first",
+	"NEWS_SORT_NEWEST_UPDATE": "New updates first",
+	"NEWS_DELETE_SUCCESS_MESSAGE": "The news has been successfully deleted",
+
+	"NEWS_DELETE_DIALOG_HEADER": "Confirming deletion",
+	"NEWS_DELETE_DIALOG_MESSAGE": "Are you sure you want to delete the news?",
+	"NEWS_DELETE_DIALOG_ACCEPT": "Yes",
+	"NEWS_DELETE_DIALOG_REJECT": "No",
+
 	"NEWS_EDITOR_HEADER": "News editor",
 	"NEWS_EDITOR_DELAYED_POSTING_DATE_LABEL": "Date of message sending",
 	"NEWS_EDITOR_DELAYED_POSTING_DATE_HELP": "The date on which the message will be displayed or sent to users",
@@ -191,5 +204,29 @@
 	"PASSWORD_WITH_REPEAT_INPUT_PASSWORD_REPEAT_LABEL": "Password repeat",
 	"PASSWORD_WITH_REPEAT_INPUT_PASSWORD_REPEAT_PLACEHOLDER": "Enter password repeat",
 	"PASSWORD_WITH_REPEAT_ERROR_PASSWORDS_DONT_MATCH": "Passwords don't match",
-	"PASSWORD_WITH_REPEAT_ERROR_PASSWORD_EMPTY": "The password cannot be empty"
+	"PASSWORD_WITH_REPEAT_ERROR_PASSWORD_EMPTY": "The password cannot be empty",
+
+	"MY_CARS_ADD_CAR_BUTTON": "Add car",
+	"MY_CARS_INPUT_VIN_CODE": "VIN-code",
+	"MY_CARS_INPUT_VIN_CODE_PLACEHOLDER": "Enter VIN-code",
+	"MY_CARS_INPUT_VIN_CODE_ERROR_REQUIRED": "Vin code is required",
+	"MY_CARS_INPUT_VIN_CODE_ERROR_MIN_LENGTH": "VIN code must be at least 10 characters long",
+	"MY_CARS_INPUT_CAR_BRAND": "Car brand",
+	"MY_CARS_INPUT_CAR_BRAND_PLACEHOLDER": "Select car brand",
+	"MY_CARS_INPUT_CAR_MODEL": "Car model",
+	"MY_CARS_INPUT_CAR_MODEL_PLACEHOLDER": "Select car model",
+	"MY_CARS_INPUT_VEHICLE_YEAR": "Vehicle year",
+	"MY_CARS_INPUT_VEHICLE_YEAR_PLACEHOLDER": "Enter vehicle year",
+	"MY_CARS_INPUT_VEHICLE_MILEAGE": "Vehicle mileage",
+	"MY_CARS_INPUT_VEHICLE_MILEAGE_PLACEHOLDER": "Enter vehicle mileage",
+	"MY_CARS_INPUT_TRANSMISSION": "Transmission",
+	"MY_CARS_INPUT_TRANSMISSION_PLACEHOLDER": "Select transmission",
+	"MY_CARS_INPUT_FUEL_TYPE": "Fuel type",
+	"MY_CARS_INPUT_FUEL_TYPE_PLACEHOLDER": "Select fuel type",
+	"MY_CARS_INPUT_IMAGE_FILE": "Select a photo of your vehicle",
+	"MY_CARS_USER_CAR_UPDATED": "The user car has been successfully updated",
+
+	"NUMBER_FORM_INPUT_INVALID_MAX": "The value cannot be greater than the maximum of {{max}}",
+	"NUMBER_FORM_INPUT_INVALID_MIN": "The value cannot be less than the minimum of {{min}}",
+	"NUMBER_FORM_INPUT_INVALID_REQUIRED": "The field can't be empty"
 }

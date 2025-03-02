@@ -54,7 +54,7 @@
 		<div class="cards cars">
 			<ng-container *ngFor="let car of filteredCars">
 				<div class="card cars__card">
-					<img src="{{ environment.resourcesUrl }}/{{car.imageResource.url}}"
+					<img src="{{ environment.resourcesUrl }}/{{car.imageResource?.url}}"
 						 class="card-img-top" [alt]="car.model">
 
 					<div class="card-body">

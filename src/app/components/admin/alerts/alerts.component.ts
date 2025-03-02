@@ -13,8 +13,13 @@ import { NewsPostingOption } from "../../../models/news-posting-option.model";
 import { Localization } from "../../../models/localization/localization.model";
 import { Button } from "primeng/button";
 import { TooltipDirective } from "ngx-bootstrap/tooltip";
-import { MessageService } from "primeng/api";
+import { ConfirmationService, MessageService } from "primeng/api";
 import { NewsService } from "../../../services/api/news.service";
+import { ConfirmDialog } from "primeng/confirmdialog";
+import { AlertComponent } from "../../internal/alert/alert.component";
+import { DropdownModule } from "primeng/dropdown";
+import { FormsModule } from "@angular/forms";
+import { LocalizationService } from "../../../services/localization/localization.service";
 
 @Component({
 	selector: 'alerts-root',
@@ -31,7 +36,11 @@ import { NewsService } from "../../../services/api/news.service";
 		DataView,
 		Tag,
 		Button,
-		TooltipDirective
+		TooltipDirective,
+		ConfirmDialog,
+		AlertComponent,
+		DropdownModule,
+		FormsModule
 	],
 	standalone: true
 })
@@ -41,10 +50,40 @@ export class AlertsComponent implements OnInit {
 
 	news?: News[];
 
+	deletedSuccess: boolean = false;
+
 	constructor(private newsService: NewsService,
 				private translateService: TranslateService,
-				private messageService: MessageService) {
+				private messageService: MessageService,
+				protected localizationService: LocalizationService,
+				private confirmationService: ConfirmationService) {
 
+	}
+
+	selectedSort: string = 'newest';
+
+	sortOptions = [
+		{ label: 'NEWS_SORT_NEWEST', value: 'newest' },
+		{ label: 'NEWS_SORT_OLDEST', value: 'oldest' },
+		{ label: 'NEWS_SORT_NEWEST_UPDATE', value: 'newest_update' }
+	];
+
+	get sortedNews(): News[] {
+		if (!this.news)
+			return [];
+
+		return [...this.news].sort((a, b) => {
+			switch (this.selectedSort) {
+				case 'newest':
+					return new Date(b.delayedPostingDate).getTime() - new Date(a.delayedPostingDate).getTime();
+				case 'oldest':
+					return new Date(a.delayedPostingDate).getTime() - new Date(b.delayedPostingDate).getTime();
+				case 'newest_update':
+					return (new Date(b.updatedAt ?? 0).getTime()) - (new Date(a.updatedAt ?? 0).getTime());
+				default:
+					return 0;
+			}
+		});
 	}
 
 	ngOnInit(): void {
@@ -72,8 +111,22 @@ export class AlertsComponent implements OnInit {
 		return LocalizationHandlers[Localization.EN].getValue(content);
 	}
 
-	deleteNews(news: News) {
+	deleteNews(newsToBeDelete: News) {
+		this.deletedSuccess = false;
 
+		this.confirmationService.confirm({
+			accept: () => {
+				this.newsService.deleteNews(newsToBeDelete).subscribe({
+					next: (response) => {
+						this.deletedSuccess = true;
+
+						if (this.news) {
+							this.news = this.news.filter(n => n.id !== newsToBeDelete.id);
+						}
+					}
+				});
+			}
+		});
 	}
 
 	formattedText(text: string): string {

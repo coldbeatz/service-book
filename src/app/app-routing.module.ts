@@ -4,7 +4,6 @@ import { RegistrationComponent } from "./components/registration/registration.co
 import { RestoreComponent } from "./components/restore/restore.component";
 import { ConfirmationComponent } from "./components/confirmation/confirmation.component";
 import { ChangePasswordComponent } from "./components/restore/change-password/change-password.component";
-import { MainComponent } from "./components/internal/main/main.component";
 import { BrandsComponent} from "./components/admin/brands/brands.component";
 import { AuthGuard } from "./guards/auth.guard";
 import { GuestGuard } from "./guards/guest.guard";
@@ -16,6 +15,10 @@ import { ServicesComponent } from "./components/admin/services/services.componen
 import { BrandComponent } from "./components/admin/brands/brand/brand.component";
 import { AlertsComponent } from "./components/admin/alerts/alerts.component";
 import { SettingsComponent } from "./components/auth/settings/settings.component";
+import { MainComponent } from "./components/internal/main/main.component";
+import { HomeComponent } from "./components/home/home.component";
+import { UserCarsComponent } from "./components/auth/user-cars/user-cars.component";
+import { UserCarEditorComponent } from "./components/auth/user-cars/user-car-editor/user-car-editor.component";
 
 export const routes: Routes = [
 
@@ -43,6 +46,12 @@ export const routes: Routes = [
 	{ path: 'services', component: ServicesComponent, canActivate: [AuthGuard] },
 
 	{ path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] },
+
+	{ path: 'user-cars', component: UserCarsComponent, canActivate: [AuthGuard] },
+	{ path: 'user-cars/new', component: UserCarEditorComponent, canActivate: [AuthGuard] },
+	{ path: 'user-cars/:userCarId', component: UserCarEditorComponent, canActivate: [AuthGuard] },
+
+	{ path: '', component: HomeComponent },
 
 	//{ path: '', component: AppComponent },
 	{ path: '**', redirectTo: 'login' }

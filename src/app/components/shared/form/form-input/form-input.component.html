@@ -1,0 +1,18 @@
+<div class="mb-4">
+	<label [for]="id" class="form-label text-muted">
+		{{ label }} <small *ngIf="required" class="text-danger">*</small>
+	</label>
+
+	<input type="text"
+		   class="form-control"
+		   [class.is-invalid]="hasErrors()"
+		   [placeholder]="placeholder"
+		   [id]="id"
+		   [name]="id"
+		   [ngModel]="inputModel"
+		   (ngModelChange)="onChange($event)">
+
+	<div #errorContainer class="invalid-feedback">
+		<ng-container *ngTemplateOutlet="errorTemplate"></ng-container>
+	</div>
+</div>

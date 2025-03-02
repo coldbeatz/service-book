@@ -35,7 +35,7 @@ export class BreadcrumbComponent implements OnChanges, OnInit {
 	menuItems: MenuItem[] = [];
 	home: MenuItem = { icon: 'pi pi-home', routerLink: '/' };
 
-	private getBrand(): Brand | undefined {
+	private getBrand(): Brand | null | undefined {
 		return this.brand ?? this.car?.brand ?? this.engine?.car?.brand;
 	}
 
@@ -96,7 +96,14 @@ export class BreadcrumbComponent implements OnChanges, OnInit {
 					},
 					{ label: 'BREADCRUMB_SERVICES', urlPart: 'services' },
 					{ label: 'BREADCRUMB_ALERTS', urlPart: 'alerts' },
-					{ label: 'BREADCRUMB_SETTINGS', urlPart: 'settings' }
+					{ label: 'BREADCRUMB_SETTINGS', urlPart: 'settings' },
+					{
+						label: 'BREADCRUMB_MY_CARS',
+						urlPart: 'user-cars',
+						items: [
+							{ label: 'BREADCRUMB_CREATE_USER_CAR', urlPart: 'new' }
+						]
+					}
 				]
 			}
 		];
@@ -123,7 +130,11 @@ export class BreadcrumbComponent implements OnChanges, OnInit {
 
 			items = item.items ?? [];
 		}
-		this.menuItems[this.menuItems.length - 1].routerLink = null;
+
+		const length: number = this.menuItems.length;
+		if (length > 0) {
+			this.menuItems[length - 1].routerLink = null;
+		}
 	}
 
 	private findBreadcrumbItem(items: BreadcrumbItem[], segment: string): BreadcrumbItem | undefined {

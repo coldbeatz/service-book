@@ -1,0 +1,17 @@
+<main-root>
+	<div class="flex-center home">
+		<h1>Service book</h1>
+		<img src="assets/images/logo.png" alt="logo" class="home__logo">
+	</div>
+
+	<p-card header="Simple Card">
+		<p class="m-0">
+			Lorem ipsum dolor sit amet...
+		</p>
+	</p-card>
+
+	<p-fieldset *ngFor="let newsItem of news" [legend]="newsItem.title.en" [toggleable]="true">
+		<p>{{ localizationService.getLocalizedString(newsItem.content) }}</p>
+	</p-fieldset>
+
+</main-root>

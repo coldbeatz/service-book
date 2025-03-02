@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from "@angular/core";
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
-import { ApiRequestsService } from "../../../../services/api-requests.service";
 import { NavigationService } from "../../../../services/navigation.service";
 import { ActivatedRoute, RouterLink } from "@angular/router";
 import { Brand } from "../../../../models/brand.model";
@@ -14,6 +13,7 @@ import { CustomFileUploadComponent } from "../../../shared/custom-file-upload/cu
 import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { CarTransmissionType } from "../../../../models/car-transmission-type.model";
 import { BrandService } from "../../../../services/api/brand.service";
+import { CarService } from "../../../../services/api/car.service";
 
 @Component({
 	selector: 'create-car-root',
@@ -40,7 +40,7 @@ export class CreateCarComponent implements OnInit {
 	currentYear: number;
 
 	brand: Brand | null = null;
-	car: Car | null = null;
+	car: Car = new Car();
 
 	selectedFile: File | null = null;
 	imagePreview: string | null = null;
@@ -49,7 +49,7 @@ export class CreateCarComponent implements OnInit {
 
 	success: boolean = false;
 
-	constructor(private apiRequestsService: ApiRequestsService,
+	constructor(private carService: CarService,
 				private brandService: BrandService,
 				private fb: FormBuilder,
 				private navigationService: NavigationService,
@@ -118,7 +118,7 @@ export class CreateCarComponent implements OnInit {
 		if (carId == null)
 			return;
 
-		this.apiRequestsService.getCarById(Number(carId)).subscribe({
+		this.carService.getCarById(Number(carId)).subscribe({
 			next: (car) => {
 				if (car == null) return;
 
@@ -130,7 +130,7 @@ export class CreateCarComponent implements OnInit {
 					endYear: this.car.endYear,
 				});
 
-				this.imagePreview = environment.resourcesUrl + "/" + car.imageResource.url;
+				this.imagePreview = environment.resourcesUrl + "/" + car.imageResource?.url;
 
 				if (car.transmissions.length > 0) {
 					const transmissionsGroup = this.form.get('transmissions') as FormGroup;
@@ -172,36 +172,26 @@ export class CreateCarComponent implements OnInit {
 
 		const transmissions = this.getSelectedTransmissions();
 
-		if (this.car != null) {
-			this.car.model = data.model;
-			this.car.startYear = data.startYear;
-			this.car.endYear = data.endYear;
-			this.car.transmissions = transmissions;
+		this.car.brand = this.brand;
+		this.car.model = data.model;
+		this.car.startYear = data.startYear;
+		this.car.endYear = data.endYear;
+		this.car.transmissions = transmissions;
 
-			this.apiRequestsService.updateCar(this.car, this.selectedFile).subscribe({
-				next: (car) => {
-					if (car.id != null) {
-						this.success = true;
+		if (!this.car.id && this.selectedFile == null)
+			return;
+
+		this.carService.saveOrUpdateCar(this.car, this.selectedFile).subscribe({
+			next: (car) => {
+				if (car.id != null) {
+					if (!this.car.id) {
+						this.navigationService.navigate([`/cars`, this.brand?.id, car.id]);
 					}
+
+					this.car = car;
+					this.success = true;
 				}
-			});
-		} else {
-			if (this.selectedFile == null)
-				return;
-
-			console.log(transmissions);
-
-			/*this.apiRequestsService.createCar(this.brand, data.model, data.startYear, data.endYear,
-											  this.selectedFile, transmissions).subscribe({
-				next: (car) => {
-					this.navigationService.navigate([`/cars/${this.brand?.id}/${car?.id}`]);
-				},
-				error: (e) => {
-					console.log(e);
-				}
-			});*/
-		}
-
-
+			}
+		});
 	}
 }

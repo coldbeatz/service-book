@@ -1,6 +1,5 @@
-import { Component, Input, OnInit, ViewEncapsulation } from "@angular/core";
+import { Component, OnInit, ViewEncapsulation } from "@angular/core";
 import { Brand } from "../../../models/brand.model";
-import { ApiRequestsService } from "../../../services/api-requests.service";
 import { NavigationService } from "../../../services/navigation.service";
 import { ActivatedRoute, RouterLink } from "@angular/router";
 import { environment } from "../../../../environments/environment";
@@ -12,6 +11,7 @@ import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { FormsModule } from "@angular/forms";
 import { CarTransmissionType } from "../../../models/car-transmission-type.model";
 import { BrandService } from "../../../services/api/brand.service";
+import { CarService } from "../../../services/api/car.service";
 
 @Component({
 	selector: 'cars-root',
@@ -46,7 +46,7 @@ export class CarsComponent implements OnInit {
 
 	protected readonly environment = environment;
 
-	constructor(private apiRequestsService: ApiRequestsService,
+	constructor(private carService: CarService,
 				private brandService: BrandService,
 				private navigationService: NavigationService,
 				private translateService: TranslateService,
@@ -76,7 +76,7 @@ export class CarsComponent implements OnInit {
 			next: (brand) => {
 				this.brand = brand;
 
-				this.apiRequestsService.getCarsByBrand(brand).subscribe({
+				this.carService.getCarsByBrand(brand).subscribe({
 					next: (cars) => {
 						this.cars = cars;
 					}

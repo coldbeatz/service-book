@@ -1,7 +1,8 @@
 <main-root>
 	<app-breadcrumb></app-breadcrumb>
-	<div class="settings-container">
-		<form class="m-auto settings-form" (ngSubmit)="onSubmit()" *ngIf="user">
+
+	<div class="form-container">
+		<form class="form" (ngSubmit)="onSubmit()" *ngIf="user">
 			<div class="settings-form__icon-circle">
 				<!--<i class="pi pi-user-edit"></i>-->
 				<i class="bi bi-person-fill-gear"></i>

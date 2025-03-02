@@ -12,6 +12,6 @@
 
 		<span class="file-name">{{ selectedFileName || 'CUSTOM_FILE_INPUT_FILE_NOT_SELECTED' | translate }}</span>
 
-		<input #fileInput type="file" class="d-none" (change)="onFileSelected($event)">
+		<input #fileInput type="file" accept="image/*" class="d-none" (change)="onFileSelected($event)">
 	</div>
 </div>

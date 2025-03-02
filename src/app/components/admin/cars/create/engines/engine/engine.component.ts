@@ -9,6 +9,8 @@ import { MainComponent } from "../../../../../internal/main/main.component";
 import { BreadcrumbComponent } from "../../../../../internal/breadcrumb/breadcrumb.component";
 import { NgForOf } from "@angular/common";
 import { TranslateModule } from "@ngx-translate/core";
+import { CarService } from "../../../../../../services/api/car.service";
+import { EngineService } from "../../../../../../services/api/engine.service";
 
 @Component({
 	selector: 'engine-root',
@@ -34,6 +36,8 @@ export class EngineComponent implements OnInit {
 	availableFuelTypes: string[] = [];
 
 	constructor(private apiRequestsService: ApiRequestsService,
+				private engineService: EngineService,
+				private carService: CarService,
 				private fb: FormBuilder,
 				private navigationService: NavigationService,
 				private route: ActivatedRoute) {
@@ -62,7 +66,7 @@ export class EngineComponent implements OnInit {
 		if (engineId == null)
 			return;
 
-		this.apiRequestsService.getEngineById(Number(engineId)).subscribe({
+		this.engineService.getEngineById(Number(engineId)).subscribe({
 			next: (engine) => {
 				this.form.patchValue({
 					name: engine.name,
@@ -81,7 +85,7 @@ export class EngineComponent implements OnInit {
 		if (carId == null)
 			return;
 
-		this.apiRequestsService.getCarById(Number(carId)).subscribe({
+		this.carService.getCarById(Number(carId)).subscribe({
 			next: (car) => {
 				this.car = car;
 			}

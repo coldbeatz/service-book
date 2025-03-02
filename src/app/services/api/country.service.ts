@@ -17,6 +17,7 @@ export class CountryService {
 
 	/**
 	 * Отримує список країн
+	 *
 	 * @returns Observable<Country[]>
 	 */
 	public getCountries(): Observable<Country[]> {

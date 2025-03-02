@@ -8,6 +8,7 @@ import { MainComponent } from "../../../../internal/main/main.component";
 import { BreadcrumbComponent } from "../../../../internal/breadcrumb/breadcrumb.component";
 import { NgForOf, NgIf } from "@angular/common";
 import { TranslateModule } from "@ngx-translate/core";
+import { CarService } from "../../../../../services/api/car.service";
 
 @Component({
 	selector: 'engines-root',
@@ -29,6 +30,7 @@ export class EnginesComponent implements OnInit {
 	car: Car | null = null;
 
 	constructor(private apiRequestsService: ApiRequestsService,
+				private carService: CarService,
 				private navigationService: NavigationService,
 				private route: ActivatedRoute) {
 	}
@@ -42,7 +44,7 @@ export class EnginesComponent implements OnInit {
 		if (carId == null)
 			return;
 
-		this.apiRequestsService.getCarById(Number(carId)).subscribe({
+		this.carService.getCarById(Number(carId)).subscribe({
 			next: (car) => {
 				if (car == null) return;
 				this.car = car;

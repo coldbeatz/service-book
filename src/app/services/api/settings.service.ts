@@ -44,6 +44,7 @@ export class SettingsService {
 	 * Оновлює налаштування користувача
 	 *
 	 * @param settings Налаштування користувача
+	 *
 	 * @returns Observable<SettingsResponse>
 	 */
 	public updateUserSettings(settings: SettingsRequest): Observable<SettingsResponse>  {
