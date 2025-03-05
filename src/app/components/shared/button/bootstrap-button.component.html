@@ -1,0 +1,20 @@
+<a *ngIf="routerLink && !disabled"
+   #buttonElement
+   [routerLink]="routerLink"
+   class="btn btn-{{ type }} bootstrap-button"
+   [class.compact]="isCompact"
+   [ngStyle]="{'max-width.px': maxWidth > 0 ? maxWidth : null}">
+	<i *ngIf="bootstrapIconId" class="bi" [ngClass]="bootstrapIconId"></i>
+	<span class="mx-3 button-text">{{ text }}</span>
+</a>
+
+<button *ngIf="!routerLink || disabled"
+		#buttonElement
+		class="btn btn-primary bootstrap-button"
+		[class.compact]="isCompact"
+		[ngStyle]="{'max-width.px': maxWidth > 0 ? maxWidth : null}"
+		[disabled]="disabled"
+		(click)="handleClick($event)">
+	<i *ngIf="bootstrapIconId" class="bi" [ngClass]="bootstrapIconId"></i>
+	<span class="mx-3 button-text">{{ text }}</span>
+</button>

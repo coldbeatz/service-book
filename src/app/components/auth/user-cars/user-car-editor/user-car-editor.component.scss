@@ -1,95 +1,26 @@
-:root {
-	--p-select-border-radius: 3px !important;
-	--p-select-background: #fafafa !important;
-	--p-select-placeholder-color: rgba(0, 0, 0, 0.7) !important;
-
-	--p-select-option-selected-background: rgba(0, 123, 255, .05) !important;
-	--p-select-option-selected-color: #2466d4 !important;
-
-	--p-select-option-selected-focus-background: rgba(0, 123, 255, .1) !important;
-	--p-select-option-selected-focus-color: #2466d4 !important;
-
-	--p-select-focus-border-color: #4285f4 !important;
-	--p-select-focus-ring-shadow: 0 0 0 0.25rem rgba(0, 123, 255, .25) !important;
-
-	--p-inputtext-border-radius: 3px !important;
-	--p-inputtext-background: #fafafa !important;
-	--p-inputtext-focus-border-color: #4285f4 !important;
-	--p-inputtext-focus-ring-shadow: 0 0 0 0.25rem rgba(0,123,255,.25) !important;
-}
-
-.p-select {
-	padding: 5px !important;
-
-	span {
-		font-size: 14px;
-	}
-}
-
-.p-inputtext {
-	font-size: 14px;
-
-	&:focus {
-		margin: 5px 0;
-	}
-}
-
-.image-container {
-	text-align: center;
-	width: 50%;
-
-	@media (max-width: 1024px) {
-		width: 100%;
-	}
-
-	.image {
-		max-width: 400px;
-		min-width: 400px;
-		width: 100%;
-		margin-top: 10px;
-
-		@media (max-width: 500px) {
-			min-width: 100% !important;
-		}
-	}
-}
-
-.form-wrapper {
-	.form {
-		max-width: max-content !important;
-		min-width: 600px;
-		margin: 0;
-
-		@media (max-width: 680px) {
-			min-width: 100% !important;
-		}
-	}
-
-	@media (max-width: 680px) {
-		width: 100% !important;
-	}
-}
-
-.data-container {
+.editor-container {
 	display: flex;
-	gap: 30px;
+	height: 100%;
 
-	&__inputs {
-		min-width: 450px;
-
-		@media (max-width: 680px) {
-			min-width: 100% !important;
-		}
-
-		@media (max-width: 500px) {
-			.col-6 {
-				width: 100% !important;
-			}
-		}
-	}
-
-	@media (max-width: 1024px) {
+	@media (max-width: 768px) {
 		flex-direction: column;
-		gap: 0;
+	}
+}
+
+.left-panel {
+	background: white;
+	max-width: 250px;
+	width: 100%;
+	padding: 10px;
+
+	@media (max-width: 768px) {
+		max-width: 100%;
+	}
+}
+
+.p-panelmenu {
+
+	@media (max-width: 768px) {
+		flex-direction: row !important;
 	}
 }

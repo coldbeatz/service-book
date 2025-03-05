@@ -1,0 +1,32 @@
+.bootstrap-button {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	transition: all 0.3s ease;
+	margin: auto;
+
+	.button-text {
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		transition: all 0.3s ease;
+	}
+
+	@media (max-width: 320px) {
+		font-size: 15px;
+	}
+
+	&.compact {
+		gap: 0;
+
+		.button-text {
+			opacity: 0;
+			width: 0;
+			overflow: hidden;
+			padding: 0 !important;
+			margin: 0 !important;
+		}
+	}
+}

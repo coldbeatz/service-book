@@ -1,145 +1,25 @@
 <main-root>
-	<app-breadcrumb></app-breadcrumb>
+	<app-breadcrumb [userCar]="userCar" [marginBottom]="0"></app-breadcrumb>
 
-	<div class="form-container">
-		<div class="form-wrapper">
-			<div class="w-100">
-				<alert-root *ngIf="userCarUpdated" text="{{ 'MY_CARS_USER_CAR_UPDATED' | translate }}"></alert-root>
-			</div>
+	<div class="editor-container">
+		<div class="left-panel">
+			<p-panelMenu [model]="menuItems" styleClass="custom-menu" ></p-panelMenu>
+		</div>
 
-			<div class="form" *ngIf="brands">
-				<div class="data-container">
-					<div class="w-100 data-container__inputs">
-						<div class="row">
-							<div class="mb-4 d-flex flex-column col-6">
-								<label class="form-label text-muted">
-									{{ 'MY_CARS_INPUT_CAR_BRAND' | translate }} <small class="text-danger">*</small>
-								</label>
+		<div>
+			<user-car-editor-settings-root
+				*ngIf="windowType == CarEditorWindowType.SETTINGS"
+				[userCar]="userCar">
+			</user-car-editor-settings-root>
 
-								<p-select
-									[options]="brandsOptions"
-									[(ngModel)]="selectedBrand"
-									[filter]="true"
-									placeholder="{{ 'MY_CARS_INPUT_CAR_BRAND_PLACEHOLDER' | translate }}"
-									appendTo="body"
-									(onChange)="onBrandSelected($event.value)">
-								</p-select>
-							</div>
+			<user-car-note-root
+				*ngIf="windowType == CarEditorWindowType.NOTE"
+				[note]="selectedNote"
+				[userCar]="userCar"
+				(saved)="onNoteSaved($event)"
+				(deleted)="onNoteDeleted($event)">
 
-							<div class="mb-4 d-flex flex-column col-6">
-								<label class="form-label text-muted">
-									{{ 'MY_CARS_INPUT_CAR_MODEL' | translate }} <small class="text-danger">*</small>
-								</label>
-
-								<p-select
-									[(ngModel)]="userCar.car"
-									[options]="carsOptions"
-									[filter]="true"
-									placeholder="{{ 'MY_CARS_INPUT_CAR_MODEL_PLACEHOLDER' | translate }}"
-									appendTo="body"
-									(onChange)="onCarSelected($event.value)">
-								</p-select>
-							</div>
-						</div>
-
-						<div class="row">
-							<div class="col-6">
-								<app-form-input
-									id="vinCode"
-									[required]="true"
-									[label]="'MY_CARS_INPUT_VIN_CODE' | translate"
-									[placeholder]="'MY_CARS_INPUT_VIN_CODE_PLACEHOLDER' | translate"
-									[(ngModel)]="userCar.vinCode">
-
-									<ng-template #errorsTemplate>
-										<span *ngIf="!userCar.vinCode">
-											{{ 'MY_CARS_INPUT_VIN_CODE_ERROR_REQUIRED' | translate }}
-										</span>
-
-										<span *ngIf="userCar.vinCode && userCar.vinCode.length < 10">
-											{{ 'MY_CARS_INPUT_VIN_CODE_ERROR_MIN_LENGTH' | translate }}
-										</span>
-									</ng-template>
-								</app-form-input>
-							</div>
-
-							<div class="col-6">
-								<number-form-input
-									#vehicleYearInput
-									id="vehicleYear"
-									[required]="true"
-									[label]="'MY_CARS_INPUT_VEHICLE_YEAR' | translate"
-									[placeholder]="'MY_CARS_INPUT_VEHICLE_YEAR_PLACEHOLDER' | translate"
-									[min]="1900"
-									[max]="maxYear"
-									[step]="1"
-									[(ngModel)]="userCar.vehicleYear">
-								</number-form-input>
-							</div>
-						</div>
-
-						<number-form-input
-							id="vehicleMileage"
-							[required]="true"
-							[label]="'MY_CARS_INPUT_VEHICLE_MILEAGE' | translate"
-							[placeholder]="'MY_CARS_INPUT_VEHICLE_MILEAGE_PLACEHOLDER' | translate"
-							[min]="0"
-							[step]="10"
-							[(ngModel)]="userCar.vehicleMileage">
-						</number-form-input>
-
-						<div class="row">
-							<div class="mb-4 d-flex flex-column w-100 col-6">
-								<label class="form-label text-muted">
-									{{ 'MY_CARS_INPUT_TRANSMISSION' | translate }} <small class="text-danger">*</small>
-								</label>
-
-								<p-select
-									[options]="transmissionOptions"
-									[(ngModel)]="userCar.transmissionType"
-									placeholder="{{ 'MY_CARS_INPUT_TRANSMISSION_PLACEHOLDER' | translate }}"
-									appendTo="body">
-								</p-select>
-							</div>
-
-							<div class="mb-4 d-flex flex-column w-100 col-6">
-								<label class="form-label text-muted">
-									{{ 'MY_CARS_INPUT_FUEL_TYPE' | translate }} <small class="text-danger">*</small>
-								</label>
-
-								<p-select
-									[options]="fuelTypeService.options"
-									[(ngModel)]="userCar.fuelType"
-									placeholder="{{ 'MY_CARS_INPUT_FUEL_TYPE_PLACEHOLDER' | translate }}"
-									appendTo="body">
-								</p-select>
-							</div>
-						</div>
-					</div>
-
-					<div class="mb-4 image-container">
-						<div class="mb-3 text-start">
-							<label class="form-label text-muted">
-								{{ 'MY_CARS_INPUT_IMAGE_FILE' | translate }} <small class="text-danger">*</small>
-							</label>
-
-							<custom-file-upload-root (fileSelected)="onFileSelected($event)"></custom-file-upload-root>
-						</div>
-
-						<img *ngIf="imagePreview" [src]="imagePreview" class="image" alt="preview">
-					</div>
-				</div>
-
-				<div class="flex-center mt-3">
-					<button type="submit" class="btn btn-primary flex-center" style="max-width: 300px;"
-							[disabled]="buttonDisabled()" (click)="onSubmit()">
-
-							<span class="mx-3">
-								{{ ('EDIT_BRAND_SUBMIT_BUTTON') | translate }}
-							</span>
-					</button>
-				</div>
-			</div>
+			</user-car-note-root>
 		</div>
 	</div>
 </main-root>

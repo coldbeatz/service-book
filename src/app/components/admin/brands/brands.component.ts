@@ -1,8 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { ApiRequestsService } from "../../../services/api-requests.service";
 import { FormsModule } from "@angular/forms";
 import { Brand } from "../../../models/brand.model";
-import { environment } from "../../../../environments/environment";
 import { Country } from "../../../models/country.model";
 import { BreadcrumbComponent } from "../../internal/breadcrumb/breadcrumb.component";
 import { MainComponent } from "../../internal/main/main.component";
@@ -30,8 +28,6 @@ import { BrandService } from "../../../services/api/brand.service";
 	standalone: true
 })
 export class BrandsComponent implements OnInit {
-
-	protected readonly environment = environment;
 
 	selectedCountry: Country | null = null;
 

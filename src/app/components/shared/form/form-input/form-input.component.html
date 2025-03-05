@@ -5,12 +5,15 @@
 
 	<input type="text"
 		   class="form-control"
+		   [maxlength]="maxlength"
 		   [class.is-invalid]="hasErrors()"
 		   [placeholder]="placeholder"
 		   [id]="id"
 		   [name]="id"
 		   [ngModel]="inputModel"
 		   (ngModelChange)="onChange($event)">
+
+	<div *ngIf="help" class="form-text">{{ help }}</div>
 
 	<div #errorContainer class="invalid-feedback">
 		<ng-container *ngTemplateOutlet="errorTemplate"></ng-container>

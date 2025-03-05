@@ -30,7 +30,7 @@
 			<div class="dropdown text-center dropdown-country" id="dropdown">
 				<button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
 					<ng-container *ngIf="brand.country; else defaultContent">
-						<img [src]="environment.resourcesUrl + '/' + brand.country.iconResource.url"
+						<img [src]="brand.country.iconResource.url"
 							 [alt]="brand.country.name.en"
 							 [width]="20"
 							 [height]="20"
@@ -53,7 +53,7 @@
 
 					<li *ngFor="let country of countries">
 						<a class="dropdown-item" (click)="brand.country = country">
-							<img src="{{ environment.resourcesUrl }}/{{country.iconResource.url}}"
+							<img src="{{ country.iconResource.url }}"
 								 [alt]="country.name.en" class="me-2"
 								 [width]="20"
 								 [height]="20">

@@ -1,26 +1,23 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation } from "@angular/core";
+import { ChangeDetectorRef, Component, OnInit, ViewEncapsulation } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { MainComponent } from "../../../internal/main/main.component";
 import { BreadcrumbComponent } from "../../../internal/breadcrumb/breadcrumb.component";
 import { TranslateModule } from "@ngx-translate/core";
 import { FormsModule } from "@angular/forms";
 import { UserCar } from "../../../../models/user-car.model";
-import { BrandOption, BrandService } from "../../../../services/api/brand.service";
-import { Brand } from "../../../../models/brand.model";
-import { Select } from "primeng/select";
-import { CarOption, CarService } from "../../../../services/api/car.service";
-import { Car } from "../../../../models/car.model";
-import { NumberFormInputComponent } from "../../../shared/form/number-form-input/number-form-input.component";
-import { FormInputComponent } from "../../../shared/form/form-input/form-input.component";
-import { CarTransmissionService, TransmissionOption } from "../../../../services/car-transmission.service";
-import { FuelTypeService } from "../../../../services/fuel-type.service";
-import { CustomFileUploadComponent } from "../../../shared/custom-file-upload/custom-file-upload.component";
 import { UserCarService } from "../../../../services/api/user-car.service";
-import { CarTransmissionType } from "../../../../models/car-transmission-type.model";
 import { ActivatedRoute } from "@angular/router";
-import { environment } from "../../../../../environments/environment";
-import { AlertComponent } from "../../../internal/alert/alert.component";
-import { NavigationService } from "../../../../services/navigation.service";
+import { PanelMenu } from "primeng/panelmenu";
+import { PrimeIcons } from "primeng/api";
+import { UserCarEditorSettingsComponent } from "./settings/user-car-editor-settings.component";
+import { UserCarNoteComponent } from "./note/user-car-note.component";
+import { CarNote } from "../../../../models/car-note.model";
+
+enum CarEditorWindowType {
+	SETTINGS,
+	NOTE,
+	REGULATION_MAINTENANCE
+}
 
 @Component({
 	selector: 'user-car-editor-root',
@@ -33,11 +30,9 @@ import { NavigationService } from "../../../../services/navigation.service";
 		BreadcrumbComponent,
 		TranslateModule,
 		FormsModule,
-		Select,
-		FormInputComponent,
-		NumberFormInputComponent,
-		CustomFileUploadComponent,
-		AlertComponent
+		UserCarEditorSettingsComponent,
+		PanelMenu,
+		UserCarNoteComponent
 	],
 	standalone: true
 })
@@ -45,53 +40,22 @@ export class UserCarEditorComponent implements OnInit {
 
 	protected userCar: UserCar = new UserCar();
 
-	brands: Brand[] = [];
-	carsByBrand: Car[] = [];
+	notes: CarNote[] = [];
+	selectedNote: CarNote = new CarNote();
 
-	brandsOptions: BrandOption[] = [];
-	carsOptions: CarOption[] = [];
+	windowType: CarEditorWindowType = CarEditorWindowType.SETTINGS;
 
-	selectedFile: File | null = null;
-	imagePreview: string | null = null;
+	CarEditorWindowType = CarEditorWindowType;
 
-	transmissionOptions: TransmissionOption[] = [];
+	menuItems: any[] = [];
 
-	selectedBrand: Brand | null = null;
-
-	userCarUpdated: boolean = false;
-
-	@ViewChild('vehicleYearInput', { static: false })
-	vehicleYearInputComponent!: NumberFormInputComponent;
-
-	constructor(private brandService: BrandService,
-				private carService: CarService,
-				private userCarService: UserCarService,
-				protected carTransmissionService: CarTransmissionService,
-				protected fuelTypeService: FuelTypeService,
-				private navigationService: NavigationService,
-				private route: ActivatedRoute) {
+	constructor(private userCarService: UserCarService,
+				private route: ActivatedRoute,
+				private cdr: ChangeDetectorRef) {
 
 	}
 
 	ngOnInit(): void {
-		this.brandService.getBrands().subscribe({
-			next: (response) => {
-				this.brands = response;
-
-				this.brandsOptions = this.brands.map((brand: Brand) => ({
-					value: brand,
-					label: brand.brand
-				}));
-			},
-			error: (e) => {
-				console.log(e);
-			}
-		});
-
-		this.carTransmissionService.transmissionOptions$.subscribe(() => {
-			this.updateTransmissionOptions();
-		});
-
 		this.loadUserCar();
 	}
 
@@ -101,110 +65,73 @@ export class UserCarEditorComponent implements OnInit {
 		if (userCarId) {
 			this.userCarService.getUserCarById(userCarId).subscribe({
 				next: (userCar) => {
-					this.initUserCar(userCar);
+					this.userCar = userCar;
+
+					this.userCarService.getNotes(userCar).subscribe({
+						next: (notes: CarNote[]) => {
+							this.notes = notes;
+							this.buildMenu();
+						}
+					})
 				}
 			})
 		}
 	}
 
-	private initUserCar(userCar: UserCar): void {
-		this.userCar = userCar;
-
-		this.selectedBrand = userCar.car?.brand ?? null;
-
-		if (this.selectedBrand) {
-			this.onBrandSelected(this.selectedBrand);
+	onNoteSaved(note: CarNote): void {
+		const index = this.notes.findIndex(n => n.id === note.id);
+		if (index >= 0) {
+			this.notes[index] = note;
+		} else {
+			this.notes.push(note);
 		}
-
-		this.imagePreview = environment.resourcesUrl + "/" + userCar.imageResource?.url;
+		this.buildMenu();
 	}
 
-	updateTransmissionOptions(transmissions?: CarTransmissionType[]) {
-		this.transmissionOptions = this.carTransmissionService.getOptions(transmissions);
-	}
-
-	private updateVehicleYear() {
-		const car = this.userCar.car;
-
-		const minYear = this.vehicleYearInputComponent.min = car?.startYear ?? 1900;
-		const maxYear = this.vehicleYearInputComponent.max = car?.endYear ?? this.maxYear;
-
-		if (this.userCar.vehicleYear && (this.userCar.vehicleYear < minYear || this.userCar.vehicleYear > maxYear)) {
-			this.userCar.vehicleYear = null;
+	onNoteDeleted(note: CarNote): void {
+		const index = this.notes.findIndex(n => n.id === note.id);
+		if (index >= 0) {
+			this.notes.splice(index, 1);
+			this.buildMenu();
 		}
 	}
 
-	buttonDisabled(): boolean {
-		const userCar = this.userCar;
+	private buildMenu(): void {
+		this.menuItems = [
+			{
+				label: 'Car settings',
+				icon: PrimeIcons.COG,
+				command: () => {
+					this.windowType = CarEditorWindowType.SETTINGS;
+				},
+			},
+			{
+				label: 'Notes',
+				icon: 'pi pi-fw pi-cog',
+				expanded: true,
+				items: [
+					{
+						label: 'Create note',
+						icon: PrimeIcons.PLUS,
+						command: () => {
+							this.selectedNote = new CarNote();
+							this.selectedNote.userCar = this.userCar;
 
-		return !userCar.car ||
-			   !userCar.vinCode ||
-			   !userCar.vehicleMileage ||
-			   !userCar.vehicleYear ||
-			   userCar.transmissionType == null ||
-			   userCar.fuelType == null;
-	}
-
-	onFileSelected(file: File | null): void {
-		this.selectedFile = file;
-
-		if (file) {
-			const reader = new FileReader();
-			reader.onload = () => {
-				this.imagePreview = reader.result as string;
-			};
-			reader.readAsDataURL(file);
-		}
-	}
-
-	onBrandSelected(brand: Brand) {
-		const car = this.userCar.car;
-
-		this.userCar.car = null;
-
-		this.carsByBrand = [];
-		this.carsOptions = [];
-
-		this.updateTransmissionOptions();
-		this.updateVehicleYear();
-
-		this.carService.getCarsByBrand(brand).subscribe({
-			next: (cars) => {
-				this.carsByBrand = cars;
-
-				this.carsOptions = this.carsByBrand.map((car: Car) => ({
-					value: car,
-					label: car.model
-				}));
-
-				if (car && car.brand?.id === brand.id) {
-					this.userCar.car = this.carsByBrand.find(c => c.id === car?.id) || null;
-				}
+							this.windowType = CarEditorWindowType.NOTE;
+						}
+					},
+					...this.notes.map(note => ({
+						label: note.shortDescription,
+						icon: PrimeIcons.EYE,
+						command: () => this.openNote(note)
+					}))
+				]
 			}
-		})
+		];
 	}
 
-	onCarSelected(car: Car) {
-		this.updateTransmissionOptions(car.transmissions);
-		this.updateVehicleYear();
-	}
-
-	protected get maxYear(): number {
-		return new Date().getFullYear();
-	}
-
-	onSubmit() {
-		this.userCarUpdated = false;
-
-		this.userCarService.saveOrUpdateUserCar(this.userCar, this.selectedFile).subscribe({
-			next: (userCar) => {
-				if (!this.userCar.id) {
-					this.navigationService.navigate([`/user-cars`, userCar.id]);
-				}
-
-				this.initUserCar(userCar);
-				this.userCarUpdated = true;
-			}
-		});
+	openNote(note: CarNote) {
+		this.windowType = CarEditorWindowType.NOTE;
+		this.selectedNote = { ...note }; // щоб не редагувати оригінал напряму
 	}
 }

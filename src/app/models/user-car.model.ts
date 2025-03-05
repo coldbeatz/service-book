@@ -32,6 +32,11 @@ export class UserCar {
 	vinCode: string;
 
 	/**
+	 * Номерний знак автомобіля
+	 */
+	licensePlate: string;
+
+	/**
 	 * Тип трансмісії автомобіля (автомат, механіка, і т.д.)
 	 */
 	transmissionType: CarTransmissionType | null;
@@ -57,6 +62,7 @@ export class UserCar {
 		this.engine = userCar?.engine ?? null;
 		this.vehicleYear = userCar?.vehicleYear ?? null; //new Date().getFullYear();
 		this.vinCode = userCar?.vinCode ?? '';
+		this.licensePlate = userCar?.licensePlate ?? '';
 		this.transmissionType = userCar?.transmissionType ?? null;
 		this.fuelType = userCar?.fuelType ?? null;
 		this.vehicleMileage = userCar?.vehicleMileage ?? 0;

@@ -130,7 +130,7 @@ export class CreateCarComponent implements OnInit {
 					endYear: this.car.endYear,
 				});
 
-				this.imagePreview = environment.resourcesUrl + "/" + car.imageResource?.url;
+				this.imagePreview = car.imageResource?.url || null;
 
 				if (car.transmissions.length > 0) {
 					const transmissionsGroup = this.form.get('transmissions') as FormGroup;

@@ -2,7 +2,6 @@ import { Component, OnInit, ViewEncapsulation } from "@angular/core";
 import { Brand } from "../../../models/brand.model";
 import { NavigationService } from "../../../services/navigation.service";
 import { ActivatedRoute, RouterLink } from "@angular/router";
-import { environment } from "../../../../environments/environment";
 import { Car } from "../../../models/car.model";
 import { MainComponent } from "../../internal/main/main.component";
 import { BreadcrumbComponent } from "../../internal/breadcrumb/breadcrumb.component";
@@ -43,8 +42,6 @@ export class CarsComponent implements OnInit {
 	 * Текст для пошуку
 	 */
 	searchTerm: string = '';
-
-	protected readonly environment = environment;
 
 	constructor(private carService: CarService,
 				private brandService: BrandService,

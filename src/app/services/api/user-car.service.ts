@@ -5,6 +5,7 @@ import { Observable } from "rxjs";
 import { CarTransmissionType } from "../../models/car-transmission-type.model";
 import { UserCar } from "../../models/user-car.model";
 import { FuelType } from "../../models/fuel-type.model";
+import { CarNote } from "../../models/car-note.model";
 
 @Injectable({
 	providedIn: 'root'
@@ -15,6 +16,27 @@ export class UserCarService {
 
 	constructor(private http: HttpClient) {
 
+	}
+
+	/**
+	 * Отримує записи користувача по його автомобілю
+	 *
+	 * @returns Observable<CarNote[]>
+	 */
+	public getNotes(userCar: UserCar): Observable<CarNote[]> {
+		return this.http.get<CarNote[]>(`${this.API_URL}/${userCar.id}/notes`);
+	}
+
+	/**
+	 * Видалити автомобіль користувача
+	 *
+	 * @param userCar Автомобіль користувача
+	 *
+	 * @returns Observable<void>
+	 */
+	public deleteUserCar(userCar: UserCar): Observable<void> {
+		const url = `${this.API_URL}/${userCar.id}`;
+		return this.http.delete<void>(url);
 	}
 
 	/**
@@ -58,6 +80,7 @@ export class UserCarService {
 		userCar.vehicleYear && formData.append('vehicleYear', userCar.vehicleYear.toString());
 
 		formData.append('vinCode', userCar.vinCode);
+		formData.append('licensePlate', userCar.licensePlate);
 		formData.append('transmissionType', CarTransmissionType[userCar.transmissionType]);
 		formData.append('fuelType', FuelType[userCar.fuelType]);
 		formData.append('vehicleMileage', userCar.vehicleMileage.toString());

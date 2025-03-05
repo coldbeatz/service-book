@@ -1,0 +1,85 @@
+<p-confirmDialog [header]="'CAR_NOTE_DELETE_DIALOG_HEADER' | translate"
+				 [message]="'CAR_NOTE_DELETE_DIALOG_MESSAGE' | translate"
+				 [acceptLabel]="'CAR_NOTE_DELETE_DIALOG_ACCEPT' | translate"
+				 [rejectLabel]="'CAR_NOTE_DELETE_DIALOG_REJECT' | translate"
+				 icon="pi pi-exclamation-triangle">
+</p-confirmDialog>
+
+<div>
+	<div class="form-container">
+		<div class="form-wrapper">
+			<div class="w-100 mt-4">
+				<alert-root *ngIf="noteUpdated" text="{{ 'CAR_NOTE_UPDATED' | translate }}"></alert-root>
+
+				<alert-root *ngIf="deletedSuccess" text="{{ 'CAR_NOTE_DELETE_SUCCESS_MESSAGE' | translate }}"></alert-root>
+			</div>
+
+			<div class="note-buttons-group" *ngIf="userCar.id">
+				<bootstrap-button
+					[text]="'CAR_NOTE_BUTTON_EDITOR' | translate"
+					[bootstrapIconId]="'bi-pencil-fill'"
+					(click)="editButtonClick()" >
+				</bootstrap-button>
+
+				<ng-container>
+					<bootstrap-button
+						[text]="'CAR_NOTE_BUTTON_PREVIEW' | translate"
+						[bootstrapIconId]="'bi-eye-fill'"
+						(click)="previewButtonClick()" >
+					</bootstrap-button>
+				</ng-container>
+
+				<ng-container *ngIf="note.id">
+					<bootstrap-button
+						[type]="'danger'"
+						[text]="'CAR_NOTE_BUTTON_DELETE' | translate"
+						[bootstrapIconId]="'bi-trash'"
+						(click)="deleteButtonClick()" >
+					</bootstrap-button>
+				</ng-container>
+			</div>
+
+			<div *ngIf="windowType == NoteWindowType.PREVIEW" class="note__preview">
+				<div class="card">
+					<div class="card-body">
+						<div class="d-flex justify-content-between">
+							<h5 class="card-title">{{ note.shortDescription }}</h5>
+
+							<p class="card-text text-muted" *ngIf="note.createdAt">
+								{{ note.createdAt | date:'dd.MM.yyyy HH:mm' }}
+							</p>
+						</div>
+
+						<p class="card-text" [innerHTML]="formattedText(note.content)"></p>
+					</div>
+				</div>
+			</div>
+
+			<div *ngIf="windowType == NoteWindowType.EDIT" class="note__editor">
+				<div>
+					<app-form-input
+						id="short_description"
+						[required]="true"
+						[label]="'CAR_NOTE_INPUT_SHORT_DESCRIPTION' | translate"
+						[placeholder]="'CAR_NOTE_INPUT_SHORT_PLACEHOLDER' | translate"
+						[help]="'CAR_NOTE_INPUT_SHORT_HELP' | translate: {maxLength: 30}"
+						[maxlength]="30"
+						[(ngModel)]="note.shortDescription">
+					</app-form-input>
+				</div>
+
+				<p-editor [(ngModel)]="note.content" [style]="{ minHeight: '250px' }"></p-editor>
+
+				<div class="mt-4">
+					<bootstrap-button
+						[text]="'CAR_NOTE_BUTTON_SAVE' | translate"
+						[maxWidth]="200"
+						[bootstrapIconId]="'bi-download'"
+						[disabled]="!note.shortDescription || !note.content"
+						(click)="onClickSaveButton()">
+					</bootstrap-button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,29 @@
+.note__editor {
+	min-width: 0 !important;
+	max-width: 700px !important;
+	width: 100%;
+	margin-top: 20px;
+	background: white;
+	padding: 30px;
+	border-radius: 20px;
+}
+
+.note__preview {
+	.card {
+		max-width: 700px;
+	}
+
+	.card-body .card-text img {
+		width: 100%;
+	}
+}
+
+.note-buttons-group {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 15px;
+	max-width: 700px;
+	width: 100%;
+	margin: 0 auto 30px;
+	padding: 0 !important;
+}

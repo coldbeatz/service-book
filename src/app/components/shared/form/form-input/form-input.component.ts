@@ -21,4 +21,6 @@ import { AbstractFormInput } from "./abstract-form-input.component";
 export class FormInputComponent extends AbstractFormInput {
 
 	@Input() type: 'text' | 'email' | 'password' = 'text';
+
+	@Input() maxlength: number = 255;
 }

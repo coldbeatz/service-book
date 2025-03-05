@@ -18,6 +18,7 @@ export abstract class AbstractFormInput implements ControlValueAccessor, AfterCo
 
 	@Input() label!: string;
 	@Input() placeholder: string = '';
+	@Input() help: string = '';
 
 	@Input() required: boolean = false;
 	@Input() inputModel!: any;

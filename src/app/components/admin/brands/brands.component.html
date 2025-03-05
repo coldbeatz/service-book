@@ -22,7 +22,7 @@
 		</app-dropdown>
 
 		<ng-template #countryTemplate let-country>
-			<img [src]="environment.resourcesUrl + '/' + country.iconResource.url"
+			<img [src]="country.iconResource.url"
 				 [alt]="country.name.en"
 				 [width]="20"
 				 [height]="20"
@@ -44,14 +44,14 @@
 	<div class="brands">
 		<ng-container *ngFor="let brand of filteredBrands">
 			<div class="card brands__card" *ngIf="!selectedCountry || brand.country?.id === selectedCountry.id">
-				<img src="{{ environment.resourcesUrl }}/{{brand.imageResource.url}}"
+				<img src="{{ brand.imageResource.url }}"
 					 class="card-img-top" [alt]="brand.brand">
 
 				<div class="card-body">
 					<h5 class="card-title">{{ brand.brand }}</h5>
 
 					<div class="country" *ngIf="brand.country">
-						<img src="{{ environment.resourcesUrl }}/{{ brand.country.iconResource.url }}">
+						<img src="{{ brand.country.iconResource.url }}">
 						<p class="card-text">{{ brand.country.name.en }}</p>
 					</div>
 

@@ -7,6 +7,7 @@ import { Car } from "../../../models/car.model";
 import { Engine } from "../../../models/engine.model";
 import { MenuItem, PrimeTemplate } from "primeng/api";
 import { Breadcrumb } from "primeng/breadcrumb";
+import { UserCar } from "../../../models/user-car.model";
 
 interface BreadcrumbItem {
 	label: string | undefined;
@@ -31,6 +32,9 @@ export class BreadcrumbComponent implements OnChanges, OnInit {
 	@Input() brand?: Brand | null;
 	@Input() car?: Car | null;
 	@Input() engine?: Engine | null;
+	@Input() userCar?: UserCar | null;
+
+	@Input() marginBottom: number = 48;
 
 	menuItems: MenuItem[] = [];
 	home: MenuItem = { icon: 'pi pi-home', routerLink: '/' };
@@ -101,7 +105,8 @@ export class BreadcrumbComponent implements OnChanges, OnInit {
 						label: 'BREADCRUMB_MY_CARS',
 						urlPart: 'user-cars',
 						items: [
-							{ label: 'BREADCRUMB_CREATE_USER_CAR', urlPart: 'new' }
+							{ label: 'BREADCRUMB_CREATE_USER_CAR', urlPart: 'new' },
+							{ label: this.userCar?.licensePlate, urlPart: this.userCar?.id }
 						]
 					}
 				]

@@ -1,6 +1,5 @@
 import { Component, Input, OnInit, ViewEncapsulation } from "@angular/core";
 import { Country } from "../../../../models/country.model";
-import { environment } from "../../../../../environments/environment";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NavigationService } from "../../../../services/navigation.service";
 import { MainComponent } from "../../../internal/main/main.component";
@@ -77,7 +76,7 @@ export class BrandComponent implements OnInit {
 				next: (brand) => {
 					this.brand = brand;
 
-					this.imagePreview = environment.resourcesUrl + "/" + this.brand?.imageResource.url;
+					this.imagePreview = this.brand?.imageResource.url;
 				},
 				error: (e) => {
 					if (e.error.code == 'car_brand_not_found') {
@@ -134,6 +133,4 @@ export class BrandComponent implements OnInit {
 			}
 		});
 	}
-
-	protected readonly environment = environment;
 }
