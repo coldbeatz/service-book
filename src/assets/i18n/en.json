@@ -254,5 +254,26 @@
 
 	"NUMBER_FORM_INPUT_INVALID_MAX": "The value cannot be greater than the maximum of {{max}}",
 	"NUMBER_FORM_INPUT_INVALID_MIN": "The value cannot be less than the minimum of {{min}}",
-	"NUMBER_FORM_INPUT_INVALID_REQUIRED": "The field can't be empty"
+	"NUMBER_FORM_INPUT_INVALID_REQUIRED": "The field can't be empty",
+
+	"MAINTENANCE_SAVED_SUCCESS": "Vehicle maintenance has been successfully saved",
+	"DEFAULT_MAINTENANCES_INITIALIZED_SUCCESS": "Default vehicle maintenances have been successfully initialized",
+	"ALL_MAINTENANCES_DELETED_SUCCESS": "All maintenance data of the current vehicle has been successfully deleted",
+	"MAINTENANCE_DELETED_SUCCESS": "Vehicle maintenance has been successfully deleted",
+
+	"CAR_MAINTENANCE_DELETE_DIALOG_HEADER": "Confirming deletion",
+	"CAR_MAINTENANCE_DELETE_DIALOG_MESSAGE": "Are you sure you want to delete vehicle maintenance?",
+	"CAR_MAINTENANCE_DELETE_DIALOG_ACCEPT": "Yes",
+	"CAR_MAINTENANCE_DELETE_DIALOG_REJECT": "No",
+	"CAR_MAINTENANCE_DELETE_SUCCESS_MESSAGE": "The vehicle maintenance was successfully deleted",
+
+	"CAR_MAINTENANCES_CLEAR_ALL_BUTTON": "Clear all",
+	"CAR_MAINTENANCES_INIT_DEFAULT_BUTTON": "Initialize default",
+	"CAR_MAINTENANCES_CREATE_NEW_BUTTON": "Create maintenance",
+
+	"CAR_MAINTENANCES_DELETE_ALL_DIALOG_HEADER": "Confirming deletion",
+	"CAR_MAINTENANCES_DELETE_ALL_DIALOG_MESSAGE": "Are you sure you want to delete all vehicle maintenances?",
+	"CAR_MAINTENANCES_DELETE_ALL_DIALOG_ACCEPT": "Yes",
+	"CAR_MAINTENANCES_DELETE_ALL_DIALOG_REJECT": "No",
+	"CAR_MAINTENANCES_DELETE_ALL_SUCCESS_MESSAGE": "All vehicle maintenance has been successfully removed"
 }

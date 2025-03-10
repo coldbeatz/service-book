@@ -59,7 +59,7 @@ export class PrimengDialogServiceComponent implements OnInit {
 				this.addTask();
 			}
 		} else {
-			this.maintenance = this.createEmptyMaintenance();
+			this.maintenance = new RegulationsMaintenance();
 		}
 	}
 
@@ -74,7 +74,7 @@ export class PrimengDialogServiceComponent implements OnInit {
 	constructor(private regulationsMaintenanceService: RegulationsMaintenanceService,
 				private translateService: TranslateService) {
 
-		this.maintenance = this.createEmptyMaintenance();
+		this.maintenance = new RegulationsMaintenance();
 	}
 
 	addTask() {
@@ -84,27 +84,6 @@ export class PrimengDialogServiceComponent implements OnInit {
 			specificMileage: 0,
 			workType: MaintenanceWorkType.INSPECTION
 		});
-	}
-
-	private createEmptyMaintenance(): RegulationsMaintenance {
-		return {
-			id: 0,
-			workDescription: {
-				en: '',
-				ua: ''
-			},
-			useDefault: false,
-			transmissions: [],
-			fuelTypes: [],
-			tasks: [
-				{
-					id: 0,
-					interval: 0,
-					specificMileage: 0,
-					workType: MaintenanceWorkType.INSPECTION
-				}
-			]
-		}
 	}
 
 	openModal() {
@@ -155,7 +134,7 @@ export class PrimengDialogServiceComponent implements OnInit {
 					this.maintenanceSaved.emit(maintenance);
 					this.closeModal();
 				}
-			})
+			});
 		}
 	}
 

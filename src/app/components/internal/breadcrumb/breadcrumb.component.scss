@@ -3,3 +3,8 @@
 		display: none;
 	}
 }
+
+.last-item {
+	color: color-mix(in srgb, #020617 calc(100% * 1), transparent);
+	font-weight: 600;
+}

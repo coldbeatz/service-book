@@ -3,7 +3,7 @@
 		<ng-template pTemplate="item" let-item>
 			<ng-container *ngIf="item.routerLink; else elseBlock">
 				<a [routerLink]="item.routerLink" class="p-breadcrumb-item-link">
-					<span class="text-primary font-semibold">
+					<span class="font-semibold" style="color: #334155;">
 						{{ item.label | translate }}
 					</span>
 				</a>
@@ -11,7 +11,7 @@
 
 			<ng-template #elseBlock>
 				<a class="p-breadcrumb-item-link">
-					<span class="p-breadcrumb-item-label">
+					<span class="p-breadcrumb-item-label last-item">
 						{{ item.label | translate }}
 					</span>
 				</a>

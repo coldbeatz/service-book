@@ -1,0 +1,88 @@
+<p-confirmDialog *ngIf="deleteClicked"
+	[header]="'CAR_MAINTENANCE_DELETE_DIALOG_HEADER' | translate"
+	[message]="'CAR_MAINTENANCE_DELETE_DIALOG_MESSAGE' | translate"
+	[acceptLabel]="'CAR_MAINTENANCE_DELETE_DIALOG_ACCEPT' | translate"
+	[rejectLabel]="'CAR_MAINTENANCE_DELETE_DIALOG_REJECT' | translate"
+	icon="pi pi-exclamation-triangle">
+</p-confirmDialog>
+
+<p-table
+	[value]="regulationsMaintenance"
+	#dt
+	responsiveLayout="scroll"
+	paginatorPosition="bottom"
+	[paginator]="true"
+	[rows]="5"
+	[rowsPerPageOptions]="[5, 10, 20]"
+	[globalFilterFields]="['workDescription.en', 'workDescription.ua']">
+
+	<ng-template #caption>
+		<div class="d-flex justify-content-end">
+			<p-iconfield iconPosition="left">
+				<p-inputicon>
+					<i class="pi pi-search"></i>
+				</p-inputicon>
+
+				<input pInputText type="text"
+					   placeholder="{{ 'MAINTENANCE_TABLE_SEARCH_WORK' | translate }}"
+					   (input)="onFilterInput($event)" />
+			</p-iconfield>
+		</div>
+	</ng-template>
+
+	<ng-template pTemplate="header">
+		<tr>
+			<th>
+				{{ 'MAINTENANCE_TABLE_NUMBER' | translate }}
+			</th>
+
+			<th pSortableColumn="workDescription.en">
+				{{ 'MAINTENANCE_TABLE_LIST_OF_WORK' | translate }} <p-sortIcon field="workDescription.en" />
+			</th>
+
+			<th *ngFor="let column of mileageColumns" class="text-center" style="max-width: 30px;">
+				{{ column.label }}
+			</th>
+
+			<th></th>
+		</tr>
+	</ng-template>
+
+	<ng-template pTemplate="body" let-maintenance let-maintenanceIndex="rowIndex">
+		<tr>
+			<td>{{ maintenanceIndex + 1 }}</td>
+			<td style="max-width: 300px;">
+				{{ maintenance.workDescription?.en }}
+			</td>
+
+			<td *ngFor="let column of mileageColumns" class="text-center">
+				<ng-container [ngSwitch]="getWorkTypesAtMileage(maintenance, column.value)">
+						<span *ngSwitchCase="MaintenanceWorkType.INSPECTION">
+							{{ 'MAINTENANCE_WORK_TYPE_INSPECTION_SHORT' | translate }}
+						</span>
+
+					<span *ngSwitchCase="MaintenanceWorkType.REPLACEMENT">
+							{{ 'MAINTENANCE_WORK_TYPE_REPLACEMENT_SHORT' | translate }}
+						</span>
+
+					<span *ngSwitchDefault></span>
+				</ng-container>
+			</td>
+
+			<td>
+				<div class="flex-center" style="gap: 10px;">
+					<p-buttongroup>
+						<p-button label="Edit"
+								  icon="pi pi-spin pi-cog"
+								  (click)="onClickEditMaintenance(maintenance)" />
+
+						<p-button label="Delete"
+								  icon="pi pi-trash"
+								  severity="danger"
+								  (click)="onClickDeleteMaintenance(maintenance)"/>
+					</p-buttongroup>
+				</div>
+			</td>
+		</tr>
+	</ng-template>
+</p-table>

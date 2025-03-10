@@ -1,19 +1,24 @@
 import { Component, OnInit, ViewEncapsulation } from "@angular/core";
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
+import { ReactiveFormsModule } from "@angular/forms";
 import { NavigationService } from "../../../../services/navigation.service";
-import { ActivatedRoute, RouterLink } from "@angular/router";
-import { Brand } from "../../../../models/brand.model";
+import { ActivatedRoute, Router } from "@angular/router";
 import { Car } from "../../../../models/car.model";
-import { environment } from "../../../../../environments/environment";
 import { BreadcrumbComponent } from "../../../internal/breadcrumb/breadcrumb.component";
-import { NgForOf, NgIf } from "@angular/common";
+import { CommonModule } from "@angular/common";
 import { MainComponent } from "../../../internal/main/main.component";
-import { AlertComponent } from "../../../internal/alert/alert.component";
-import { CustomFileUploadComponent } from "../../../shared/custom-file-upload/custom-file-upload.component";
-import { TranslateModule, TranslateService } from "@ngx-translate/core";
-import { CarTransmissionType } from "../../../../models/car-transmission-type.model";
+import { TranslateModule } from "@ngx-translate/core";
 import { BrandService } from "../../../../services/api/brand.service";
 import { CarService } from "../../../../services/api/car.service";
+import { LeftPanelComponent } from "../../../shared/left-panel/left-panel.component";
+import { MenuItem, PrimeIcons } from "primeng/api";
+import { CarMaintenanceComponent } from "./maintenance/car-maintenance.component";
+import { CarEditorComponent } from "./editor/car-editor.component";
+
+enum CarWindowType {
+	SETTINGS = "settings",
+	REGULATION_MAINTENANCE = "maintenance",
+	ENGINES = "engines",
+}
 
 @Component({
 	selector: 'create-car-root',
@@ -23,173 +28,112 @@ import { CarService } from "../../../../services/api/car.service";
 	imports: [
 		BreadcrumbComponent,
 		ReactiveFormsModule,
-		NgIf,
+		CommonModule,
 		MainComponent,
-		AlertComponent,
-		CustomFileUploadComponent,
-		RouterLink,
-		NgForOf,
-		TranslateModule
+		TranslateModule,
+		LeftPanelComponent,
+		CarMaintenanceComponent,
+		CarEditorComponent
 	],
 	standalone: true
 })
 export class CreateCarComponent implements OnInit {
 
-	protected form: FormGroup;
-
-	currentYear: number;
-
-	brand: Brand | null = null;
 	car: Car = new Car();
 
-	selectedFile: File | null = null;
-	imagePreview: string | null = null;
+	protected readonly CarWindowType = CarWindowType;
 
-	availableTransmissions: { value: CarTransmissionType; label: string } [] = [];
-
-	success: boolean = false;
+	windowType: CarWindowType = CarWindowType.SETTINGS;
 
 	constructor(private carService: CarService,
 				private brandService: BrandService,
-				private fb: FormBuilder,
 				private navigationService: NavigationService,
 				private route: ActivatedRoute,
-				private translate: TranslateService) {
-
-		this.currentYear = new Date().getFullYear();
-
-		this.form = this.fb.group({
-			model: ['', [Validators.required]],
-			startYear: ['', [
-				Validators.required,
-				Validators.min(1900),
-				Validators.max(this.currentYear)
-			]],
-			endYear: ['', [
-				Validators.min(1900),
-				Validators.max(this.currentYear)
-			]],
-			transmissions: this.fb.array(this.availableTransmissions.map(() => false))
-		});
+				private router: Router) {
 	}
 
-	private initAvailableTransmissions(): void {
-		const enumKeys = Object.keys(CarTransmissionType)
-			.filter(key => isNaN(Number(key)) && key !== "OTHER");
+	openCarSettings() {
+		if (this.car && this.car.brand) {
+			this.navigationService.navigate([`/cars/${this.car.brand.id}/${this.car.id}`]);
+		}
 
-		const translationKeys = enumKeys.map(key => `TRANSMISSION_${key}`);
+		this.windowType = CarWindowType.SETTINGS;
+	}
 
-		this.translate.get(translationKeys).subscribe((translations: { [key: string]: string }) => {
-			this.availableTransmissions = enumKeys.map(key => ({
-				value: CarTransmissionType[key as keyof typeof CarTransmissionType],
-				label: translations[`TRANSMISSION_${key}`]
-			}));
+	openCarMaintenance() {
+		if (this.car && this.car.brand) {
+			this.navigationService.navigate([`/cars/${this.car.brand.id}/${this.car.id}/maintenance`]);
+		}
 
-			const formGroupConfig: { [key: string]: boolean } = {};
-			this.availableTransmissions.forEach((transmission) => {
-				formGroupConfig[transmission.value] = false;
-			});
+		this.windowType = CarWindowType.REGULATION_MAINTENANCE;
+	}
 
-			this.form.setControl('transmissions', this.fb.group(formGroupConfig));
-		});
+	openCarEngines() {
+		if (this.car && this.car.brand) {
+			this.navigationService.navigate([`/cars/${this.car.brand.id}/${this.car.id}/engines`]);
+		}
+
+		this.windowType = CarWindowType.ENGINES;
+	}
+
+	get menuItems(): MenuItem[] {
+		return [
+			{
+				label: 'Car settings',
+				id: CarWindowType.SETTINGS,
+				icon: PrimeIcons.COG,
+				command: () => this.openCarSettings()
+			},
+			...(this.car.id? [
+				{
+					label: 'Regulations maintenance',
+					id: CarWindowType.REGULATION_MAINTENANCE,
+					icon: PrimeIcons.WRENCH,
+					command: () => this.openCarMaintenance()
+				},
+				{
+					label: 'Engines',
+					id: CarWindowType.ENGINES,
+					icon: PrimeIcons.CAR,
+					command: () => this.openCarEngines()
+				}
+			] : [])
+		];
 	}
 
 	ngOnInit(): void {
-		let brandId = Number(this.route.snapshot.paramMap.get('brand'));
+		const currentUrl = this.router.url;
 
-		this.brandService.getBrandById(brandId).subscribe({
-			next: (brand) => {
-				this.brand = brand;
-			},
-			error: (e) => {
-				if (e.error.code == 'car_brand_not_found') {
-					this.navigationService.navigate(['brands']);
-				}
-			}
-		});
+		if (currentUrl.includes('/maintenance')) {
+			this.openCarMaintenance();
+		} else {
+			this.openCarSettings();
+		}
 
-		this.initAvailableTransmissions();
 		this.initCar();
 	}
 
 	initCar() {
-		let carId = this.route.snapshot.paramMap.get('carId');
+		let brandId = Number(this.route.snapshot.paramMap.get('brand'));
 
-		if (carId == null)
-			return;
+		this.brandService.getBrandById(brandId).subscribe({
+			next: (brand) => {
+				let carId = Number(this.route.snapshot.paramMap.get('carId'));
 
-		this.carService.getCarById(Number(carId)).subscribe({
-			next: (car) => {
-				if (car == null) return;
+				this.carService.getCarById(carId).subscribe({
+					next: (car) => {
+						car.brand = brand;
 
-				this.car = car;
-
-				this.form.patchValue({
-					model: this.car.model,
-					startYear: this.car.startYear,
-					endYear: this.car.endYear,
-				});
-
-				this.imagePreview = car.imageResource?.url || null;
-
-				if (car.transmissions.length > 0) {
-					const transmissionsGroup = this.form.get('transmissions') as FormGroup;
-
-					car.transmissions.forEach((transmission) => {
-						if (transmissionsGroup.controls[transmission]) {
-							transmissionsGroup.controls[transmission].setValue(true);
-						}
-					});
-				}
-			}
-		});
-	}
-
-	onFileSelected(file: File | null): void {
-		this.selectedFile = file;
-
-		if (file) {
-			const reader = new FileReader();
-			reader.onload = () => {
-				this.imagePreview = reader.result as string;
-			};
-			reader.readAsDataURL(file);
-		}
-	}
-
-	getSelectedTransmissions(): CarTransmissionType[] {
-		const transmissions = this.form.get('transmissions')?.value || {};
-
-		return Object.keys(transmissions)
-			.filter((key) => transmissions[key]) as unknown as CarTransmissionType[];
-	}
-
-	onSubmit() {
-		const data = this.form.value;
-
-		if (this.brand == null)
-			return;
-
-		const transmissions = this.getSelectedTransmissions();
-
-		this.car.brand = this.brand;
-		this.car.model = data.model;
-		this.car.startYear = data.startYear;
-		this.car.endYear = data.endYear;
-		this.car.transmissions = transmissions;
-
-		if (!this.car.id && this.selectedFile == null)
-			return;
-
-		this.carService.saveOrUpdateCar(this.car, this.selectedFile).subscribe({
-			next: (car) => {
-				if (car.id != null) {
-					if (!this.car.id) {
-						this.navigationService.navigate([`/cars`, this.brand?.id, car.id]);
+						this.car = car;
+					},
+					error: () => {
+						this.navigationService.navigate([`/cars/${brand.id}/create`]);
 					}
-
-					this.car = car;
-					this.success = true;
+				});
+			},
+			error: (e) => {
+				if (e.error.code == 'car_brand_not_found') {
+					this.navigationService.navigate(['brands']);
 				}
 			}
 		});

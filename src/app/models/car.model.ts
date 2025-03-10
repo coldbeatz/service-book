@@ -2,8 +2,10 @@ import { Brand } from "./brand.model";
 import { Resource } from "./resource.model";
 import { Engine } from "./engine.model";
 import { CarTransmissionType } from "./car-transmission-type.model";
+import { RegulationsMaintenance } from "./regulations-maintenance.model";
 
 export class Car {
+
 	id: number;
 	brand: Brand | null;
 	model: string;
@@ -14,6 +16,7 @@ export class Car {
 	updatedAt: Date | null;
 	transmissions: CarTransmissionType[];
 	engines: Engine[];
+	maintenances: RegulationsMaintenance[];
 
 	constructor(car?: Partial<Car>) {
 		this.id = car?.id ?? 0;
@@ -26,5 +29,6 @@ export class Car {
 		this.updatedAt = car?.updatedAt ?? null;
 		this.transmissions = car?.transmissions ?? [];
 		this.engines = car?.engines ?? [];
+		this.maintenances = car?.maintenances ?? [];
 	}
 }

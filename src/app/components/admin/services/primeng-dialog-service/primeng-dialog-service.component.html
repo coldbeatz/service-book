@@ -93,7 +93,7 @@
 			</ng-container>
 		</div>
 
-		<label class="d-flex align-items-center gap-2" style="cursor: pointer;">
+		<label class="d-flex align-items-center gap-2" style="cursor: pointer;" *ngIf="!maintenance.carId">
 			<p-inputSwitch [(ngModel)]="maintenance.useDefault" inputId="useDefaultSwitch" class="switch-fix">
 			</p-inputSwitch>
 

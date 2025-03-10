@@ -2,9 +2,7 @@
 	<app-breadcrumb [userCar]="userCar" [marginBottom]="0"></app-breadcrumb>
 
 	<div class="editor-container">
-		<div class="left-panel">
-			<p-panelMenu [model]="menuItems" styleClass="custom-menu" ></p-panelMenu>
-		</div>
+		<left-panel [menuItems]="menuItems" [selectedItemId]="'settings'"></left-panel>
 
 		<div>
 			<user-car-editor-settings-root
@@ -18,7 +16,6 @@
 				[userCar]="userCar"
 				(saved)="onNoteSaved($event)"
 				(deleted)="onNoteDeleted($event)">
-
 			</user-car-note-root>
 		</div>
 	</div>

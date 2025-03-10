@@ -36,8 +36,11 @@ export const routes: Routes = [
 	{ path: 'brands/:id', component: BrandComponent, canActivate: [AuthGuard] },
 
 	{ path: 'cars/:brand', component: CarsComponent, canActivate: [AuthGuard] },
+
 	{ path: 'cars/:brand/create', component: CreateCarComponent, canActivate: [AuthGuard] },
 	{ path: 'cars/:brand/:carId', component: CreateCarComponent, canActivate: [AuthGuard] },
+	{ path: 'cars/:brand/:carId/maintenance', component: CreateCarComponent, canActivate: [AuthGuard] },
+
 	{ path: 'cars/:brand/:car/engines', component: EnginesComponent, canActivate: [AuthGuard] },
 	{ path: 'cars/:brand/:car/engines/create', component: EngineComponent, canActivate: [AuthGuard] },
 	{ path: 'cars/:brand/:car/engines/:engine', component: EngineComponent, canActivate: [AuthGuard] },

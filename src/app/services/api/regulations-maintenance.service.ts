@@ -38,4 +38,16 @@ export class RegulationsMaintenanceService {
 			? this.http.put<RegulationsMaintenance>(`${url}/${maintenance.id}`, maintenance)
 			: this.http.post<RegulationsMaintenance>(url, maintenance);
 	}
+
+	/**
+	 * Видалити регламентне обслуговування
+	 *
+	 * @param maintenance Регламентне обслуговування
+	 *
+	 * @returns Observable<void>
+	 */
+	public deleteRegulationsMaintenance(maintenance: RegulationsMaintenance): Observable<void> {
+		const url = `${this.API_URL}/${maintenance.id}`;
+		return this.http.delete<void>(url);
+	}
 }

@@ -6,21 +6,3 @@
 		flex-direction: column;
 	}
 }
-
-.left-panel {
-	background: white;
-	max-width: 250px;
-	width: 100%;
-	padding: 10px;
-
-	@media (max-width: 768px) {
-		max-width: 100%;
-	}
-}
-
-.p-panelmenu {
-
-	@media (max-width: 768px) {
-		flex-direction: row !important;
-	}
-}

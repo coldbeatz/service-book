@@ -1,0 +1,67 @@
+<p-confirmDialog
+	[header]="'CAR_MAINTENANCES_DELETE_ALL_DIALOG_HEADER' | translate"
+	[message]="'CAR_MAINTENANCES_DELETE_ALL_DIALOG_MESSAGE' | translate"
+	[acceptLabel]="'CAR_MAINTENANCES_DELETE_ALL_DIALOG_ACCEPT' | translate"
+	[rejectLabel]="'CAR_MAINTENANCES_DELETE_ALL_DIALOG_REJECT' | translate"
+	icon="pi pi-exclamation-triangle">
+</p-confirmDialog>
+
+<div class="maintenances-buttons-group" *ngIf="car.id">
+	<bootstrap-button
+		*ngIf="car.maintenances.length === 0"
+		[text]="'CAR_MAINTENANCES_INIT_DEFAULT_BUTTON' | translate"
+		[bootstrapIconId]="'bi-pencil-fill'"
+		(click)="initializeDefaultMaintenances()" >
+	</bootstrap-button>
+
+	<ng-container>
+		<bootstrap-button
+			[text]="'CAR_MAINTENANCES_CREATE_NEW_BUTTON' | translate"
+			[bootstrapIconId]="'bi-eye-fill'"
+			(click)="onClickEditMaintenance(null)" >
+		</bootstrap-button>
+	</ng-container>
+
+	<ng-container>
+		<bootstrap-button
+			*ngIf="car.maintenances.length !== 0"
+			[text]="'CAR_MAINTENANCES_CLEAR_ALL_BUTTON' | translate"
+			[bootstrapIconId]="'bi-trash'"
+			(click)="clearMaintenances()" >
+		</bootstrap-button>
+	</ng-container>
+</div>
+
+<primeng-dialog-service-root
+	(maintenanceSaved)="handleMaintenanceSaved($event)">
+</primeng-dialog-service-root>
+
+<div style="padding: 0 20px;" [ngSwitch]="successType">
+	<alert-root
+		*ngSwitchCase="SuccessType.MAINTENANCE_SAVED"
+		text="{{ 'MAINTENANCE_SAVED_SUCCESS' | translate }}">
+	</alert-root>
+
+	<alert-root
+		*ngSwitchCase="SuccessType.DEFAULT_MAINTENANCES_INITIALIZED"
+		text="{{ 'DEFAULT_MAINTENANCES_INITIALIZED_SUCCESS' | translate }}">
+	</alert-root>
+
+	<alert-root
+		*ngSwitchCase="SuccessType.ALL_MAINTENANCES_DELETED"
+		text="{{ 'ALL_MAINTENANCES_DELETED_SUCCESS' | translate }}">
+	</alert-root>
+
+	<alert-root
+		*ngSwitchCase="SuccessType.MAINTENANCE_DELETED"
+		text="{{ 'MAINTENANCE_DELETED_SUCCESS' | translate }}">
+	</alert-root>
+</div>
+
+<maintenance-table #maintenanceTableComponent
+				   (maintenanceEdited)="onClickEditMaintenance($event)"
+				   (maintenanceDeleted)="handleMaintenanceDeleted($event)"
+				   [regulationsMaintenance]="car.maintenances">
+</maintenance-table>
+
+

@@ -44,7 +44,7 @@ export class NewsService {
 	 *
 	 * @param news Новина
 	 *
-	 * @returns Observable<News>
+	 * @returns Observable<void>
 	 */
 	public deleteNews(news: News): Observable<void> {
 		const url = `${this.API_URL}/${news.id}`;

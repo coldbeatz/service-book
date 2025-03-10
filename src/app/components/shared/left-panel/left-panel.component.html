@@ -1,0 +1,27 @@
+<div class="left-panel">
+	<ul class="list-unstyled ps-0">
+		<li *ngFor="let item of menuItems" class="mb-1">
+			<button [class.btn-toggle-selected]="activeItem?.id === item?.id || selectedItemId === item?.id || activeParentItem?.id === item.id"
+					class="btn-toggle-no-expanded btn-toggle align-items-center rounded"
+					(click)="setActiveItem(item, $event)">
+
+				<i *ngIf="item.icon" [class]="item.icon"></i>
+				{{ item.label }}
+			</button>
+
+			<div *ngIf="item.items?.length" class="collapse show">
+				<ul class="btn-toggle__nav list-unstyled fw-normal pb-1 small">
+					<li *ngFor="let subItem of item.items">
+						<a (click)="setActiveItem(subItem, $event)"
+						   class="link-dark rounded panel-link"
+						   [class.nav-selected]="activeItem?.id === subItem?.id || selectedItemId === subItem?.id">
+
+							<i *ngIf="subItem.icon" [class]="subItem.icon"></i>
+							{{ subItem.label }}
+						</a>
+					</li>
+				</ul>
+			</div>
+		</li>
+	</ul>
+</div>

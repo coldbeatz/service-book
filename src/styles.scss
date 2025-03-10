@@ -139,7 +139,8 @@ select,
 }
 
 .form-check-input:checked + .form-check-label {
-	color: #007bff;
+	//color: #007bff;
+	font-weight: 500;
 }
 
 .no-select {
@@ -172,4 +173,8 @@ select,
 		padding: 30px;
 		border-radius: 20px;
 	}
+}
+
+.scroll-x {
+	overflow-x: scroll;
 }
