@@ -1,71 +1,91 @@
 <main-root>
-	<app-breadcrumb></app-breadcrumb>
+	<app-breadcrumb [marginBottom]="0"></app-breadcrumb>
 
-	<div class="flex-center">
-		<a routerLink="/brands/create" class="btn btn-primary flex-center" style="max-width: 400px;">
-			<i class="bi bi-car-front-fill"></i>
-
-			<span class="mx-3">
-				{{ 'BRANDS_ADD_CAR_BRAND_BUTTON' | translate }}
-			</span>
-		</a>
-	</div>
-
-	<div class="mt-4 buttons-group">
-		<app-dropdown
-			[items]="countries"
-			[selectedItem]="selectedCountry"
-			[firstItemText]="('BRANDS_DROPDOWN_SELECT_COUNTRY_ALL' | translate) + ' (' + (getBrandsCountByCountry(selectedCountry)) + ')'"
-			placeholder="{{ 'BRANDS_DROPDOWN_SELECT_COUNTRY' | translate }}"
-			(itemSelected)="selectCountry($event)"
-			[itemTemplate]="countryTemplate">
-		</app-dropdown>
-
-		<ng-template #countryTemplate let-country>
-			<img [src]="country.iconResource.url"
-				 [alt]="country.name.en"
-				 [width]="20"
-				 [height]="20"
-				 class="me-2">
-			{{ country.name.en }} ({{ getBrandsCountByCountry(country) }})
-		</ng-template>
-
-		<div class="flex-center">
-			<div class="input-group me-2" style="min-width: 250px">
-				<input type="text" class="form-control" placeholder="Search" [(ngModel)]="searchTerm">
-			</div>
-
-			<button type="submit" class="btn btn-primary" (click)="clearSearchInput()">
-				{{ 'BRANDS_CLEAR_SEARCH_INPUT_BUTTON' | translate }}
-			</button>
-		</div>
-	</div>
-
-	<div class="brands">
-		<ng-container *ngFor="let brand of filteredBrands">
-			<div class="card brands__card" *ngIf="!selectedCountry || brand.country?.id === selectedCountry.id">
-				<img src="{{ brand.imageResource.url }}"
-					 class="card-img-top" [alt]="brand.brand">
-
-				<div class="card-body">
-					<h5 class="card-title">{{ brand.brand }}</h5>
-
-					<div class="country" *ngIf="brand.country">
-						<img src="{{ brand.country.iconResource.url }}">
-						<p class="card-text">{{ brand.country.name.en }}</p>
-					</div>
-
-					<div class="card-buttons mt-3">
-						<a [routerLink]="['/cars', brand.id]" class="btn btn-primary" style="width: 70% !important;">
-							{{ 'BRANDS_VIEW_CARS_BUTTON' | translate }}
-						</a>
-
-						<a [routerLink]="['/brands', brand.id]" class="btn btn-primary">
-							<i class="bi bi-pencil-fill"></i>
-						</a>
-					</div>
+	<div class="content-container">
+		<left-panel [menuItems]="menuItems" selectedItemId="brands" [highlightNumbersInSubitems]="true">
+			<ng-template #topContentTemplate>
+				<div class="mb-4">
+					<bootstrap-button
+						[text]="'BRANDS_ADD_CAR_BRAND_BUTTON' | translate"
+						[bootstrapIconId]="'bi-car-front-fill'"
+						[routerLink]="['/brands', 'create']">
+					</bootstrap-button>
 				</div>
+
+				<div class="mb-3">
+					<label class="form-label text-muted">
+						{{ 'SEARCH_INPUT' | translate }}
+					</label>
+
+					<p-inputgroup>
+						<p-inputgroup-addon>
+							<i class="pi pi-search"></i>
+						</p-inputgroup-addon>
+
+						<input pInputText [(ngModel)]="searchTerm"
+							   placeholder="{{ 'BRANDS_SEARCH_INPUT_PLACEHOLDER' | translate }}"
+							   size="small" />
+
+						<p-inputgroup-addon>
+							<p-button icon="pi pi-times"
+									  severity="secondary"
+									  (click)="clearSearchInput()"
+									  pTooltip="{{ 'BRANDS_CLEAR_SEARCH_INPUT_BUTTON' | translate }}"
+									  tooltipPosition="bottom" />
+						</p-inputgroup-addon>
+					</p-inputgroup>
+				</div>
+
+				<div class="mb-3">
+					<app-dropdown
+						[items]="countries"
+						[selectedItem]="selectedCountry"
+						[firstItemText]="('BRANDS_DROPDOWN_SELECT_COUNTRY_ALL' | translate) + ' (' + (getBrandsCountByCountry(selectedCountry)) + ')'"
+						placeholder="{{ 'BRANDS_DROPDOWN_SELECT_COUNTRY' | translate }}"
+						(itemSelected)="selectCountry($event)"
+						[itemTemplate]="countryTemplate">
+					</app-dropdown>
+
+					<ng-template #countryTemplate let-country>
+						<img [src]="country.iconResource.url"
+							 [alt]="country.name.en"
+							 [width]="20"
+							 [height]="20"
+							 class="me-2">
+						{{ country.name.en }} ({{ getBrandsCountByCountry(country) }})
+					</ng-template>
+				</div>
+			</ng-template>
+		</left-panel>
+
+		<div class="brands-container">
+			<div class="brands">
+				<ng-container *ngFor="let brand of filteredBrands">
+					<div class="card brands__card">
+						<img src="{{ brand.imageResource.url }}"
+							 class="card-img-top" [alt]="brand.brand">
+
+						<div class="card-body">
+							<h5 class="card-title">{{ brand.brand }}</h5>
+
+							<div class="country" *ngIf="brand.country">
+								<img src="{{ brand.country.iconResource.url }}">
+								<p class="card-text">{{ brand.country.name.en }}</p>
+							</div>
+
+							<div class="card-buttons mt-3">
+								<a [routerLink]="['/cars', brand.id]" class="btn btn-primary" style="width: 100% !important;">
+									{{ 'BRANDS_VIEW_CARS_BUTTON' | translate }}
+								</a>
+
+								<a [routerLink]="['/brands', brand.id]" class="btn btn-primary">
+									<i class="bi bi-pencil-fill"></i>
+								</a>
+							</div>
+						</div>
+					</div>
+				</ng-container>
 			</div>
-		</ng-container>
+		</div>
 	</div>
 </main-root>

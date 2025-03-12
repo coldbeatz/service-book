@@ -1,22 +1,58 @@
-.brands {
+:root {
+	--p-inputtext-border-radius: 3px !important;
+	--p-inputtext-background: #fafafa !important;
+	--p-inputtext-focus-border-color: #4285f4 !important;
+	--p-inputtext-focus-ring-shadow: 0 0 0 0.25rem rgba(0,123,255,.25) !important;
+}
+
+.content-container {
 	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
-	gap: 30px;
-	margin: 30px auto;
-	max-width: 1400px;
+	height: 100%;
 
-	&__card {
-		width: 18rem;
+	@media (max-width: 768px) {
+		flex-direction: column;
+	}
 
-		.country {
-			display: flex;
-			align-items: center;
-			margin: 10px 0;
+	.left-panel {
+		min-width: 300px;
 
-			img {
-				max-width: 20px;
-				margin-right: 7px;
+		.p-multiselect {
+			width: 100%;
+		}
+	}
+}
+
+.brands-container {
+	width: 100%;
+	padding: 0 25px;
+
+	.brands {
+		gap: 20px;
+		margin: 30px auto;
+
+		box-sizing: border-box;
+		display: grid !important;
+		grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+
+
+		&__card {
+			width: 100%;
+			max-width: 600px;
+
+			.card-img-top {
+				max-width: max-content;
+				margin: auto;
+			}
+
+			.country {
+				display: flex;
+				align-items: center;
+				margin: 10px 0;
+
+				img {
+					max-width: 20px;
+					margin-right: 7px;
+				}
 			}
 		}
 	}

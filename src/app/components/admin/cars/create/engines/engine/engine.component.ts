@@ -16,7 +16,7 @@ import { EngineService } from "../../../../../../services/api/engine.service";
 	selector: 'engine-root',
 	encapsulation: ViewEncapsulation.None,
 	templateUrl: 'engine.component.html',
-	styleUrls: ['../../create-car.component.scss', 'engine.component.scss'],
+	styleUrls: ['../../car.component.scss', 'engine.component.scss'],
 	imports: [
 		MainComponent,
 		BreadcrumbComponent,

@@ -20,6 +20,10 @@ export class BrandService {
 
 	}
 
+	public getCarsCountByBrand(brand: Brand): Observable<{ count: number }> {
+		return this.http.get<{ count: number }>(`${this.API_URL}/${brand.id}/cars/count`);
+	}
+
 	/**
 	 * Оновлює або зберігає марку автомобілей
 	 *

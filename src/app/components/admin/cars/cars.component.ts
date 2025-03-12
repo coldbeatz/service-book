@@ -5,12 +5,22 @@ import { ActivatedRoute, RouterLink } from "@angular/router";
 import { Car } from "../../../models/car.model";
 import { MainComponent } from "../../internal/main/main.component";
 import { BreadcrumbComponent } from "../../internal/breadcrumb/breadcrumb.component";
-import { NgForOf } from "@angular/common";
+import { CommonModule } from "@angular/common";
 import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { FormsModule } from "@angular/forms";
 import { CarTransmissionType } from "../../../models/car-transmission-type.model";
 import { BrandService } from "../../../services/api/brand.service";
 import { CarService } from "../../../services/api/car.service";
+import { LeftPanelComponent } from "../../shared/left-panel/left-panel.component";
+import { MenuItem, PrimeIcons } from "primeng/api";
+import { BootstrapButtonComponent } from "../../shared/button/bootstrap-button.component";
+import { MultiSelect } from "primeng/multiselect";
+import { CarTransmissionService, TransmissionOption } from "../../../services/car-transmission.service";
+import { InputText } from "primeng/inputtext";
+import { InputGroupAddon } from "primeng/inputgroupaddon";
+import { Button } from "primeng/button";
+import { InputGroup } from "primeng/inputgroup";
+import { Tooltip } from "primeng/tooltip";
 
 @Component({
 	selector: 'cars-root',
@@ -21,9 +31,17 @@ import { CarService } from "../../../services/api/car.service";
 		RouterLink,
 		MainComponent,
 		BreadcrumbComponent,
-		NgForOf,
+		CommonModule,
 		TranslateModule,
-		FormsModule
+		FormsModule,
+		LeftPanelComponent,
+		BootstrapButtonComponent,
+		MultiSelect,
+		InputText,
+		InputGroupAddon,
+		Button,
+		InputGroup,
+		Tooltip
 	],
 	standalone: true
 })
@@ -43,13 +61,48 @@ export class CarsComponent implements OnInit {
 	 */
 	searchTerm: string = '';
 
+	transmissionOptions: TransmissionOption[] = [];
+
 	constructor(private carService: CarService,
 				private brandService: BrandService,
 				private navigationService: NavigationService,
 				private translateService: TranslateService,
-				private route: ActivatedRoute) {
+				private route: ActivatedRoute,
+				protected carTransmissionService: CarTransmissionService) {
 
 		this.currentYear = new Date().getFullYear();
+
+		this.carTransmissionService.transmissionOptions$.subscribe(() => {
+			this.transmissionOptions = this.carTransmissionService.getOptions();
+		});
+	}
+
+	get menuItems(): MenuItem[] {
+		return [
+			{
+				label: this.translateService.instant("CARS_LIST"),
+				id: 'cars',
+				expanded: true,
+				items: [
+					{
+						label: this.translateService.instant("CARS_ADD_CAR_BUTTON"),
+						id: 'create_car',
+						icon: PrimeIcons.PLUS,
+						command: () => {
+							this.navigationService.navigate(['/cars', this.brand?.id, 'create']);
+						}
+					},
+					...this.cars.map(car => ({
+						label: car.model,
+						id: `car_${car.id}`,
+						icon: PrimeIcons.CAR,
+						command: () => {
+							this.navigationService.navigate(['/cars', this.brand?.id, car.id]);
+						}
+					}))
+				]
+			}
+		];
 	}
 
 	private initAvailableTransmissions(): void {
@@ -108,13 +161,5 @@ export class CarsComponent implements OnInit {
 
 	clearSearchInput(): void {
 		this.searchTerm = '';
-	}
-
-	onClickTransmission(transmission: CarTransmissionType) {
-		if (this.selectedTransmissions.includes(transmission)) {
-			this.selectedTransmissions = this.selectedTransmissions.filter(t => t !== transmission);
-		} else {
-			this.selectedTransmissions.push(transmission);
-		}
 	}
 }

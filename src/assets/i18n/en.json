@@ -52,7 +52,7 @@
 	"BRANDS_DROPDOWN_SELECT_COUNTRY": "Select country",
 	"BRANDS_DROPDOWN_SELECT_COUNTRY_ALL": "All",
 	"BRANDS_CLEAR_SEARCH_INPUT_BUTTON": "Clear",
-	"BRANDS_ADD_CAR_BRAND_BUTTON": "Add car brand",
+	"BRANDS_ADD_CAR_BRAND_BUTTON": "Create brand",
 	"BRANDS_VIEW_CARS_BUTTON": "View cars",
 
 	"CREATE_BRAND_DROPDOWN_SELECT_COUNTRY_UNDEFINED": "Empty",
@@ -66,7 +66,8 @@
 	"EDIT_BRAND_SUBMIT_BUTTON": "Save changes",
 	"EDIT_BRAND_SUCCESS": "Changes saved successfully",
 
-	"CARS_ADD_CAR_BUTTON": "Add car",
+	"CARS_ADD_CAR_BUTTON": "Create car",
+	"CARS_LIST": "Cars",
 
 	"CREATE_CAR_MODEL_INPUT_PLACEHOLDER": "Enter car model",
 	"CREATE_CAR_START_YEAR_INPUT_PLACEHOLDER": "Enter start year",
@@ -275,5 +276,14 @@
 	"CAR_MAINTENANCES_DELETE_ALL_DIALOG_MESSAGE": "Are you sure you want to delete all vehicle maintenances?",
 	"CAR_MAINTENANCES_DELETE_ALL_DIALOG_ACCEPT": "Yes",
 	"CAR_MAINTENANCES_DELETE_ALL_DIALOG_REJECT": "No",
-	"CAR_MAINTENANCES_DELETE_ALL_SUCCESS_MESSAGE": "All vehicle maintenance has been successfully removed"
+	"CAR_MAINTENANCES_DELETE_ALL_SUCCESS_MESSAGE": "All vehicle maintenance has been successfully removed",
+
+	"CARS_VIEW_BUTTON": "View",
+	"CARS_DELETE_BUTTON": "Delete",
+
+	"SEARCH_INPUT": "Search",
+	"CARS_SEARCH_INPUT_PLACEHOLDER": "Enter car model",
+	"BRANDS_SEARCH_INPUT_PLACEHOLDER": "Enter car brand",
+
+	"BRANDS_LIST": "Brands"
 }

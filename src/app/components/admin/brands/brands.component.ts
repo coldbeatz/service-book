@@ -7,8 +7,17 @@ import { MainComponent } from "../../internal/main/main.component";
 import { RouterLink } from "@angular/router";
 import { DropdownComponent } from "../../shared/dropdown/dropdown.component";
 import { NgForOf, NgIf } from "@angular/common";
-import { TranslateModule } from "@ngx-translate/core";
+import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { BrandService } from "../../../services/api/brand.service";
+import { LeftPanelComponent } from "../../shared/left-panel/left-panel.component";
+import { MenuItem, PrimeIcons } from "primeng/api";
+import { BootstrapButtonComponent } from "../../shared/button/bootstrap-button.component";
+import { Button } from "primeng/button";
+import { InputGroup } from "primeng/inputgroup";
+import { InputGroupAddon } from "primeng/inputgroupaddon";
+import { InputText } from "primeng/inputtext";
+import { Tooltip } from "primeng/tooltip";
+import { NavigationService } from "../../../services/navigation.service";
 
 @Component({
 	selector: 'brands-root',
@@ -23,7 +32,14 @@ import { BrandService } from "../../../services/api/brand.service";
 		FormsModule,
 		NgForOf,
 		NgIf,
-		TranslateModule
+		TranslateModule,
+		LeftPanelComponent,
+		BootstrapButtonComponent,
+		Button,
+		InputGroup,
+		InputGroupAddon,
+		InputText,
+		Tooltip
 	],
 	standalone: true
 })
@@ -39,14 +55,50 @@ export class BrandsComponent implements OnInit {
 	brands: Brand[] = [];
 	countries: Country[] = [];
 
-	constructor(private brandService: BrandService) {
+	constructor(private brandService: BrandService,
+				private translateService: TranslateService,
+				private navigationService: NavigationService) {
 
+	}
+
+	get menuItems(): MenuItem[] {
+		return [
+			{
+				label: this.translateService.instant("BRANDS_LIST"),
+				id: 'brands',
+				expanded: true,
+				items: [
+					{
+						label: this.translateService.instant("BRANDS_ADD_CAR_BRAND_BUTTON"),
+						id: 'create_brand',
+						icon: PrimeIcons.PLUS,
+						command: () => {
+							this.navigationService.navigate(['/brands', 'create']);
+						}
+					},
+					...this.filteredBrands.map(brand => ({
+						label: brand.brand + ' (' + brand.carsCount + ')',
+						id: `brand_${brand.id}`,
+						icon: PrimeIcons.CAR,
+						command: () => {
+							this.navigationService.navigate(['/cars', brand.id]);
+						}
+					}))
+				]
+			}
+		];
 	}
 
 	ngOnInit(): void {
 		this.brandService.getBrands().subscribe({
 			next: (response) => {
 				this.brands = response;
+
+				this.brands.forEach(brand => {
+					this.brandService.getCarsCountByBrand(brand).subscribe({
+						next: (response) => brand.carsCount = response.count
+					});
+				});
 
 				this.countries = response
 					.map((brand: Brand) => brand.country)
@@ -73,12 +125,10 @@ export class BrandsComponent implements OnInit {
 	}
 
 	get filteredBrands() {
-		if (!this.searchTerm.trim()) {
-			return this.brands;
-		}
-
-		return this.brands.filter(brand => brand.brand.toLowerCase()
-			.includes(this.searchTerm.toLowerCase()));
+		return this.brands.filter(brand => {
+			return brand.brand.toLowerCase().includes(this.searchTerm.toLowerCase()) &&
+				   (!this.selectedCountry || brand.country?.id === this.selectedCountry.id)
+		});
 	}
 
 	clearSearchInput(): void {

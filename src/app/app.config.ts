@@ -15,6 +15,7 @@ import Aura from '@primeng/themes/aura';
 import Lara from '@primeng/themes/lara';
 import Nora from '@primeng/themes/nora';
 import { ConfirmationService, MessageService } from "primeng/api";
+import { provideAnimations } from "@angular/platform-browser/animations";
 
 export function HttpLoaderFactory(http: HttpClient) {
 	return new TranslateHttpLoader(http, '/assets/i18n/', '.json');

@@ -14,7 +14,7 @@ import { CarService } from "../../../../../services/api/car.service";
 	selector: 'engines-root',
 	encapsulation: ViewEncapsulation.None,
 	templateUrl: 'engines.component.html',
-	styleUrls: ['../create-car.component.scss', 'engines.component.scss'],
+	styleUrls: ['../car.component.scss', 'engines.component.scss'],
 	imports: [
 		MainComponent,
 		BreadcrumbComponent,

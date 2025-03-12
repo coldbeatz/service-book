@@ -1,81 +1,91 @@
 <main-root>
-	<app-breadcrumb [brand]="brand"></app-breadcrumb>
+	<app-breadcrumb [brand]="brand" [marginBottom]="0"></app-breadcrumb>
 
-	<div class="d-flex flex-no-wrap">
-		<div class="left-menu">
-			<div class="left-menu__item">
-				<a [routerLink]="['/cars', this.brand?.id, 'create']" class="btn btn-primary flex-center">
-					<i class="bi bi-car-front-fill"></i>
-
-					<span class="mx-3">
-						{{ 'CARS_ADD_CAR_BUTTON' | translate }}
-					</span>
-				</a>
-			</div>
-
-			<div class="left-menu__item">
-				<label class="form-label text-muted">
-					Search
-				</label>
-
-				<div class="flex-center">
-					<div class="input-group me-2" style="min-width: 200px">
-						<input type="text" class="form-control" placeholder="Search" [(ngModel)]="searchTerm">
-					</div>
-
-					<button class="btn btn-primary" (click)="clearSearchInput()">
-						{{ 'BRANDS_CLEAR_SEARCH_INPUT_BUTTON' | translate }}
-					</button>
+	<div class="content-container">
+		<left-panel [menuItems]="menuItems" selectedItemId="cars">
+			<ng-template #topContentTemplate>
+				<div class="mb-4">
+					<bootstrap-button
+						[text]="'CARS_ADD_CAR_BUTTON' | translate"
+						[bootstrapIconId]="'bi-car-front-fill'"
+						[routerLink]="['/cars', this.brand?.id, 'create']">
+					</bootstrap-button>
 				</div>
-			</div>
 
-			<hr>
+				<div class="mb-3">
+					<label class="form-label text-muted">
+						{{ 'SEARCH_INPUT' | translate }}
+					</label>
 
-			<div class="left-menu__item">
-				<label class="form-label text-muted">
-					{{ 'CREATE_CAR_TRANSMISSIONS' | translate }}
-				</label>
-				<div class="transmissions">
-					<div *ngFor="let transmission of availableTransmissions; let i = index" class="form-check">
-						<input
-							class="form-check-input"
-							type="checkbox"
-							[id]="transmission.value"
-							(click)="onClickTransmission(transmission.value)">
+					<p-inputgroup>
+						<p-inputgroup-addon>
+							<i class="pi pi-search"></i>
+						</p-inputgroup-addon>
 
-						<label class="form-check-label no-select" [for]="transmission.value">
-							{{ transmission.label }}
-						</label>
-					</div>
+						<input pInputText [(ngModel)]="searchTerm"
+							   placeholder="{{ 'CARS_SEARCH_INPUT_PLACEHOLDER' | translate }}"
+							   size="small" />
+
+						<p-inputgroup-addon>
+							<p-button icon="pi pi-times"
+									  severity="secondary"
+									  (click)="clearSearchInput()"
+									  pTooltip="{{ 'BRANDS_CLEAR_SEARCH_INPUT_BUTTON' | translate }}"
+									  tooltipPosition="bottom" />
+						</p-inputgroup-addon>
+					</p-inputgroup>
 				</div>
-			</div>
-		</div>
 
-		<div class="cards cars">
-			<ng-container *ngFor="let car of filteredCars">
-				<div class="card cars__card">
-					<img src="{{ car.imageResource?.url }}"
-						 class="card-img-top" [alt]="car.model">
+				<div class="mb-3">
+					<label class="form-label text-muted">
+						{{ 'CREATE_CAR_TRANSMISSIONS' | translate }}
+					</label>
 
-					<div class="card-body">
-						<h5 class="card-title">{{ car.model }}</h5>
+					<p-multiselect
+						[(ngModel)]="selectedTransmissions"
+						[options]="transmissionOptions"
+						optionLabel="label"
+						optionValue="value"
+						[filter]="true"
+						placeholder="{{ 'PRIMENG_DIALOG_SERVICE_SELECT_TRANSMISSIONS' | translate }}"
+						appendTo="body">
+					</p-multiselect>
+				</div>
+			</ng-template>
+		</left-panel>
 
-						<p class="card-text">{{ car.startYear }} - {{ car.endYear || this.currentYear }}</p>
+		<div class="d-flex flex-no-wrap">
+			<div class="cars-container">
+				<div class="cards cars">
+					<ng-container *ngFor="let car of filteredCars">
+						<div class="card cars__card">
+							<img src="{{ car.imageResource?.url }}" class="card-img-top" [alt]="car.model">
 
-						<div class="card-buttons mt-3">
-							<a [routerLink]="['/cars/', this.brand?.id, car.id]" class="btn btn-primary">
-								Change
-								<i class="bi bi-nut-fill"></i>
-							</a>
+							<div class="card-body">
+								<h5 class="card-title">
+									{{ car.model }}
+								</h5>
 
-							<a [routerLink]="['/brands', 2]" class="btn-danger btn">
-								Delete
-								<i class="bi bi-trash-fill"></i>
-							</a>
+								<p class="card-text">
+									{{ car.startYear }} - {{ car.endYear || this.currentYear }}
+								</p>
+							</div>
+
+							<div class="card-buttons mt-3">
+								<a [routerLink]="['/cars/', this.brand?.id, car.id]" class="btn btn-primary">
+									<i class="bi bi-nut-fill"></i>
+									{{ 'CARS_VIEW_BUTTON' | translate }}
+								</a>
+
+								<a [routerLink]="['/brands', 2]" class="btn-danger btn">
+									<i class="bi bi-trash-fill"></i>
+									{{ 'CARS_DELETE_BUTTON' | translate }}
+								</a>
+							</div>
 						</div>
-					</div>
+					</ng-container>
 				</div>
-			</ng-container>
+			</div>
 		</div>
 	</div>
 </main-root>

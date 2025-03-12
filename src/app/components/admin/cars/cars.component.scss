@@ -1,34 +1,74 @@
-.cars {
-	max-width: 960px !important;
-	margin: 0 50px !important;
-	margin-bottom: 20px !important;
+:root {
+	--p-checkbox-checked-background: #0d6efd !important;
+	--p-checkbox-checked-border-color: #0d6efd !important;
 
-	.cars__card {
-		max-width: 300px;
-		height: max-content;
+	--p-checkbox-checked-hover-background: #175abe !important;
+	--p-checkbox-checked-hover-border-color: #175abe !important;
 
-		.card-buttons .btn {
+	--p-multiselect-border-radius: 3px !important;
+	--p-multiselect-background: #fafafa !important;
+	--p-multiselect-placeholder-color: rgba(0, 0, 0, 0.7) !important;
+
+	--p-multiselect-option-selected-background: rgba(0, 123, 255, .05) !important;
+	--p-multiselect-option-selected-color: #2466d4 !important;
+
+	--p-multiselect-option-selected-focus-background: rgba(0, 123, 255, .1) !important;
+	--p-multiselect-option-selected-focus-color: #2466d4 !important;
+
+	--p-multiselect-focus-border-color: #4285f4 !important;
+	--p-multiselect-focus-ring-shadow: 0 0 0 0.25rem rgba(0, 123, 255, .25) !important;/**/
+
+	--p-inputtext-border-radius: 3px !important;
+	--p-inputtext-background: #fafafa !important;
+	--p-inputtext-focus-border-color: #4285f4 !important;
+	--p-inputtext-focus-ring-shadow: 0 0 0 0.25rem rgba(0,123,255,.25) !important;
+}
+
+.p-multiselect {
+	z-index: 9999;
+}
+
+.content-container {
+	display: flex;
+	height: 100%;
+
+	@media (max-width: 768px) {
+		flex-direction: column;
+	}
+
+	.left-panel {
+		min-width: 300px;
+
+		.p-multiselect {
 			width: 100%;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			gap: 10px;
 		}
 	}
 }
 
-.left-menu {
-	background: rgba(255, 255, 255, 0.8);
-	padding: 20px;
-	height: 100%;
+.cars-container {
+	max-width: 1500px;
+	width: 100%;
 
-	&__item {
-		margin-bottom: 20px;
+	.cars {
+		margin: 30px !important;
+		max-width: none !important;
+
+		box-sizing: border-box;
+		display: grid !important;
+		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+
+		.cars__card {
+			.card-buttons {
+				margin: 15px;
+
+				.btn {
+					width: 100% !important;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					gap: 10px;
+				}
+			}
+		}
 	}
-}
-
-.transmissions {
-	display: grid;
-	grid-template-columns: repeat(2, 1fr);
-	grid-gap: 10px;
 }

@@ -1,15 +1,21 @@
 <div class="left-panel">
-	<ul class="list-unstyled ps-0">
-		<li *ngFor="let item of menuItems" class="mb-1">
-			<button [class.btn-toggle-selected]="activeItem?.id === item?.id || selectedItemId === item?.id || activeParentItem?.id === item.id"
-					class="btn-toggle-no-expanded btn-toggle align-items-center rounded"
-					(click)="setActiveItem(item, $event)">
+	<div>
+		<ng-container *ngTemplateOutlet="topContentTemplate"></ng-container>
+	</div>
 
-				<i *ngIf="item.icon" [class]="item.icon"></i>
+	<ul class="list-unstyled ps-0">
+		<li *ngFor="let item of menuItems; trackBy: trackById" class="mb-1">
+			<button class="btn-toggle align-items-center rounded"
+					[class.btn-toggle-no-expanded]="!item.items || item.items.length === 0"
+					(click)="toggleItem(item)"
+					[class.btn-toggle-selected]="activeItem?.id === item?.id || selectedItemId === item?.id || activeParentItem?.id === item.id">
 				{{ item.label }}
 			</button>
 
-			<div *ngIf="item.items?.length" class="collapse show">
+			<div *ngIf="item.items?.length"
+				 [@collapseExpand]="isExpanded(item) ? 'expanded' : 'collapsed'"
+				 style="max-height: 400px; overflow: auto !important;">
+
 				<ul class="btn-toggle__nav list-unstyled fw-normal pb-1 small">
 					<li *ngFor="let subItem of item.items">
 						<a (click)="setActiveItem(subItem, $event)"
@@ -17,11 +23,24 @@
 						   [class.nav-selected]="activeItem?.id === subItem?.id || selectedItemId === subItem?.id">
 
 							<i *ngIf="subItem.icon" [class]="subItem.icon"></i>
-							{{ subItem.label }}
+
+							<ng-container *ngIf="subItem.label">
+								<span *ngIf="highlightNumbersInSubitems; else plainLabel"
+									  [innerHTML]="subItem.label | boldDigits">
+								</span>
+
+								<ng-template #plainLabel>
+									<span>{{ subItem.label }}</span>
+								</ng-template>
+							</ng-container>
 						</a>
 					</li>
 				</ul>
 			</div>
 		</li>
 	</ul>
+
+	<div>
+		<ng-container *ngTemplateOutlet="bottomContentTemplate"></ng-container>
+	</div>
 </div>

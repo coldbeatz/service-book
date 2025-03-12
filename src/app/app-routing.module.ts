@@ -7,7 +7,7 @@ import { ChangePasswordComponent } from "./components/restore/change-password/ch
 import { BrandsComponent} from "./components/admin/brands/brands.component";
 import { AuthGuard } from "./guards/auth.guard";
 import { GuestGuard } from "./guards/guest.guard";
-import { CreateCarComponent } from "./components/admin/cars/create/create-car.component";
+import { CarComponent } from "./components/admin/cars/create/car.component";
 import { CarsComponent } from "./components/admin/cars/cars.component";
 import { EngineComponent } from "./components/admin/cars/create/engines/engine/engine.component";
 import { EnginesComponent } from "./components/admin/cars/create/engines/engines.component";
@@ -37,9 +37,9 @@ export const routes: Routes = [
 
 	{ path: 'cars/:brand', component: CarsComponent, canActivate: [AuthGuard] },
 
-	{ path: 'cars/:brand/create', component: CreateCarComponent, canActivate: [AuthGuard] },
-	{ path: 'cars/:brand/:carId', component: CreateCarComponent, canActivate: [AuthGuard] },
-	{ path: 'cars/:brand/:carId/maintenance', component: CreateCarComponent, canActivate: [AuthGuard] },
+	{ path: 'cars/:brand/create', component: CarComponent, canActivate: [AuthGuard] },
+	{ path: 'cars/:brand/:carId', component: CarComponent, canActivate: [AuthGuard] },
+	{ path: 'cars/:brand/:carId/maintenance', component: CarComponent, canActivate: [AuthGuard] },
 
 	{ path: 'cars/:brand/:car/engines', component: EnginesComponent, canActivate: [AuthGuard] },
 	{ path: 'cars/:brand/:car/engines/create', component: EngineComponent, canActivate: [AuthGuard] },

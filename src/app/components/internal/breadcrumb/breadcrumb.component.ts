@@ -2,7 +2,7 @@ import { Component, Input, OnChanges, OnInit, ViewEncapsulation } from '@angular
 import { Router, RouterLink } from "@angular/router";
 import { CommonModule } from "@angular/common";
 import { Brand } from "../../../models/brand.model";
-import { TranslateModule, TranslateService } from "@ngx-translate/core";
+import { TranslateModule } from "@ngx-translate/core";
 import { Car } from "../../../models/car.model";
 import { Engine } from "../../../models/engine.model";
 import { MenuItem, PrimeTemplate } from "primeng/api";
@@ -47,7 +47,9 @@ export class BreadcrumbComponent implements OnChanges, OnInit {
 		return this.car ?? this.engine?.car;
 	}
 
-	constructor(private router: Router, private translate: TranslateService) {}
+	constructor(private router: Router) {
+
+	}
 
 	ngOnInit(): void {
 		this.init();

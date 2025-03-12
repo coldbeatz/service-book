@@ -21,10 +21,10 @@ enum CarWindowType {
 }
 
 @Component({
-	selector: 'create-car-root',
+	selector: 'car-root',
 	encapsulation: ViewEncapsulation.None,
-	templateUrl: 'create-car.component.html',
-	styleUrls: ['create-car.component.scss'],
+	templateUrl: 'car.component.html',
+	styleUrls: ['car.component.scss'],
 	imports: [
 		BreadcrumbComponent,
 		ReactiveFormsModule,
@@ -37,7 +37,7 @@ enum CarWindowType {
 	],
 	standalone: true
 })
-export class CreateCarComponent implements OnInit {
+export class CarComponent implements OnInit {
 
 	car: Car = new Car();
 
@@ -61,6 +61,7 @@ export class CreateCarComponent implements OnInit {
 	}
 
 	openCarMaintenance() {
+		console.log("openCarMaintenance");
 		if (this.car && this.car.brand) {
 			this.navigationService.navigate([`/cars/${this.car.brand.id}/${this.car.id}/maintenance`]);
 		}
@@ -127,6 +128,8 @@ export class CreateCarComponent implements OnInit {
 						this.car = car;
 					},
 					error: () => {
+						this.car.brand = brand;
+
 						this.navigationService.navigate([`/cars/${brand.id}/create`]);
 					}
 				});
