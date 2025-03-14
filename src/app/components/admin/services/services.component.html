@@ -1,5 +1,50 @@
-<main-root>
-	<app-breadcrumb></app-breadcrumb>
+<p-confirmDialog
+	[header]="'MAINTENANCE_DELETE_DIALOG_HEADER' | translate"
+	[message]="'MAINTENANCE_DELETE_DIALOG_MESSAGE' | translate"
+	[acceptLabel]="'MAINTENANCE_DELETE_DIALOG_ACCEPT' | translate"
+	[rejectLabel]="'MAINTENANCE_DELETE_DIALOG_REJECT' | translate"
+	icon="pi pi-exclamation-triangle">
+</p-confirmDialog>
 
-	<maintenance-table [regulationsMaintenance]="regulationsMaintenance"></maintenance-table>
+<primeng-dialog-service-root
+	(maintenanceSaved)="handleMaintenanceSaved($event)">
+</primeng-dialog-service-root>
+
+<main-root>
+	<app-breadcrumb [marginBottom]="0"></app-breadcrumb>
+
+	<div class="editor-container">
+		<left-panel [menuItems]="menuItems">
+			<ng-template #topContentTemplate>
+				<div class="mb-4">
+					<bootstrap-button
+						[text]="'MAINTENANCE_CREATE_BUTTON' | translate"
+						[bootstrapIconId]="'bi bi-wrench'"
+						(click)="onClickEditMaintenance(null)">
+					</bootstrap-button>
+				</div>
+			</ng-template>
+		</left-panel>
+
+		<div class="w-100 p-4 overflow-x-auto">
+			<div [ngSwitch]="successType">
+				<alert-root
+					*ngSwitchCase="SuccessType.MAINTENANCE_SAVED"
+					text="{{ 'DEFAULT_MAINTENANCE_SAVED_SUCCESS' | translate }}">
+				</alert-root>
+
+				<alert-root
+					*ngSwitchCase="SuccessType.MAINTENANCE_DELETED"
+					text="{{ 'DEFAULT_MAINTENANCE_DELETED_SUCCESS' | translate }}">
+				</alert-root>
+			</div>
+
+			<maintenance-table
+				#maintenanceTableComponent
+				(maintenanceEdited)="onClickEditMaintenance($event)"
+				(maintenanceDeleted)="handleMaintenanceDeleted($event)"
+				[regulationsMaintenance]="regulationsMaintenance">
+			</maintenance-table>
+		</div>
+	</div>
 </main-root>

@@ -152,6 +152,17 @@
 	"MAINTENANCE_TABLE_LIST_OF_WORK": "List of work",
 	"MAINTENANCE_TABLE_MILEAGE_THOUSANDS": "k km",
 
+	"MAINTENANCE_CREATE_BUTTON": "Create new",
+
+	"DEFAULT_MAINTENANCE_SAVED_SUCCESS": "Regulation maintenance has been successfully saved",
+	"DEFAULT_MAINTENANCE_DELETED_SUCCESS": "Regulation maintenance has been successfully deleted",
+
+	"MAINTENANCE_DELETE_DIALOG_HEADER": "Confirming deletion",
+	"MAINTENANCE_DELETE_DIALOG_MESSAGE": "Are you sure you want to delete regulation maintenance?",
+	"MAINTENANCE_DELETE_DIALOG_ACCEPT": "Yes",
+	"MAINTENANCE_DELETE_DIALOG_REJECT": "No",
+	"MAINTENANCE_DELETE_SUCCESS_MESSAGE": "The regulation maintenance was successfully deleted",
+
 	"CUSTOM_FILE_INPUT_FILE_NOT_SELECTED": "File not selected",
 	"CUSTOM_FILE_INPUT_SELECT_FILE": "Select file",
 	"CUSTOM_FILE_INPUT_SELECT_ANOTHER_FILE": "Select another file",
