@@ -13,13 +13,20 @@ import { NewsPostingOption } from "../../../models/news-posting-option.model";
 import { Localization } from "../../../models/localization/localization.model";
 import { Button } from "primeng/button";
 import { TooltipDirective } from "ngx-bootstrap/tooltip";
-import { ConfirmationService, MessageService } from "primeng/api";
+import { ConfirmationService, MenuItem, PrimeIcons } from "primeng/api";
 import { NewsService } from "../../../services/api/news.service";
 import { ConfirmDialog } from "primeng/confirmdialog";
 import { AlertComponent } from "../../internal/alert/alert.component";
 import { DropdownModule } from "primeng/dropdown";
 import { FormsModule } from "@angular/forms";
 import { LocalizationService } from "../../../services/localization/localization.service";
+import { BootstrapButtonComponent } from "../../shared/button/bootstrap-button.component";
+import { LeftPanelComponent } from "../../shared/left-panel/left-panel.component";
+
+enum NewsSuccessType {
+	NEWS_SAVED,
+	NEWS_DELETED
+}
 
 @Component({
 	selector: 'alerts-root',
@@ -40,7 +47,9 @@ import { LocalizationService } from "../../../services/localization/localization
 		ConfirmDialog,
 		AlertComponent,
 		DropdownModule,
-		FormsModule
+		FormsModule,
+		BootstrapButtonComponent,
+		LeftPanelComponent
 	],
 	standalone: true
 })
@@ -48,13 +57,13 @@ export class AlertsComponent implements OnInit {
 
 	@ViewChild(NewsEditorComponent) modalComponent!: NewsEditorComponent;
 
-	news?: News[];
+	news: News[] = [];
 
-	deletedSuccess: boolean = false;
+	protected readonly NewsSuccessType = NewsSuccessType;
+	successType: NewsSuccessType | null = null;
 
 	constructor(private newsService: NewsService,
 				private translateService: TranslateService,
-				private messageService: MessageService,
 				protected localizationService: LocalizationService,
 				private confirmationService: ConfirmationService) {
 
@@ -67,6 +76,34 @@ export class AlertsComponent implements OnInit {
 		{ label: 'NEWS_SORT_OLDEST', value: 'oldest' },
 		{ label: 'NEWS_SORT_NEWEST_UPDATE', value: 'newest_update' }
 	];
+
+	get menuItems(): MenuItem[] {
+		return [
+			{
+				label: this.translateService.instant("NEWS_LIST"),
+				id: 'news',
+				expanded: true,
+				items: [
+					{
+						label: this.translateService.instant("NEWS_CREATE_BUTTON"),
+						id: 'create_news',
+						icon: PrimeIcons.PLUS,
+						command: () => {
+							this.onClickEditNews(null);
+						}
+					},
+					...this.sortedNews.map(item => ({
+						label: LocalizationHandlers[Localization.EN].getValue(item.title) || this.translateService.instant("NEWS_NO_TITLE"),
+						id: `news_${item.id}`,
+						icon: PrimeIcons.PENCIL,
+						command: () => {
+							this.onClickEditNews(item);
+						}
+					}))
+				]
+			}
+		];
+	}
 
 	get sortedNews(): News[] {
 		if (!this.news)
@@ -107,18 +144,14 @@ export class AlertsComponent implements OnInit {
 		return labels[option] || 'Unknown';
 	}
 
-	getTruncatedContent(content: any): string {
-		return LocalizationHandlers[Localization.EN].getValue(content);
-	}
-
 	deleteNews(newsToBeDelete: News) {
-		this.deletedSuccess = false;
+		this.successType = null;
 
 		this.confirmationService.confirm({
 			accept: () => {
 				this.newsService.deleteNews(newsToBeDelete).subscribe({
-					next: (response) => {
-						this.deletedSuccess = true;
+					next: () => {
+						this.successType = NewsSuccessType.NEWS_DELETED;
 
 						if (this.news) {
 							this.news = this.news.filter(n => n.id !== newsToBeDelete.id);
@@ -134,6 +167,8 @@ export class AlertsComponent implements OnInit {
 	}
 
 	handleNewsSaved(updatedNews: News) {
+		this.successType = null;
+
 		if (!this.news) return;
 
 		const index = this.news.findIndex(item => item.id === updatedNews.id);
@@ -144,9 +179,6 @@ export class AlertsComponent implements OnInit {
 			this.news = [...this.news, updatedNews];
 		}
 
-		const summary = this.translateService.instant('TOAST_SUCCESS');
-		const detail = this.translateService.instant('TOAST_SUCCESS_DETAIL');
-
-		this.messageService.add({ severity: 'info', summary: summary, detail: detail });
+		this.successType = NewsSuccessType.NEWS_SAVED;
 	}
 }

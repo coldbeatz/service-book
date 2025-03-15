@@ -68,6 +68,13 @@
 
 	"CARS_ADD_CAR_BUTTON": "Create car",
 	"CARS_LIST": "Cars",
+	"CARS_DELETE_HAS_DEPENDENCIES_ERROR": "The car can't be delete, it has dependencies",
+	"CARS_DELETE_SUCCESS": "The car was successfully deleted",
+
+	"CAR_DELETE_DIALOG_HEADER": "Confirming deletion",
+	"CAR_DELETE_DIALOG_MESSAGE": "Are you sure you want to delete car?",
+	"CAR_DELETE_DIALOG_ACCEPT": "Yes",
+	"CAR_DELETE_DIALOG_REJECT": "No",
 
 	"CREATE_CAR_MODEL_INPUT_PLACEHOLDER": "Enter car model",
 	"CREATE_CAR_START_YEAR_INPUT_PLACEHOLDER": "Enter start year",
@@ -178,6 +185,10 @@
 	"NEWS_SORT_OLDEST": "Old ones first",
 	"NEWS_SORT_NEWEST_UPDATE": "New updates first",
 	"NEWS_DELETE_SUCCESS_MESSAGE": "The news has been successfully deleted",
+	"NEWS_SAVE_SUCCESS_MESSAGE": "The news has been successfully saved",
+	"NEWS_CREATE_BUTTON": "Create news",
+	"NEWS_NO_TITLE": "No title",
+	"NEWS_LIST": "All news",
 
 	"NEWS_DELETE_DIALOG_HEADER": "Confirming deletion",
 	"NEWS_DELETE_DIALOG_MESSAGE": "Are you sure you want to delete the news?",

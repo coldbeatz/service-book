@@ -119,20 +119,24 @@ export class CarComponent implements OnInit {
 
 		this.brandService.getBrandById(brandId).subscribe({
 			next: (brand) => {
+				this.car.brand = brand;
+
 				let carId = Number(this.route.snapshot.paramMap.get('carId'));
 
-				this.carService.getCarById(carId).subscribe({
-					next: (car) => {
-						car.brand = brand;
+				if (carId) {
+					this.carService.getCarById(carId).subscribe({
+						next: (car) => {
+							car.brand = brand;
 
-						this.car = car;
-					},
-					error: () => {
-						this.car.brand = brand;
+							this.car = car;
+						},
+						error: () => {
+							this.car.brand = brand;
 
-						this.navigationService.navigate([`/cars/${brand.id}/create`]);
-					}
-				});
+							this.navigationService.navigate([`/cars/${brand.id}/create`]);
+						}
+					});
+				}
 			},
 			error: (e) => {
 				if (e.error.code == 'car_brand_not_found') {

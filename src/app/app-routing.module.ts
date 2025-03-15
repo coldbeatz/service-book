@@ -13,7 +13,7 @@ import { EngineComponent } from "./components/admin/cars/create/engines/engine/e
 import { EnginesComponent } from "./components/admin/cars/create/engines/engines.component";
 import { ServicesComponent } from "./components/admin/services/services.component";
 import { BrandComponent } from "./components/admin/brands/brand/brand.component";
-import { AlertsComponent } from "./components/admin/alerts/alerts.component";
+import { AlertsComponent } from "./components/admin/news/alerts.component";
 import { SettingsComponent } from "./components/auth/settings/settings.component";
 import { MainComponent } from "./components/internal/main/main.component";
 import { HomeComponent } from "./components/home/home.component";

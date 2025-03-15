@@ -22,6 +22,11 @@ export class CarService {
 
 	}
 
+	public deleteCar(car: Car): Observable<void> {
+		const url = `${this.API_URL}/${car.id}`;
+		return this.http.delete<void>(url);
+	}
+
 	/**
 	 * Отримує автомобіль по його унікальному id
 	 *

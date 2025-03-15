@@ -1,14 +1,14 @@
-import { Component, Input, OnInit, ViewEncapsulation } from "@angular/core";
+import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewEncapsulation } from "@angular/core";
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { CustomFileUploadComponent } from "../../../../shared/custom-file-upload/custom-file-upload.component";
-import { TranslateModule, TranslateService } from "@ngx-translate/core";
+import { TranslateModule } from "@ngx-translate/core";
 import { CarTransmissionType } from "../../../../../models/car-transmission-type.model";
 import { Car } from "../../../../../models/car.model";
 import { CarService } from "../../../../../services/api/car.service";
-import { ActivatedRoute } from "@angular/router";
 import { NavigationService } from "../../../../../services/navigation.service";
 import { AlertComponent } from "../../../../internal/alert/alert.component";
+import { CarTransmissionService } from "../../../../../services/car-transmission.service";
 
 @Component({
 	selector: 'car-editor-root',
@@ -24,7 +24,7 @@ import { AlertComponent } from "../../../../internal/alert/alert.component";
 	],
 	standalone: true
 })
-export class CarEditorComponent implements OnInit {
+export class CarEditorComponent implements OnInit, OnChanges {
 
 	protected form: FormGroup;
 
@@ -42,8 +42,7 @@ export class CarEditorComponent implements OnInit {
 	constructor(private carService: CarService,
 				private fb: FormBuilder,
 				private navigationService: NavigationService,
-				private route: ActivatedRoute,
-				private translate: TranslateService) {
+				private carTransmissionService: CarTransmissionService) {
 
 		this.currentYear = new Date().getFullYear();
 
@@ -67,17 +66,9 @@ export class CarEditorComponent implements OnInit {
 		imgElement.src = 'assets/images/no-picture.jpg';
 	}
 
-	private initAvailableTransmissions(): void {
-		const enumKeys = Object.keys(CarTransmissionType)
-			.filter(key => isNaN(Number(key)) && key !== "OTHER");
-
-		const translationKeys = enumKeys.map(key => `TRANSMISSION_${key}`);
-
-		this.translate.get(translationKeys).subscribe((translations: { [key: string]: string }) => {
-			this.availableTransmissions = enumKeys.map(key => ({
-				value: CarTransmissionType[key as keyof typeof CarTransmissionType],
-				label: translations[`TRANSMISSION_${key}`]
-			}));
+	ngOnInit(): void {
+		this.carTransmissionService.transmissionOptions$.subscribe((options) => {
+			this.availableTransmissions = options.filter(option => option.value !== CarTransmissionType.OTHER);
 
 			const formGroupConfig: { [key: string]: boolean } = {};
 			this.availableTransmissions.forEach((transmission) => {
@@ -85,43 +76,37 @@ export class CarEditorComponent implements OnInit {
 			});
 
 			this.form.setControl('transmissions', this.fb.group(formGroupConfig));
+
+			this.initCarTransmissions();
 		});
 	}
 
-	ngOnInit(): void {
-		this.initAvailableTransmissions();
-		this.initCar();
+	ngOnChanges(changes: SimpleChanges): void {
+		if (changes['car'] && this.car) {
+			this.form.patchValue({
+				model: this.car.model,
+				startYear: this.car.startYear,
+				endYear: this.car.endYear,
+			});
+
+			this.imagePreview = this.car.imageResource?.url || null;
+
+			this.initCarTransmissions();
+		}
 	}
 
-	initCar() {
-		let carId = this.route.snapshot.paramMap.get('carId');
+	private initCarTransmissions(): void {
+		if (!this.car || !this.car.transmissions || this.availableTransmissions.length === 0) return;
 
-		if (carId == null)
-			return;
+		const transmissionsGroup = this.form.get('transmissions') as FormGroup;
 
-		this.carService.getCarById(Number(carId)).subscribe({
-			next: (car) => {
-				if (car == null) return;
+		Object.keys(transmissionsGroup.controls).forEach(key => {
+			transmissionsGroup.controls[key].setValue(false);
+		});
 
-				this.car = car;
-
-				this.form.patchValue({
-					model: this.car.model,
-					startYear: this.car.startYear,
-					endYear: this.car.endYear,
-				});
-
-				this.imagePreview = car.imageResource?.url || null;
-
-				if (car.transmissions.length > 0) {
-					const transmissionsGroup = this.form.get('transmissions') as FormGroup;
-
-					car.transmissions.forEach((transmission) => {
-						if (transmissionsGroup.controls[transmission]) {
-							transmissionsGroup.controls[transmission].setValue(true);
-						}
-					});
-				}
+		this.car.transmissions.forEach((transmission) => {
+			if (transmissionsGroup.controls[transmission]) {
+				transmissionsGroup.controls[transmission].setValue(true);
 			}
 		});
 	}

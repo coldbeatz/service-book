@@ -1,3 +1,11 @@
+<p-confirmDialog
+	[header]="'CAR_DELETE_DIALOG_HEADER' | translate"
+	[message]="'CAR_DELETE_DIALOG_MESSAGE' | translate"
+	[acceptLabel]="'CAR_DELETE_DIALOG_ACCEPT' | translate"
+	[rejectLabel]="'CAR_DELETE_DIALOG_REJECT' | translate"
+	icon="pi pi-exclamation-triangle">
+</p-confirmDialog>
+
 <main-root>
 	<app-breadcrumb [brand]="brand" [marginBottom]="0"></app-breadcrumb>
 
@@ -54,37 +62,46 @@
 			</ng-template>
 		</left-panel>
 
-		<div class="d-flex flex-no-wrap">
-			<div class="cars-container">
-				<div class="cards cars">
-					<ng-container *ngFor="let car of filteredCars">
-						<div class="card cars__card">
-							<img src="{{ car.imageResource?.url }}" class="card-img-top" [alt]="car.model">
+		<div class="cars-container">
+			<alert-root type="danger"
+				*ngIf="responseType == CarsResponseType.CAR_DELETE_HAS_DEPENDENCIES_ERROR"
+				text="{{ 'CARS_DELETE_HAS_DEPENDENCIES_ERROR' | translate }}">
+			</alert-root>
 
-							<div class="card-body">
-								<h5 class="card-title">
-									{{ car.model }}
-								</h5>
+			<alert-root *ngIf="responseType == CarsResponseType.CAR_DELETE_SUCCESS"
+						text="{{ 'CARS_DELETE_SUCCESS' | translate }}">
+			</alert-root>
 
-								<p class="card-text">
-									{{ car.startYear }} - {{ car.endYear || this.currentYear }}
-								</p>
-							</div>
+			<div class="cards cars">
+				<ng-container *ngFor="let car of filteredCars">
+					<div class="card cars__card">
+						<img src="{{ car.imageResource?.url }}" class="card-img-top" [alt]="car.model">
 
-							<div class="card-buttons mt-3">
-								<a [routerLink]="['/cars/', this.brand?.id, car.id]" class="btn btn-primary">
-									<i class="bi bi-nut-fill"></i>
-									{{ 'CARS_VIEW_BUTTON' | translate }}
-								</a>
+						<div class="card-body">
+							<h5 class="card-title">
+								{{ car.model }}
+							</h5>
 
-								<a [routerLink]="['/brands', 2]" class="btn-danger btn">
-									<i class="bi bi-trash-fill"></i>
-									{{ 'CARS_DELETE_BUTTON' | translate }}
-								</a>
-							</div>
+							<p class="card-text">
+								{{ car.startYear }} - {{ car.endYear || this.currentYear }}
+							</p>
 						</div>
-					</ng-container>
-				</div>
+
+						<div class="card-buttons mt-3">
+							<a [routerLink]="['/cars/', this.brand?.id, car.id]" class="btn btn-primary">
+								<i class="bi bi-nut-fill"></i>
+								{{ 'CARS_VIEW_BUTTON' | translate }}
+							</a>
+
+							<a  class="btn-danger btn"
+								(click)="onDeleteCar(car)">
+
+								<i class="bi bi-trash-fill"></i>
+								<span>{{ 'CARS_DELETE_BUTTON' | translate }}</span>
+							</a>
+						</div>
+					</div>
+				</ng-container>
 			</div>
 		</div>
 	</div>

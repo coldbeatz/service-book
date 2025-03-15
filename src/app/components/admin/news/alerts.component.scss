@@ -1,6 +1,13 @@
+.content-container {
+	display: flex;
+	height: 100%;
+
+	@media (max-width: 768px) {
+		flex-direction: column;
+	}
+}
+
 .news-container {
-	max-width: 800px;
-	margin: auto;
 	background: white;
 	border-radius: 20px;
 	padding: 20px;

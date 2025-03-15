@@ -12,7 +12,7 @@ import { CarTransmissionType } from "../../../models/car-transmission-type.model
 import { BrandService } from "../../../services/api/brand.service";
 import { CarService } from "../../../services/api/car.service";
 import { LeftPanelComponent } from "../../shared/left-panel/left-panel.component";
-import { MenuItem, PrimeIcons } from "primeng/api";
+import { ConfirmationService, MenuItem, PrimeIcons } from "primeng/api";
 import { BootstrapButtonComponent } from "../../shared/button/bootstrap-button.component";
 import { MultiSelect } from "primeng/multiselect";
 import { CarTransmissionService, TransmissionOption } from "../../../services/car-transmission.service";
@@ -21,6 +21,13 @@ import { InputGroupAddon } from "primeng/inputgroupaddon";
 import { Button } from "primeng/button";
 import { InputGroup } from "primeng/inputgroup";
 import { Tooltip } from "primeng/tooltip";
+import { ConfirmDialog } from "primeng/confirmdialog";
+import { AlertComponent } from "../../internal/alert/alert.component";
+
+enum CarsResponseType {
+	CAR_DELETE_HAS_DEPENDENCIES_ERROR,
+	CAR_DELETE_SUCCESS
+}
 
 @Component({
 	selector: 'cars-root',
@@ -41,7 +48,9 @@ import { Tooltip } from "primeng/tooltip";
 		InputGroupAddon,
 		Button,
 		InputGroup,
-		Tooltip
+		Tooltip,
+		ConfirmDialog,
+		AlertComponent
 	],
 	standalone: true
 })
@@ -63,12 +72,16 @@ export class CarsComponent implements OnInit {
 
 	transmissionOptions: TransmissionOption[] = [];
 
+	protected readonly CarsResponseType = CarsResponseType;
+	responseType?: CarsResponseType;
+
 	constructor(private carService: CarService,
 				private brandService: BrandService,
 				private navigationService: NavigationService,
 				private translateService: TranslateService,
 				private route: ActivatedRoute,
-				protected carTransmissionService: CarTransmissionService) {
+				protected carTransmissionService: CarTransmissionService,
+				private confirmationService: ConfirmationService) {
 
 		this.currentYear = new Date().getFullYear();
 
@@ -103,6 +116,29 @@ export class CarsComponent implements OnInit {
 				]
 			}
 		];
+	}
+
+	onDeleteCar(car: Car): void {
+		this.confirmationService.confirm({
+			accept: () => {
+				this.carService.deleteCar(car).subscribe({
+					next: () => {
+						this.responseType = CarsResponseType.CAR_DELETE_SUCCESS;
+
+						this.cars = this.cars.filter(c => c.id !== car.id);
+
+						window.scroll({top: 0, left: 0, behavior: 'smooth'});
+					},
+					error: (e) => {
+						if (e.error.error === 'entity_has_dependencies') {
+							this.responseType = CarsResponseType.CAR_DELETE_HAS_DEPENDENCIES_ERROR;
+
+							window.scroll({top: 0, left: 0, behavior: 'smooth'});
+						}
+					}
+				});
+			}
+		});
 	}
 
 	private initAvailableTransmissions(): void {
