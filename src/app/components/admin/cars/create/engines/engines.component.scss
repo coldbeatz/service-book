@@ -1,16 +1,40 @@
-.cars {
-	.cars__card {
-		max-width: 300px;
+.content-container {
+	display: flex;
+	height: 100%;
 
-		.card-buttons .btn {
-			width: 100%;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			gap: 10px;
-		}
+	@media (max-width: 768px) {
+		flex-direction: column;
 	}
 }
-.list-group-item {
-	padding: 5px 5px !important;
+
+.engines-container {
+	max-width: 1400px;
+	width: 100%;
+	padding: 25px !important;
+
+	.engines {
+		max-width: none !important;
+
+		box-sizing: border-box;
+		display: grid !important;
+		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+
+		&__card {
+			max-width: 500px;
+
+			.list-group-item {
+				padding: 5px 5px !important;
+			}
+
+			.card-buttons {
+				.btn {
+					width: 100% !important;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					gap: 10px;
+				}
+			}
+		}
+	}
 }

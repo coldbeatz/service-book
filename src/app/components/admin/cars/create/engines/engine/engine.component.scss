@@ -1,5 +1,41 @@
-.create-car-container {
-	.create-car__form {
+:root {
+	--p-select-border-radius: 3px !important;
+	--p-select-background: #fafafa !important;
+	--p-select-placeholder-color: rgba(0, 0, 0, 0.7) !important;
+
+	--p-select-option-selected-background: rgba(0, 123, 255, .05) !important;
+	--p-select-option-selected-color: #2466d4 !important;
+
+	--p-select-option-selected-focus-background: rgba(0, 123, 255, .1) !important;
+	--p-select-option-selected-focus-color: #2466d4 !important;
+
+	--p-select-focus-border-color: #4285f4 !important;
+	--p-select-focus-ring-shadow: 0 0 0 0.25rem rgba(0, 123, 255, .25) !important;
+}
+
+.p-select {
+	width: 100%;
+}
+
+.create-engine-container {
+	padding: 25px;
+	width: 100%;
+
+	.engine-form-container  {
+		@media (max-width: 768px) {
+			max-width: 500px;
+			margin: auto;
+		}
+	}
+
+
+	.alert {
 		max-width: 500px;
+	}
+
+	.form {
+		border-radius: 15px;
+		padding: 30px;
+		margin: 0;
 	}
 }

@@ -18,6 +18,11 @@ export class FuelTypeService {
 		this.initAvailableFuelTypes();
 	}
 
+	public getLocalizedFuelType(fuelType: FuelType | null): string {
+		const option = this.options.find(option => option.value === fuelType);
+		return option ? option.label : (fuelType ? fuelType.toString() : 'null');
+	}
+
 	private initAvailableFuelTypes(): void {
 		const enumKeys = Object.keys(FuelType)
 			.filter(key => isNaN(Number(key)) && key !== "OTHER");

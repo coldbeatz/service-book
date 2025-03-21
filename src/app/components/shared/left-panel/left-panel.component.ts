@@ -1,7 +1,7 @@
 import {
 	Component,
 	ContentChild,
-	Input,
+	Input, OnChanges, SimpleChanges,
 	TemplateRef,
 	ViewEncapsulation
 } from '@angular/core';
@@ -28,7 +28,7 @@ import { BoldDigitsPipe } from "../../../pipes/bold-digits-pipe";
 		])
 	]
 })
-export class LeftPanelComponent {
+export class LeftPanelComponent implements OnChanges {
 
 	@Input() menuItems: MenuItem[] = [];
 	@Input() selectedItemId: string | null = null;
@@ -71,5 +71,23 @@ export class LeftPanelComponent {
 
 	trackById(index: number, item: MenuItem): string {
 		return item.id!;
+	}
+
+	ngOnChanges(changes: SimpleChanges): void {
+		if (this.selectedItemId) {
+			let selectedItem: MenuItem | undefined = this.menuItems.find(item => this.selectedItemId === item.id);
+
+			if (!selectedItem) {
+				selectedItem = this.menuItems
+					.map(item => item.items?.find(subItem => subItem.id === this.selectedItemId))
+					.find(subItem => subItem !== undefined);
+			}
+
+			if (selectedItem) {
+				if (!selectedItem.items || !selectedItem.items.length) {
+					this.setActiveItem(selectedItem);
+				}
+			}
+		}
 	}
 }

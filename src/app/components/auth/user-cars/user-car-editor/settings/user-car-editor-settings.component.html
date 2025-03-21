@@ -112,9 +112,9 @@
 									[(ngModel)]="userCar.licensePlate">
 
 									<ng-template #errorsTemplate>
-												<span *ngIf="!userCar.licensePlate">
-													{{ 'MY_CARS_INPUT_LICENSE_PLATE_ERROR_REQUIRED' | translate }}
-												</span>
+										<span *ngIf="!userCar.licensePlate">
+											{{ 'MY_CARS_INPUT_LICENSE_PLATE_ERROR_REQUIRED' | translate }}
+										</span>
 									</ng-template>
 								</app-form-input>
 							</div>

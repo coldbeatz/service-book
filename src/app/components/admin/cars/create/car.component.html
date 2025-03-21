@@ -2,14 +2,10 @@
 	<app-breadcrumb [car]="car" [brand]="car.brand" [marginBottom]="0"></app-breadcrumb>
 
 	<div class="editor-container">
-		<left-panel [menuItems]="menuItems" [selectedItemId]="windowType"></left-panel>
+		<left-panel [menuItems]="menuItems" [selectedItemId]="leftPanelSelectedItem"></left-panel>
 
-		<div class="w-100" [class.scroll-x]="windowType === CarWindowType.REGULATION_MAINTENANCE">
-			<car-maintenance-root [car]="car"
-								  *ngIf="windowType == CarWindowType.REGULATION_MAINTENANCE">
-			</car-maintenance-root>
-
-			<car-editor-root [car]="car" *ngIf="windowType == CarWindowType.SETTINGS"></car-editor-root>
+		<div class="w-100" [class.scroll-x]="leftPanelSelectedItem === 'maintenance'">
+			<router-outlet></router-outlet>
 		</div>
 	</div>
 </main-root>

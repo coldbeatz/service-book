@@ -1,24 +1,32 @@
-<main-root>
-	<app-breadcrumb [engine]="engine" [car]="car"></app-breadcrumb>
+<div class="create-engine-container">
+	<div class="engine-form-container">
+		<alert-root *ngIf="savedSuccess"
+			text="{{ 'ENGINE_SUCCESS_SAVE' | translate }}">
+		</alert-root>
 
-	<div class="create-car-container">
-		<form [formGroup]="form" (ngSubmit)="onSubmit()" class="create-car__form">
+		<form (ngSubmit)="onSubmit()" class="form" style="max-width: 500px;">
 			<div class="mb-4">
-				<label for="name" class="form-label text-muted">
-					{{ 'ENGINE_NAME' | translate }}
-				</label>
-
-				<input type="text" class="form-control" formControlName="name"
-					   placeholder="{{ 'ENGINE_NAME_PLACEHOLDER' | translate }}" id="name">
+				<app-form-input
+					name="name"
+					id="name"
+					[required]="true"
+					[label]="'ENGINE_NAME' | translate"
+					[placeholder]="'ENGINE_NAME_PLACEHOLDER' | translate"
+					[(ngModel)]="engine.name">
+				</app-form-input>
 			</div>
 
 			<div class="mb-4">
-				<label for="displacement" class="form-label text-muted">
-					{{ 'ENGINE_DISPLACEMENT' | translate }} <small class="text-danger">*</small>
-				</label>
-
-				<input type="number" class="form-control" formControlName="displacement" step="0.1" min="0.1"
-					   placeholder="{{ 'ENGINE_DISPLACEMENT_PLACEHOLDER' | translate }}" id="displacement">
+				<number-form-input
+					name="displacement"
+					id="displacement"
+					[required]="true"
+					[label]="'ENGINE_DISPLACEMENT' | translate"
+					[placeholder]="'ENGINE_DISPLACEMENT_PLACEHOLDER' | translate"
+					[min]="0.1"
+					[step]="0.1"
+					[(ngModel)]="engine.displacement">
+				</number-form-input>
 			</div>
 
 			<div class="mb-4">
@@ -26,33 +34,49 @@
 					{{ 'ENGINE_FUEL_TYPE' | translate }} <small class="text-danger">*</small>
 				</label>
 
+				<!--<label class="form-label text-muted">
+					{{ 'ENGINE_FUEL_TYPE' | translate }} <small class="text-danger">*</small>
+				</label>
+
 				<select class="form-select" aria-label="Default select example" formControlName="fuelType">
 					<option value="" disabled selected hidden>Select fuel type</option>
-					<option value="{{ fuelType }}" *ngFor="let fuelType of availableFuelTypes; let i = index">
-						{{ 'FUEL_TYPE_' + fuelType | translate }}
+					<option value="{{ fuelType.value }}" *ngFor="let fuelType of fuelTypeService.options">
+						{{ fuelType.label }}
 					</option>
-				</select>
+				</select>-->
+
+				<p-select
+					name="fuelType"
+					[options]="fuelTypeService.options"
+					[(ngModel)]="engine.fuelType"
+					placeholder="{{ 'MY_CARS_INPUT_TRANSMISSION_PLACEHOLDER' | translate }}"
+					appendTo="body">
+				</p-select>
 			</div>
 
 			<div class="mb-4">
-				<label for="horsepower" class="form-label text-muted">
-					{{ 'ENGINE_HORSEPOWER' | translate }} <small class="text-danger">*</small>
-				</label>
-
-				<input type="number" class="form-control" formControlName="horsepower"
-					   placeholder="{{ 'ENGINE_HORSEPOWER_PLACEHOLDER' | translate }}" id="horsepower">
+				<number-form-input
+					name="horsepower"
+					id="horsepower"
+					[required]="true"
+					[label]="'ENGINE_HORSEPOWER' | translate"
+					[placeholder]="'ENGINE_HORSEPOWER_PLACEHOLDER' | translate"
+					[min]="1"
+					[step]="1"
+					[(ngModel)]="engine.horsepower">
+				</number-form-input>
 			</div>
 
 			<div class="flex-center">
 				<button type="submit" class="btn btn-primary flex-center" style="max-width: 300px;"
-						[disabled]="form.invalid">
+						[disabled]="hasInvalid()">
 
 				<span class="mx-3">
 					{{ (engine ? 'ENGINE_SUBMIT_CHANGE_BUTTON' : 'ENGINE_SUBMIT_BUTTON') | translate }}
 				</span>
+
 				</button>
 			</div>
 		</form>
-
 	</div>
-</main-root>
+</div>

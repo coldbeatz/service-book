@@ -19,6 +19,9 @@ import { MainComponent } from "./components/internal/main/main.component";
 import { HomeComponent } from "./components/home/home.component";
 import { UserCarsComponent } from "./components/auth/user-cars/user-cars.component";
 import { UserCarEditorComponent } from "./components/auth/user-cars/user-car-editor/user-car-editor.component";
+import { CarMaintenanceComponent } from "./components/admin/cars/create/maintenance/car-maintenance.component";
+import { CarEditorComponent } from "./components/admin/cars/create/editor/car-editor.component";
+import { CarResolver } from "./components/admin/cars/create/car.resolver";
 
 export const routes: Routes = [
 
@@ -37,13 +40,25 @@ export const routes: Routes = [
 
 	{ path: 'cars/:brand', component: CarsComponent, canActivate: [AuthGuard] },
 
-	{ path: 'cars/:brand/create', component: CarComponent, canActivate: [AuthGuard] },
-	{ path: 'cars/:brand/:carId', component: CarComponent, canActivate: [AuthGuard] },
-	{ path: 'cars/:brand/:carId/maintenance', component: CarComponent, canActivate: [AuthGuard] },
-
-	{ path: 'cars/:brand/:car/engines', component: EnginesComponent, canActivate: [AuthGuard] },
-	{ path: 'cars/:brand/:car/engines/create', component: EngineComponent, canActivate: [AuthGuard] },
-	{ path: 'cars/:brand/:car/engines/:engine', component: EngineComponent, canActivate: [AuthGuard] },
+	{
+		path: 'cars/:brand',
+		children: [
+			{ path: 'create', component: CarComponent, canActivate: [AuthGuard] },
+			{
+				path: ':carId',
+				component: CarComponent,
+				canActivate: [AuthGuard],
+				resolve: { car: CarResolver },
+				children: [
+					{ path: '', component: CarEditorComponent },
+					{ path: 'maintenance', component: CarMaintenanceComponent },
+					{ path: 'engines', component: EnginesComponent },
+					{ path: 'engines/create', component: EngineComponent },
+					{ path: 'engines/:engine', component: EngineComponent }
+				]
+			}
+		]
+	},
 
 	{ path: 'alerts', component: AlertsComponent, canActivate: [AuthGuard] },
 	{ path: 'services', component: ServicesComponent, canActivate: [AuthGuard] },

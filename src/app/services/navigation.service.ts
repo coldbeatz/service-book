@@ -10,6 +10,17 @@ export class NavigationService {
 
 	}
 
+	getCurrentUrl(): string {
+		return this.router.url;
+	}
+
+	public updateUrlIfChanged(commands: any[], extras: NavigationExtras = {}): void {
+		const newUrl = this.router.createUrlTree(commands, extras).toString();
+		if (this.router.url !== newUrl) {
+			this.navigate(commands, { ...extras, skipLocationChange: false, replaceUrl: false });
+		}
+	}
+
 	public navigate(commands: any[], extras: NavigationExtras = {}) {
 		this.router.navigate(commands, extras)
 			.then(success => this.logNavigationStatus(commands, success))

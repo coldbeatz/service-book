@@ -1,121 +1,113 @@
-import { Component, OnInit, ViewEncapsulation } from "@angular/core";
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
-import { ApiRequestsService } from "../../../../../../services/api-requests.service";
-import { NavigationService } from "../../../../../../services/navigation.service";
+import { Component, Input, OnInit, ViewEncapsulation } from "@angular/core";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 import { Car } from "../../../../../../models/car.model";
 import { Engine } from "../../../../../../models/engine.model";
-import { MainComponent } from "../../../../../internal/main/main.component";
-import { BreadcrumbComponent } from "../../../../../internal/breadcrumb/breadcrumb.component";
-import { NgForOf } from "@angular/common";
+import { CommonModule } from "@angular/common";
 import { TranslateModule } from "@ngx-translate/core";
-import { CarService } from "../../../../../../services/api/car.service";
+import { FuelTypeService } from "../../../../../../services/fuel-type.service";
+import { FuelType } from "../../../../../../models/fuel-type.model";
+import { NumberFormInputComponent } from "../../../../../shared/form/number-form-input/number-form-input.component";
+import { FormInputComponent } from "../../../../../shared/form/form-input/form-input.component";
+import { Select } from "primeng/select";
 import { EngineService } from "../../../../../../services/api/engine.service";
+import { AlertComponent } from "../../../../../internal/alert/alert.component";
+import { NavigationService } from "../../../../../../services/navigation.service";
+import { EngineEventService } from "./engine-event.service";
 
 @Component({
 	selector: 'engine-root',
 	encapsulation: ViewEncapsulation.None,
 	templateUrl: 'engine.component.html',
-	styleUrls: ['../../car.component.scss', 'engine.component.scss'],
+	styleUrls: ['engine.component.scss'],
 	imports: [
-		MainComponent,
-		BreadcrumbComponent,
 		ReactiveFormsModule,
-		NgForOf,
-		TranslateModule
+		CommonModule,
+		TranslateModule,
+		NumberFormInputComponent,
+		FormsModule,
+		FormInputComponent,
+		Select,
+		AlertComponent
 	],
 	standalone: true
 })
 export class EngineComponent implements OnInit {
 
-	protected form: FormGroup;
+	@Input() car!: Car;
 
-	car: Car | null = null;
-	engine: Engine | null = null;
+	engine: Engine = this.emptyEngine();
 
-	availableFuelTypes: string[] = [];
+	savedSuccess: boolean = false;
 
-	constructor(private apiRequestsService: ApiRequestsService,
+	constructor(private route: ActivatedRoute,
 				private engineService: EngineService,
-				private carService: CarService,
-				private fb: FormBuilder,
+				protected fuelTypeService: FuelTypeService,
 				private navigationService: NavigationService,
-				private route: ActivatedRoute) {
-
-		this.form = this.fb.group({
-			name: ['', []],
-			displacement: ['0.1', [Validators.required]],
-			fuelType: ['', [Validators.required]],
-			horsepower: ['0', [Validators.required]]
-		});
+				private engineEventService: EngineEventService) {
 	}
 
 	ngOnInit(): void {
-		this.initCar();
-		this.initEngine();
+		this.route.parent?.data.subscribe((data) => {
+			this.car = data['car'];
 
-		this.apiRequestsService.getAvailableFuelTypes().subscribe({
-			next: (availableFuelTypes) => {
-				this.availableFuelTypes = availableFuelTypes;
-			}
+			this.route.params.subscribe(params => {
+				const engineId = Number(params['engine']);
+				this.engine = this.loadEngineById(engineId);
+			});
 		});
 	}
 
-	private initEngine(): void {
-		let engineId = this.route.snapshot.paramMap.get('engine');
-		if (engineId == null)
-			return;
-
-		this.engineService.getEngineById(Number(engineId)).subscribe({
-			next: (engine) => {
-				this.form.patchValue({
-					name: engine.name,
-					displacement: engine.displacement,
-					fuelType: engine.fuelType,
-					horsepower: engine.horsepower,
-				});
-
-				this.engine = engine;
+	private loadEngineById(engineId: number): Engine {
+		if (engineId) {
+			const engine: Engine | undefined = this.car.engines.find(engine => engine.id === engineId);
+			if (engine) {
+				return engine;
 			}
-		});
+		}
+
+		return this.emptyEngine();
 	}
 
-	private initCar(): void {
-		let carId = this.route.snapshot.paramMap.get('car');
-		if (carId == null)
-			return;
-
-		this.carService.getCarById(Number(carId)).subscribe({
-			next: (car) => {
-				this.car = car;
-			}
-		});
+	emptyEngine(): Engine {
+		return {
+			id: 0,
+			name: '',
+			displacement: 0,
+			fuelType: FuelType.PETROL,
+			horsepower: 0,
+			createdAt: null,
+			updatedAt: null,
+			car: this.car
+		}
 	}
 
 	onSubmit() {
-		if (this.car == null)
-			return;
+		this.savedSuccess = false;
 
-		const data = this.form.value;
-
-		if (this.engine != null) {
-			this.engine.name = data.name;
-			this.engine.displacement = data.displacement;
-			this.engine.fuelType = data.fuelType;
-			this.engine.horsepower = data.horsepower;
-
-			this.apiRequestsService.updateEngine(this.engine).subscribe({
-				next: (engine) => {
-					this.navigationService.navigate([`/cars/${this.car?.brand?.id}/${this.car?.id}/engines`]);
-				}
-			});
-		} else {
-			this.apiRequestsService.createEngine(this.car, data.name, data.displacement, data.fuelType,
-												 data.horsepower).subscribe({
-				next: (engine) => {
-					this.navigationService.navigate([`/cars/${this.car?.brand?.id}/${this.car?.id}/engines`]);
-				}
-			});
+		if (!this.engine.car) {
+			this.engine.car = this.car;
 		}
+
+		this.engineService.saveOrUpdateEngine(this.engine).subscribe({
+			next: (engine) => {
+				this.car.engines.push(engine);
+
+				this.engineEventService.engineListChanged$.next(this.car.engines);
+
+				if (!this.engine.id) {
+					this.navigationService.navigate([`/cars/${this.car.brand?.id}/${this.car.id}/engines`]);
+				}
+
+				this.engine = engine;
+				this.savedSuccess = true;
+
+				window.scroll({top: 0, left: 0, behavior: 'smooth'});
+			}
+		});
+	}
+
+	hasInvalid(): boolean {
+		return !this.engine.name || this.engine.horsepower == 0 || this.engine.displacement == 0;
 	}
 }

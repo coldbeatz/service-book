@@ -1,24 +1,18 @@
-import { Component, OnInit, ViewEncapsulation } from "@angular/core";
+import { ChangeDetectorRef, Component, OnInit, ViewEncapsulation } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
 import { NavigationService } from "../../../../services/navigation.service";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute, RouterOutlet } from "@angular/router";
 import { Car } from "../../../../models/car.model";
 import { BreadcrumbComponent } from "../../../internal/breadcrumb/breadcrumb.component";
 import { CommonModule } from "@angular/common";
 import { MainComponent } from "../../../internal/main/main.component";
-import { TranslateModule } from "@ngx-translate/core";
+import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { BrandService } from "../../../../services/api/brand.service";
 import { CarService } from "../../../../services/api/car.service";
 import { LeftPanelComponent } from "../../../shared/left-panel/left-panel.component";
 import { MenuItem, PrimeIcons } from "primeng/api";
-import { CarMaintenanceComponent } from "./maintenance/car-maintenance.component";
-import { CarEditorComponent } from "./editor/car-editor.component";
-
-enum CarWindowType {
-	SETTINGS = "settings",
-	REGULATION_MAINTENANCE = "maintenance",
-	ENGINES = "engines",
-}
+import { Engine } from "../../../../models/engine.model";
+import { EngineEventService } from "./engines/engine/engine-event.service";
 
 @Component({
 	selector: 'car-root',
@@ -32,8 +26,7 @@ enum CarWindowType {
 		MainComponent,
 		TranslateModule,
 		LeftPanelComponent,
-		CarMaintenanceComponent,
-		CarEditorComponent
+		RouterOutlet
 	],
 	standalone: true
 })
@@ -41,61 +34,91 @@ export class CarComponent implements OnInit {
 
 	car: Car = new Car();
 
-	protected readonly CarWindowType = CarWindowType;
-
-	windowType: CarWindowType = CarWindowType.SETTINGS;
+	leftPanelSelectedItem: string = "";
 
 	constructor(private carService: CarService,
 				private brandService: BrandService,
 				private navigationService: NavigationService,
 				private route: ActivatedRoute,
-				private router: Router) {
+				private translateService: TranslateService,
+				private cdr: ChangeDetectorRef,
+				private engineEventService: EngineEventService) {
 	}
 
 	openCarSettings() {
 		if (this.car && this.car.brand) {
-			this.navigationService.navigate([`/cars/${this.car.brand.id}/${this.car.id}`]);
+			this.navigationService.updateUrlIfChanged([`/cars/${this.car.brand.id}/${this.car.id}`]);
 		}
 
-		this.windowType = CarWindowType.SETTINGS;
+		this.leftPanelSelectedItem = 'settings';
 	}
 
 	openCarMaintenance() {
-		console.log("openCarMaintenance");
 		if (this.car && this.car.brand) {
-			this.navigationService.navigate([`/cars/${this.car.brand.id}/${this.car.id}/maintenance`]);
+			this.navigationService.updateUrlIfChanged([`/cars/${this.car.brand.id}/${this.car.id}/maintenance`]);
 		}
 
-		this.windowType = CarWindowType.REGULATION_MAINTENANCE;
+		this.leftPanelSelectedItem = 'maintenance';
 	}
 
 	openCarEngines() {
 		if (this.car && this.car.brand) {
-			this.navigationService.navigate([`/cars/${this.car.brand.id}/${this.car.id}/engines`]);
+			this.navigationService.updateUrlIfChanged([`/cars/${this.car.brand.id}/${this.car.id}/engines`]);
 		}
 
-		this.windowType = CarWindowType.ENGINES;
+		this.leftPanelSelectedItem = 'all_engines';
+	}
+
+	openCarEngine(engine: Engine | null) {
+		const urlPart = engine ? engine.id : 'create';
+
+		if (this.car && this.car.brand) {
+			this.navigationService.updateUrlIfChanged([`/cars/${this.car.brand.id}/${this.car.id}/engines/${urlPart}`]);
+		}
+
+		this.leftPanelSelectedItem = 'engine_' + engine?.id;
 	}
 
 	get menuItems(): MenuItem[] {
 		return [
 			{
 				label: 'Car settings',
-				id: CarWindowType.SETTINGS,
+				id: "settings",
 				icon: PrimeIcons.COG,
 				command: () => this.openCarSettings()
 			},
 			...(this.car.id? [
 				{
 					label: 'Regulations maintenance',
-					id: CarWindowType.REGULATION_MAINTENANCE,
+					id: "maintenance",
 					icon: PrimeIcons.WRENCH,
 					command: () => this.openCarMaintenance()
 				},
 				{
-					label: 'Engines',
-					id: CarWindowType.ENGINES,
+					label: this.translateService.instant("ENGINES_LIST"),
+					id: "engines",
 					icon: PrimeIcons.CAR,
+					expanded: true,
+					items: [
+						{
+							label: this.translateService.instant("ENGINES_ALL_BUTTON"),
+							id: 'all_engines',
+							icon: PrimeIcons.EYE,
+							command: () => this.openCarEngines()
+						},
+						{
+							label: this.translateService.instant("ENGINES_ADD_CAR_ENGINE_BUTTON"),
+							id: 'create_engine',
+							icon: PrimeIcons.PLUS,
+							command: () => this.openCarEngine(null)
+						},
+						...this.car.engines.map(engine => ({
+							label: engine.name,
+							id: `engine_${engine.id}`,
+							icon: PrimeIcons.COG,
+							command: () => this.openCarEngine(engine)
+						}))
+					],
 					command: () => this.openCarEngines()
 				}
 			] : [])
@@ -103,18 +126,11 @@ export class CarComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
-		const currentUrl = this.router.url;
+		this.engineEventService.engineListChanged$.subscribe((updatedEngines) => {
+			this.car.engines = updatedEngines;
+			this.cdr.detectChanges();
+		});
 
-		if (currentUrl.includes('/maintenance')) {
-			this.openCarMaintenance();
-		} else {
-			this.openCarSettings();
-		}
-
-		this.initCar();
-	}
-
-	initCar() {
 		let brandId = Number(this.route.snapshot.paramMap.get('brand'));
 
 		this.brandService.getBrandById(brandId).subscribe({
@@ -129,13 +145,15 @@ export class CarComponent implements OnInit {
 							car.brand = brand;
 
 							this.car = car;
-						},
-						error: () => {
-							this.car.brand = brand;
 
+							this.resolveSelectedMenuItem();
+						},
+						error: (e) => {
 							this.navigationService.navigate([`/cars/${brand.id}/create`]);
 						}
 					});
+				} else {
+					this.resolveSelectedMenuItem();
 				}
 			},
 			error: (e) => {
@@ -144,5 +162,24 @@ export class CarComponent implements OnInit {
 				}
 			}
 		});
+	}
+
+	private resolveSelectedMenuItem(): void {
+		const url = this.navigationService.getCurrentUrl();
+
+		if (url.includes('/maintenance')) {
+			this.leftPanelSelectedItem = 'maintenance';
+		} else if (url.includes('/engines/create')) {
+			this.leftPanelSelectedItem = 'create_engine';
+		} else if (url.match(/\/engines\/\d+$/)) {
+			const engineId = url.match(/\/engines\/(\d+)$/)?.[1];
+			this.leftPanelSelectedItem = `engine_${engineId}`;
+		} else if (url.includes('/engines')) {
+			this.leftPanelSelectedItem = 'all_engines';
+		} else {
+			this.leftPanelSelectedItem = 'settings';
+		}
+
+		this.cdr.detectChanges();
 	}
 }

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild, ViewEncapsulation } from "@angular/core";
+import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild, ViewEncapsulation } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { TranslateModule } from "@ngx-translate/core";
 import { CarRegulationsMaintenanceService } from "../../../../../services/api/car-regulations-maintenance.service";
@@ -14,6 +14,7 @@ import { AlertComponent } from "../../../../internal/alert/alert.component";
 import { RegulationsMaintenanceService } from "../../../../../services/api/regulations-maintenance.service";
 import { ConfirmDialog } from "primeng/confirmdialog";
 import { ConfirmationService } from "primeng/api";
+import { ActivatedRoute } from "@angular/router";
 
 enum SuccessType {
 	MAINTENANCE_SAVED,
@@ -55,12 +56,15 @@ export class CarMaintenanceComponent implements OnInit {
 
 	constructor(private carRegulationsMaintenanceService: CarRegulationsMaintenanceService,
 				private regulationsMaintenanceService: RegulationsMaintenanceService,
-				private confirmationService: ConfirmationService) {
+				private confirmationService: ConfirmationService,
+				private route: ActivatedRoute) {
 
 	}
 
 	ngOnInit(): void {
-
+		this.route.parent?.data.subscribe((data) => {
+			this.car = data['car'];
+		});
 	}
 
 	initializeDefaultMaintenances() {

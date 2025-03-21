@@ -1,56 +1,75 @@
-import { Component, OnInit, ViewEncapsulation } from "@angular/core";
+import { Component, Input, OnInit, ViewEncapsulation } from "@angular/core";
 import { Car } from "../../../../../models/car.model";
-import { ApiRequestsService } from "../../../../../services/api-requests.service";
-import { NavigationService } from "../../../../../services/navigation.service";
 import { ActivatedRoute, RouterLink } from "@angular/router";
-import { environment } from "../../../../../../environments/environment";
-import { MainComponent } from "../../../../internal/main/main.component";
-import { BreadcrumbComponent } from "../../../../internal/breadcrumb/breadcrumb.component";
-import { NgForOf, NgIf } from "@angular/common";
+import { CommonModule } from "@angular/common";
 import { TranslateModule } from "@ngx-translate/core";
-import { CarService } from "../../../../../services/api/car.service";
+import { Engine } from "../../../../../models/engine.model";
+import { FuelTypeService } from "../../../../../services/fuel-type.service";
+import { ConfirmDialog } from "primeng/confirmdialog";
+import { ConfirmationService } from "primeng/api";
+import { EngineService } from "../../../../../services/api/engine.service";
+import { AlertComponent } from "../../../../internal/alert/alert.component";
+import { EngineEventService } from "./engine/engine-event.service";
 
 @Component({
 	selector: 'engines-root',
 	encapsulation: ViewEncapsulation.None,
 	templateUrl: 'engines.component.html',
-	styleUrls: ['../car.component.scss', 'engines.component.scss'],
+	styleUrls: ['engines.component.scss'],
 	imports: [
-		MainComponent,
-		BreadcrumbComponent,
 		RouterLink,
-		NgForOf,
-		NgIf,
-		TranslateModule
+		CommonModule,
+		TranslateModule,
+		ConfirmDialog,
+		AlertComponent
 	],
 	standalone: true
 })
 export class EnginesComponent implements OnInit {
 
-	car: Car | null = null;
+	@Input() car!: Car;
 
-	constructor(private apiRequestsService: ApiRequestsService,
-				private carService: CarService,
-				private navigationService: NavigationService,
-				private route: ActivatedRoute) {
+	deleteSuccess: boolean = false;
+
+	constructor(protected fuelTypeService: FuelTypeService,
+				private route: ActivatedRoute,
+				private engineService: EngineService,
+				private confirmationService: ConfirmationService,
+				private engineEventService: EngineEventService) {
+
 	}
 
 	ngOnInit(): void {
-		this.initCar();
+		this.route.parent?.data.subscribe((data) => {
+			this.car = data['car'];
+		});
 	}
 
-	private initCar(): void {
-		let carId = this.route.snapshot.paramMap.get('car');
-		if (carId == null)
-			return;
+	onDeleteEngine(engine: Engine): void {
+		this.deleteSuccess = false;
 
-		this.carService.getCarById(Number(carId)).subscribe({
-			next: (car) => {
-				if (car == null) return;
-				this.car = car;
+		this.confirmationService.confirm({
+			accept: () => {
+				engine.car = this.car;
+
+				this.engineService.deleteEngine(engine).subscribe({
+					next: () => {
+						const index = this.car.engines.findIndex(item => item.id === engine.id);
+						if (index >= 0) {
+							this.car.engines.splice(index, 1);
+						}
+
+						this.engineEventService.engineListChanged$.next(this.car.engines);
+
+						this.deleteSuccess = true;
+						window.scroll({top: 0, left: 0, behavior: 'smooth'});
+					}
+				});
 			}
 		});
 	}
 
-	protected readonly environment = environment;
+	get engines(): Engine[] {
+		return this.car.engines || [];
+	}
 }

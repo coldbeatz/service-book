@@ -91,7 +91,17 @@
 
 	"ERROR_REQUIRED_FIELD": "This field is required",
 
-	"ENGINES_ADD_CAR_ENGINE_BUTTON": "Add car engine",
+	"ENGINES_ADD_CAR_ENGINE_BUTTON": "Create engine",
+	"ENGINES_ALL_BUTTON": "View all",
+	"ENGINES_VIEW_BUTTON": "View",
+	"ENGINES_DELETE_BUTTON": "Delete",
+	"ENGINES_LIST": "Engines",
+
+	"ENGINES_DELETE_DIALOG_HEADER": "Confirming deletion",
+	"ENGINES_DELETE_DIALOG_MESSAGE": "Are you sure you want to delete car engine?",
+	"ENGINES_DELETE_DIALOG_ACCEPT": "Yes",
+	"ENGINES_DELETE_DIALOG_REJECT": "No",
+	"ENGINES_DELETE_SUCCESS_MESSAGE": "The car engine was successfully deleted",
 
 	"ENGINE_NAME": "Engine name",
 	"ENGINE_DISPLACEMENT": "Displacement",
@@ -103,6 +113,7 @@
 	"ENGINE_HORSEPOWER_PLACEHOLDER": "Enter horsepower",
 	"ENGINE_SUBMIT_BUTTON": "Create engine",
 	"ENGINE_SUBMIT_CHANGE_BUTTON": "Save changes",
+	"ENGINE_SUCCESS_SAVE": "Car engine has been successfully saved",
 
 	"FUEL_TYPE_PETROL": "Petrol",
 	"FUEL_TYPE_DIESEL": "Diesel",
