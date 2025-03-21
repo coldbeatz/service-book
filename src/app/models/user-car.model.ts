@@ -3,6 +3,7 @@ import { Car } from "./car.model";
 import { Engine } from "./engine.model";
 import { CarTransmissionType } from "./car-transmission-type.model";
 import { FuelType } from "./fuel-type.model";
+import { CarNote } from "./car-note.model";
 
 export class UserCar {
 
@@ -56,6 +57,8 @@ export class UserCar {
 	 */
 	imageResource: Resource | null;
 
+	notes: CarNote[] | [];
+
 	constructor(userCar?: Partial<UserCar>) {
 		this.id = userCar?.id ?? null;
 		this.car = userCar?.car ?? null;
@@ -67,5 +70,6 @@ export class UserCar {
 		this.fuelType = userCar?.fuelType ?? null;
 		this.vehicleMileage = userCar?.vehicleMileage ?? 0;
 		this.imageResource = userCar?.imageResource ?? null;
+		this.notes = userCar?.notes ?? [];
 	}
 }

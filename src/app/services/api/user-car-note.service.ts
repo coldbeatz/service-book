@@ -22,6 +22,9 @@ export class UserCarNoteService {
 	constructor(private http: HttpClient) {
 
 	}
+	public getNoteById(noteId: number): Observable<CarNote> {
+		return this.http.get<CarNote>(`${this.API_URL}/${noteId}`);
+	}
 
 	/**
 	 * Видалити нотатку про автомобіль користувача

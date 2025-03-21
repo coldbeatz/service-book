@@ -1,13 +1,4 @@
-import {
-	Component,
-	EventEmitter,
-	Input,
-	OnChanges,
-	OnInit,
-	Output,
-	SimpleChanges,
-	ViewEncapsulation
-} from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { TranslateModule } from "@ngx-translate/core";
 import { Editor } from "primeng/editor";
@@ -20,10 +11,16 @@ import { UserCar } from "../../../../../models/user-car.model";
 import { AlertComponent } from "../../../../internal/alert/alert.component";
 import { ConfirmDialog } from "primeng/confirmdialog";
 import { ConfirmationService } from "primeng/api";
+import { ActivatedRoute } from "@angular/router";
 
 enum NoteWindowType {
 	PREVIEW,
 	EDIT
+}
+
+enum NoteResponse {
+	DELETED_SUCCESS,
+	UPDATED_SUCCESS
 }
 
 @Component({
@@ -43,17 +40,17 @@ enum NoteWindowType {
 	],
 	standalone: true
 })
-export class UserCarNoteComponent implements OnInit, OnChanges {
+export class UserCarNoteComponent implements OnInit {
 
 	@Input() userCar!: UserCar;
 
-	@Input() note: CarNote = new CarNote();
+	note: CarNote = new CarNote();
 
 	@Output() saved = new EventEmitter<CarNote>();
 	@Output() deleted = new EventEmitter<CarNote>();
 
-	deletedSuccess: boolean = false;
-	noteUpdated: boolean = false;
+	protected readonly NoteResponse = NoteResponse;
+	response: NoteResponse | null = null;
 
 	protected readonly NoteWindowType = NoteWindowType;
 
@@ -61,7 +58,8 @@ export class UserCarNoteComponent implements OnInit, OnChanges {
 
 
 	constructor(private userCarNoteService: UserCarNoteService,
-				private confirmationService: ConfirmationService) {
+				private confirmationService: ConfirmationService,
+				private route: ActivatedRoute) {
 
 	}
 
@@ -70,37 +68,39 @@ export class UserCarNoteComponent implements OnInit, OnChanges {
 	}
 
 	ngOnInit(): void {
+		this.route.parent?.data.subscribe(data => {
+			this.userCar = data['userCar'];
+			this.note.userCar = this.userCar;
+		});
 
-	}
+		this.route.paramMap.subscribe(params => {
+			const id = Number(params.get('noteId'));
 
-	ngOnChanges(changes: SimpleChanges): void {
-		this.noteUpdated = false;
+			if (id) {
+				this.userCarNoteService.getNoteById(id).subscribe({
+					next: (note: CarNote) => {
+						note.userCar = this.userCar;
+						this.note = note;
+					}
+				})
+			} else {
+				this.note = new CarNote();
+				this.note.userCar = this.userCar;
 
-		if (changes['userCar'] && changes['userCar'].currentValue) {
-			if (this.note.userCar == null) {
-				setTimeout(() => {
-					this.note.userCar = this.userCar;
-				});
-			}
-		}
-
-		if (changes['note'] && changes['note'].currentValue) {
-			if (!this.note.id) {
 				this.windowType = NoteWindowType.EDIT;
 			}
-		}
+		});
 	}
 
 	onClickSaveButton(): void {
-		this.noteUpdated = false;
-		this.deletedSuccess = false;
+		this.response = null;
 
 		this.userCarNoteService.saveOrUpdateNote(this.note).subscribe({
 			next: (note) => {
 				this.note = note;
 				this.saved.emit(note);
 
-				this.noteUpdated = true;
+				this.response = NoteResponse.UPDATED_SUCCESS;
 
 				window.scrollTo({ top: 0, behavior: 'smooth' });
 				this.previewButtonClick();
@@ -117,13 +117,13 @@ export class UserCarNoteComponent implements OnInit, OnChanges {
 	}
 
 	deleteButtonClick() {
-		this.deletedSuccess = false;
+		this.response = null;
 
 		this.confirmationService.confirm({
 			accept: () => {
 				this.userCarNoteService.deleteNote(this.note).subscribe({
 					next: () => {
-						this.deletedSuccess = true;
+						this.response = NoteResponse.DELETED_SUCCESS;
 
 						this.deleted.emit(this.note);
 

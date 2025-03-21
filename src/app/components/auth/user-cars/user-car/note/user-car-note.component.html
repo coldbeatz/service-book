@@ -9,12 +9,14 @@
 	<div class="form-container">
 		<div class="form-wrapper">
 			<div class="w-100 mt-4">
-				<alert-root *ngIf="noteUpdated" text="{{ 'CAR_NOTE_UPDATED' | translate }}"></alert-root>
+				<alert-root *ngIf="response == NoteResponse.UPDATED_SUCCESS"
+							text="{{ 'CAR_NOTE_UPDATED' | translate }}"></alert-root>
 
-				<alert-root *ngIf="deletedSuccess" text="{{ 'CAR_NOTE_DELETE_SUCCESS_MESSAGE' | translate }}"></alert-root>
+				<alert-root *ngIf="response == NoteResponse.DELETED_SUCCESS"
+							text="{{ 'CAR_NOTE_DELETE_SUCCESS_MESSAGE' | translate }}"></alert-root>
 			</div>
 
-			<div class="note-buttons-group" *ngIf="userCar.id">
+			<div class="note-buttons-group" *ngIf="userCar">
 				<bootstrap-button
 					[text]="'CAR_NOTE_BUTTON_EDITOR' | translate"
 					[bootstrapIconId]="'bi-pencil-fill'"
@@ -62,7 +64,7 @@
 						[required]="true"
 						[label]="'CAR_NOTE_INPUT_SHORT_DESCRIPTION' | translate"
 						[placeholder]="'CAR_NOTE_INPUT_SHORT_PLACEHOLDER' | translate"
-						[help]="'CAR_NOTE_INPUT_SHORT_HELP' | translate: {maxLength: 30}"
+						[help]="'CAR_NOTE_INPUT_SHORT_HELP' | translate: { maxLength: 30 }"
 						[maxlength]="30"
 						[(ngModel)]="note.shortDescription">
 					</app-form-input>

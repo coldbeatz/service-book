@@ -11,7 +11,6 @@ import { BrandService } from "../../../../services/api/brand.service";
 import { CarService } from "../../../../services/api/car.service";
 import { LeftPanelComponent } from "../../../shared/left-panel/left-panel.component";
 import { MenuItem, PrimeIcons } from "primeng/api";
-import { Engine } from "../../../../models/engine.model";
 import { EngineEventService } from "./engines/engine/engine-event.service";
 
 @Component({
@@ -34,8 +33,6 @@ export class CarComponent implements OnInit {
 
 	car: Car = new Car();
 
-	leftPanelSelectedItem: string = "";
-
 	constructor(private carService: CarService,
 				private brandService: BrandService,
 				private navigationService: NavigationService,
@@ -45,54 +42,20 @@ export class CarComponent implements OnInit {
 				private engineEventService: EngineEventService) {
 	}
 
-	openCarSettings() {
-		if (this.car && this.car.brand) {
-			this.navigationService.updateUrlIfChanged([`/cars/${this.car.brand.id}/${this.car.id}`]);
-		}
-
-		this.leftPanelSelectedItem = 'settings';
-	}
-
-	openCarMaintenance() {
-		if (this.car && this.car.brand) {
-			this.navigationService.updateUrlIfChanged([`/cars/${this.car.brand.id}/${this.car.id}/maintenance`]);
-		}
-
-		this.leftPanelSelectedItem = 'maintenance';
-	}
-
-	openCarEngines() {
-		if (this.car && this.car.brand) {
-			this.navigationService.updateUrlIfChanged([`/cars/${this.car.brand.id}/${this.car.id}/engines`]);
-		}
-
-		this.leftPanelSelectedItem = 'all_engines';
-	}
-
-	openCarEngine(engine: Engine | null) {
-		const urlPart = engine ? engine.id : 'create';
-
-		if (this.car && this.car.brand) {
-			this.navigationService.updateUrlIfChanged([`/cars/${this.car.brand.id}/${this.car.id}/engines/${urlPart}`]);
-		}
-
-		this.leftPanelSelectedItem = 'engine_' + engine?.id;
-	}
-
 	get menuItems(): MenuItem[] {
 		return [
 			{
-				label: 'Car settings',
+				label: this.translateService.instant("CAR_SETTINGS"),
 				id: "settings",
 				icon: PrimeIcons.COG,
-				command: () => this.openCarSettings()
+				routerLink: `/cars/${this.car?.brand?.id}/${this.car.id}`,
 			},
 			...(this.car.id? [
 				{
-					label: 'Regulations maintenance',
+					label: this.translateService.instant("REGULATIONS_MAINTENANCE"),
 					id: "maintenance",
 					icon: PrimeIcons.WRENCH,
-					command: () => this.openCarMaintenance()
+					routerLink: `/cars/${this.car?.brand?.id}/${this.car.id}/maintenance`,
 				},
 				{
 					label: this.translateService.instant("ENGINES_LIST"),
@@ -104,22 +67,21 @@ export class CarComponent implements OnInit {
 							label: this.translateService.instant("ENGINES_ALL_BUTTON"),
 							id: 'all_engines',
 							icon: PrimeIcons.EYE,
-							command: () => this.openCarEngines()
+							routerLink: `/cars/${this.car?.brand?.id}/${this.car.id}/engines`,
 						},
 						{
 							label: this.translateService.instant("ENGINES_ADD_CAR_ENGINE_BUTTON"),
 							id: 'create_engine',
 							icon: PrimeIcons.PLUS,
-							command: () => this.openCarEngine(null)
+							routerLink: `/cars/${this.car?.brand?.id}/${this.car.id}/engines/create`
 						},
 						...this.car.engines.map(engine => ({
 							label: engine.name,
 							id: `engine_${engine.id}`,
 							icon: PrimeIcons.COG,
-							command: () => this.openCarEngine(engine)
+							routerLink: `/cars/${this.car?.brand?.id}/${this.car.id}/engines/${engine.id}`
 						}))
-					],
-					command: () => this.openCarEngines()
+					]
 				}
 			] : [])
 		];
@@ -145,15 +107,11 @@ export class CarComponent implements OnInit {
 							car.brand = brand;
 
 							this.car = car;
-
-							this.resolveSelectedMenuItem();
 						},
-						error: (e) => {
+						error: () => {
 							this.navigationService.navigate([`/cars/${brand.id}/create`]);
 						}
 					});
-				} else {
-					this.resolveSelectedMenuItem();
 				}
 			},
 			error: (e) => {
@@ -162,24 +120,5 @@ export class CarComponent implements OnInit {
 				}
 			}
 		});
-	}
-
-	private resolveSelectedMenuItem(): void {
-		const url = this.navigationService.getCurrentUrl();
-
-		if (url.includes('/maintenance')) {
-			this.leftPanelSelectedItem = 'maintenance';
-		} else if (url.includes('/engines/create')) {
-			this.leftPanelSelectedItem = 'create_engine';
-		} else if (url.match(/\/engines\/\d+$/)) {
-			const engineId = url.match(/\/engines\/(\d+)$/)?.[1];
-			this.leftPanelSelectedItem = `engine_${engineId}`;
-		} else if (url.includes('/engines')) {
-			this.leftPanelSelectedItem = 'all_engines';
-		} else {
-			this.leftPanelSelectedItem = 'settings';
-		}
-
-		this.cdr.detectChanges();
 	}
 }

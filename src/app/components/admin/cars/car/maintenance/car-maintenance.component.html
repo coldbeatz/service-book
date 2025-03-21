@@ -58,10 +58,11 @@
 	</alert-root>
 </div>
 
-<maintenance-table #maintenanceTableComponent
-				   (maintenanceEdited)="onClickEditMaintenance($event)"
-				   (maintenanceDeleted)="handleMaintenanceDeleted($event)"
-				   [regulationsMaintenance]="car.maintenances">
-</maintenance-table>
-
+<div class="scroll-auto">
+	<maintenance-table #maintenanceTableComponent
+					   (maintenanceEdited)="onClickEditMaintenance($event)"
+					   (maintenanceDeleted)="handleMaintenanceDeleted($event)"
+					   [regulationsMaintenance]="car.maintenances">
+	</maintenance-table>
+</div>
 

@@ -2,9 +2,9 @@
 	<app-breadcrumb [car]="car" [brand]="car.brand" [marginBottom]="0"></app-breadcrumb>
 
 	<div class="editor-container">
-		<left-panel [menuItems]="menuItems" [selectedItemId]="leftPanelSelectedItem"></left-panel>
+		<left-panel [menuItems]="menuItems"></left-panel>
 
-		<div class="w-100" [class.scroll-x]="leftPanelSelectedItem === 'maintenance'">
+		<div class="w-100">
 			<router-outlet></router-outlet>
 		</div>
 	</div>

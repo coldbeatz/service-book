@@ -317,6 +317,12 @@
 	"SEARCH_INPUT": "Search",
 	"CARS_SEARCH_INPUT_PLACEHOLDER": "Enter car model",
 	"BRANDS_SEARCH_INPUT_PLACEHOLDER": "Enter car brand",
+	"USER_CARS_SEARCH_INPUT_PLACEHOLDER": "Enter car data",
+	"USER_CARS_SEARCH_INPUT_TOOLTIP": "License plate, VIN code, brand, model",
 
-	"BRANDS_LIST": "Brands"
+	"BRANDS_LIST": "Brands",
+	"REGULATIONS_MAINTENANCE": "Regulations maintenance",
+	"CAR_SETTINGS": "Car settings",
+	"NOTES": "Notes",
+	"CREATE_NOTE": "Create note"
 }

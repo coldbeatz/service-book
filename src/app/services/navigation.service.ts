@@ -6,8 +6,12 @@ import { NavigationExtras, Router } from "@angular/router";
 })
 export class NavigationService {
 
-	constructor(private router: Router) {
+	constructor(public router: Router) {
 
+	}
+
+	public createUrl(commands: any[]): string {
+		return Array.isArray(commands) ? commands.join('/') : commands;
 	}
 
 	getCurrentUrl(): string {

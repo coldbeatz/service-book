@@ -1,95 +1,126 @@
+<p-confirmDialog [header]="'USER_CAR_DELETE_DIALOG_HEADER' | translate"
+				 [message]="'USER_CAR_DELETE_DIALOG_MESSAGE' | translate"
+				 [acceptLabel]="'USER_CAR_DELETE_DIALOG_ACCEPT' | translate"
+				 [rejectLabel]="'USER_CAR_DELETE_DIALOG_REJECT' | translate"
+				 icon="pi pi-exclamation-triangle">
+</p-confirmDialog>
+
 <main-root>
-	<app-breadcrumb></app-breadcrumb>
+	<app-breadcrumb [marginBottom]="0"></app-breadcrumb>
 
-	<p-confirmDialog [header]="'USER_CAR_DELETE_DIALOG_HEADER' | translate"
-					 [message]="'USER_CAR_DELETE_DIALOG_MESSAGE' | translate"
-					 [acceptLabel]="'USER_CAR_DELETE_DIALOG_ACCEPT' | translate"
-					 [rejectLabel]="'USER_CAR_DELETE_DIALOG_REJECT' | translate"
-					 icon="pi pi-exclamation-triangle">
-	</p-confirmDialog>
+	<div class="content-container">
+		<left-panel [menuItems]="menuItems" selectedItemId="cars">
+			<ng-template #topContentTemplate>
+				<div class="mb-4">
+					<bootstrap-button
+						[text]="'MY_CARS_ADD_CAR_BUTTON' | translate"
+						[bootstrapIconId]="'bi-car-front-fill'"
+						[routerLink]="['/user-cars', 'create']">
+					</bootstrap-button>
+				</div>
 
-	<div class="flex-center">
-		<a [routerLink]="['/user-cars', 'new']" class="btn btn-primary flex-center" style="max-width: 200px;">
-			<i class="bi bi-car-front-fill"></i>
+				<div class="mb-3">
+					<label class="form-label text-muted">
+						{{ 'SEARCH_INPUT' | translate }}
+					</label>
 
-			<span class="mx-3">
-				{{ 'MY_CARS_ADD_CAR_BUTTON' | translate }}
-			</span>
-		</a>
-	</div>
+					<p-inputgroup>
+						<p-inputgroup-addon>
+							<i class="pi pi-search"></i>
+						</p-inputgroup-addon>
 
-	<div class="mt-4 m-auto" style="max-width: 500px;" *ngIf="deletedSuccess">
-		<div class="mx-3">
-			<alert-root text="{{ 'USER_CAR_DELETE_SUCCESS_MESSAGE' | translate }}"></alert-root>
-		</div>
-	</div>
+						<input pInputText [(ngModel)]="searchTerm"
+							   placeholder="{{ 'USER_CARS_SEARCH_INPUT_PLACEHOLDER' | translate }}"
+							   pTooltip="{{ 'USER_CARS_SEARCH_INPUT_TOOLTIP' | translate }}"
+							   tooltipPosition="bottom"
+							   size="small"  />
 
-	<p-dataview #dv
-				[value]="userCars"
-				[rows]="2"
-				[paginator]="true">
+						<p-inputgroup-addon>
+							<p-button icon="pi pi-times"
+									  severity="secondary"
+									  (click)="clearSearchInput()"
+									  pTooltip="{{ 'BRANDS_CLEAR_SEARCH_INPUT_BUTTON' | translate }}"
+									  tooltipPosition="bottom" />
+						</p-inputgroup-addon>
+					</p-inputgroup>
+				</div>
+			</ng-template>
+		</left-panel>
 
-		<ng-template #list let-items>
-			<div *ngFor="let userCar of items;" class="card user-car">
-				<img
-					src="{{ userCar.imageResource?.url }}"
-					class="card-img-top" alt="car"
-					(error)="setDefaultImage($event)">
-
-				<div class="card-body" style="background: white">
-					<h5 class="card-title">{{ userCar.car?.brand?.brand }}</h5>
-					<p class="card-text">{{ userCar.car?.model }}</p>
-
-					<p class="text-muted">
-						<i class="bi bi-aspect-ratio"></i>
-
-						{{ userCar.licensePlate }}
-					</p>
-
-					<p class="text-muted">
-						<i class="bi bi-car-front-fill"></i>
-
-						{{ userCar.vinCode }}
-					</p>
-
-					<div class="tags">
-						<p-tag [value]="userCar.vehicleYear">
-							<ng-template pTemplate="icon">
-								<i class="pi pi-calendar"></i>
-							</ng-template>
-						</p-tag>
-
-						<p-tag [value]="(userCar.vehicleMileage | number: '1.0-0')?.toString()">
-							<ng-template pTemplate="icon">
-								<i class="bi bi-speedometer"></i>
-							</ng-template>
-						</p-tag>
-
-						<p-tag [value]="'TRANSMISSION_' + CarTransmissionType[userCar.transmissionType] | translate">
-							<ng-template pTemplate="icon">
-								<i class="bi bi-diagram-2-fill"></i>
-							</ng-template>
-						</p-tag>
-
-						<p-tag [value]="('FUEL_TYPE_' + FuelType[userCar.fuelType] | translate)">
-							<ng-template pTemplate="icon">
-								<i class="bi bi-fuel-pump-fill"></i>
-							</ng-template>
-						</p-tag>
-					</div>
-
-					<div class="d-flex gap-2">
-						<a [routerLink]="['/user-cars/', userCar.id]" class="btn btn-primary">
-							{{ 'MY_CARS_SELECT_CAR_BUTTON' | translate }}
-						</a>
-
-						<a (click)="deleteUserCar(userCar)" class="btn btn-danger">
-							{{ 'MY_CARS_DELETE_CAR_BUTTON' | translate }}
-						</a>
-					</div>
+		<div>
+			<div class="mt-4 m-auto" style="max-width: 500px;" *ngIf="deletedSuccess">
+				<div class="mx-3">
+					<alert-root text="{{ 'USER_CAR_DELETE_SUCCESS_MESSAGE' | translate }}"></alert-root>
 				</div>
 			</div>
-		</ng-template>
-	</p-dataview>
 
+			<p-dataview #dv
+						[value]="filteredUserCars"
+						[rows]="2"
+						[paginator]="true">
+
+				<ng-template #list let-items>
+					<div *ngFor="let userCar of items;" class="card user-car">
+						<img
+							src="{{ userCar.imageResource?.url }}"
+							class="card-img-top" alt="car"
+							(error)="setDefaultImage($event)">
+
+						<div class="card-body" style="background: white">
+							<h5 class="card-title">{{ userCar.car?.brand?.brand }}</h5>
+							<p class="card-text">{{ userCar.car?.model }}</p>
+
+							<p class="text-muted">
+								<i class="bi bi-aspect-ratio"></i>
+
+								{{ userCar.licensePlate }}
+							</p>
+
+							<p class="text-muted">
+								<i class="bi bi-car-front-fill"></i>
+
+								{{ userCar.vinCode }}
+							</p>
+
+							<div class="tags">
+								<p-tag [value]="userCar.vehicleYear">
+									<ng-template pTemplate="icon">
+										<i class="pi pi-calendar"></i>
+									</ng-template>
+								</p-tag>
+
+								<p-tag [value]="(userCar.vehicleMileage | number: '1.0-0')?.toString()">
+									<ng-template pTemplate="icon">
+										<i class="bi bi-speedometer"></i>
+									</ng-template>
+								</p-tag>
+
+								<p-tag [value]="'TRANSMISSION_' + CarTransmissionType[userCar.transmissionType] | translate">
+									<ng-template pTemplate="icon">
+										<i class="bi bi-diagram-2-fill"></i>
+									</ng-template>
+								</p-tag>
+
+								<p-tag [value]="('FUEL_TYPE_' + FuelType[userCar.fuelType] | translate)">
+									<ng-template pTemplate="icon">
+										<i class="bi bi-fuel-pump-fill"></i>
+									</ng-template>
+								</p-tag>
+							</div>
+
+							<div class="d-flex gap-2">
+								<a [routerLink]="['/user-cars/', userCar.id]" class="btn btn-primary">
+									{{ 'MY_CARS_SELECT_CAR_BUTTON' | translate }}
+								</a>
+
+								<a (click)="deleteUserCar(userCar)" class="btn btn-danger">
+									{{ 'MY_CARS_DELETE_CAR_BUTTON' | translate }}
+								</a>
+							</div>
+						</div>
+					</div>
+				</ng-template>
+			</p-dataview>
+		</div>
+	</div>
 </main-root>

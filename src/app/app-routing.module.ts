@@ -7,10 +7,10 @@ import { ChangePasswordComponent } from "./components/restore/change-password/ch
 import { BrandsComponent} from "./components/admin/brands/brands.component";
 import { AuthGuard } from "./guards/auth.guard";
 import { GuestGuard } from "./guards/guest.guard";
-import { CarComponent } from "./components/admin/cars/create/car.component";
+import { CarComponent } from "./components/admin/cars/car/car.component";
 import { CarsComponent } from "./components/admin/cars/cars.component";
-import { EngineComponent } from "./components/admin/cars/create/engines/engine/engine.component";
-import { EnginesComponent } from "./components/admin/cars/create/engines/engines.component";
+import { EngineComponent } from "./components/admin/cars/car/engines/engine/engine.component";
+import { EnginesComponent } from "./components/admin/cars/car/engines/engines.component";
 import { ServicesComponent } from "./components/admin/services/services.component";
 import { BrandComponent } from "./components/admin/brands/brand/brand.component";
 import { AlertsComponent } from "./components/admin/news/alerts.component";
@@ -18,10 +18,15 @@ import { SettingsComponent } from "./components/auth/settings/settings.component
 import { MainComponent } from "./components/internal/main/main.component";
 import { HomeComponent } from "./components/home/home.component";
 import { UserCarsComponent } from "./components/auth/user-cars/user-cars.component";
-import { UserCarEditorComponent } from "./components/auth/user-cars/user-car-editor/user-car-editor.component";
-import { CarMaintenanceComponent } from "./components/admin/cars/create/maintenance/car-maintenance.component";
-import { CarEditorComponent } from "./components/admin/cars/create/editor/car-editor.component";
-import { CarResolver } from "./components/admin/cars/create/car.resolver";
+import { UserCarComponent } from "./components/auth/user-cars/user-car/user-car.component";
+import { CarMaintenanceComponent } from "./components/admin/cars/car/maintenance/car-maintenance.component";
+import { CarResolver } from "./components/admin/cars/car/car.resolver";
+import { UserCarNoteComponent } from "./components/auth/user-cars/user-car/note/user-car-note.component";
+import {
+	UserCarEditorSettingsComponent
+} from "./components/auth/user-cars/user-car/settings/user-car-editor-settings.component";
+import { UserCarResolver } from "./components/auth/user-cars/user-car/user-car.resolver";
+import { CarEditorComponent } from "./components/admin/cars/car/editor/car-editor.component";
 
 export const routes: Routes = [
 
@@ -65,12 +70,25 @@ export const routes: Routes = [
 
 	{ path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] },
 
-	{ path: 'user-cars', component: UserCarsComponent, canActivate: [AuthGuard] },
-	{ path: 'user-cars/new', component: UserCarEditorComponent, canActivate: [AuthGuard] },
-	{ path: 'user-cars/:userCarId', component: UserCarEditorComponent, canActivate: [AuthGuard] },
+	{
+		path: 'user-cars',
+		canActivate: [AuthGuard],
+		children: [
+			{ path: '', component: UserCarsComponent },
+			{
+				path: ':userCarId',
+				component: UserCarComponent,
+				resolve: { userCar: UserCarResolver },
+				children: [
+					{ path: '', component: UserCarEditorSettingsComponent },
+					{ path: 'note/:noteId', component: UserCarNoteComponent },
+					{ path: 'note/new', component: UserCarNoteComponent }
+				]
+			}
+		]
+	},
 
 	{ path: '', component: HomeComponent },
 
-	//{ path: '', component: AppComponent },
 	{ path: '**', redirectTo: 'login' }
 ];

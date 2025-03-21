@@ -9,6 +9,7 @@ import { MenuItem } from 'primeng/api';
 import { CommonModule } from "@angular/common";
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { BoldDigitsPipe } from "../../../pipes/bold-digits-pipe";
+import { NavigationService } from "../../../services/navigation.service";
 
 @Component({
 	selector: 'left-panel',
@@ -43,9 +44,18 @@ export class LeftPanelComponent implements OnChanges {
 	@ContentChild('topContentTemplate', { static: false }) topContentTemplate!: TemplateRef<any>;
 	@ContentChild('bottomContentTemplate', { static: false }) bottomContentTemplate!: TemplateRef<any>;
 
+	constructor(private navigationService: NavigationService) {
+
+	}
+
 	toggleItem(item: MenuItem): void {
 		const isOpen = this.expandedMap.get(item.id!) || false;
 		this.expandedMap.set(item.id!, !isOpen);
+
+		if (item.routerLink) {
+			this.navigationService.navigate([item.routerLink]);
+			return;
+		}
 
 		if (!item.items || !item.items.length) {
 			this.setActiveItem(item);
@@ -63,17 +73,56 @@ export class LeftPanelComponent implements OnChanges {
 		this.selectedItemId = item.id || null;
 		this.activeItem = item;
 
-		item.command?.({ originalEvent: event, item: item });
-
 		const parentItem = this.menuItems.find(parent => parent.items?.some(subItem => subItem.id === item.id));
 		this.activeParentItem = parentItem ?? null;
+
+		if (event) {
+			if (item.routerLink) {
+				const commands = Array.isArray(item.routerLink) ? item.routerLink : [item.routerLink];
+				this.navigationService.navigate(commands);
+			} else {
+				item.command?.({ originalEvent: event, item: item });
+			}
+		}
 	}
 
 	trackById(index: number, item: MenuItem): string {
 		return item.id!;
 	}
 
+	private tryActivateMenuItem(): boolean {
+		const currentUrl = this.navigationService.getCurrentUrl();
+
+		let matchedItem: MenuItem | undefined;
+		for (const item of this.menuItems) {
+			if (item.routerLink && this.navigationService.createUrl(item.routerLink) === currentUrl) {
+				matchedItem = item;
+				break;
+			}
+
+			if (item.items) {
+				const subItemMatch = item.items.find(subItem =>
+					subItem.routerLink && this.navigationService.createUrl(subItem.routerLink) === currentUrl
+				);
+				if (subItemMatch) {
+					matchedItem = subItemMatch;
+					break;
+				}
+			}
+		}
+
+		if (matchedItem) {
+			this.setActiveItem(matchedItem);
+			return true;
+		}
+
+		return false;
+	}
+
 	ngOnChanges(changes: SimpleChanges): void {
+		if (this.tryActivateMenuItem())
+			return;
+
 		if (this.selectedItemId) {
 			let selectedItem: MenuItem | undefined = this.menuItems.find(item => this.selectedItemId === item.id);
 

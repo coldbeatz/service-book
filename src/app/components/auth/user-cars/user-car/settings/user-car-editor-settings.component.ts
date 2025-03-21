@@ -16,7 +16,7 @@ import { FormInputComponent } from "../../../../shared/form/form-input/form-inpu
 import { NumberFormInputComponent } from "../../../../shared/form/number-form-input/number-form-input.component";
 import { CustomFileUploadComponent } from "../../../../shared/custom-file-upload/custom-file-upload.component";
 import { AlertComponent } from "../../../../internal/alert/alert.component";
-import { RouterLink } from "@angular/router";
+import { ActivatedRoute, RouterLink } from "@angular/router";
 import { BootstrapButtonComponent } from "../../../../shared/button/bootstrap-button.component";
 import { Car } from "../../../../../models/car.model";
 import { UserCar } from "../../../../../models/user-car.model";
@@ -42,13 +42,11 @@ import { NavigationService } from "../../../../../services/navigation.service";
 		FormInputComponent,
 		NumberFormInputComponent,
 		CustomFileUploadComponent,
-		AlertComponent,
-		RouterLink,
-		BootstrapButtonComponent
+		AlertComponent
 	],
 	standalone: true
 })
-export class UserCarEditorSettingsComponent implements OnInit, AfterViewInit, OnChanges {
+export class UserCarEditorSettingsComponent implements OnInit, AfterViewInit {
 
 	@Input() userCar!: UserCar;
 
@@ -88,16 +86,9 @@ export class UserCarEditorSettingsComponent implements OnInit, AfterViewInit, On
 				private userCarService: UserCarService,
 				protected carTransmissionService: CarTransmissionService,
 				protected fuelTypeService: FuelTypeService,
-				private navigationService: NavigationService) {
+				private navigationService: NavigationService,
+				private route: ActivatedRoute) {
 
-	}
-
-	ngOnChanges(changes: SimpleChanges): void {
-		if (changes['userCar'] && changes['userCar'].currentValue) {
-			setTimeout(() => {
-				this.initUserCar(this.userCar);
-			});
-		}
 	}
 
 	ngAfterViewInit(): void {
@@ -105,6 +96,10 @@ export class UserCarEditorSettingsComponent implements OnInit, AfterViewInit, On
 	}
 
 	ngOnInit(): void {
+		this.route.data.subscribe(data => {
+			this.userCar = data['userCar'];
+		});
+
 		this.brandService.getBrands().subscribe({
 			next: (response) => {
 				this.brands = response;

@@ -124,7 +124,7 @@ export class BrandsComponent implements OnInit {
 		this.selectedCountry = country;
 	}
 
-	get filteredBrands() {
+	get filteredBrands(): Brand[] {
 		return this.brands.filter(brand => {
 			return brand.brand.toLowerCase().includes(this.searchTerm.toLowerCase()) &&
 				   (!this.selectedCountry || brand.country?.id === this.selectedCountry.id)

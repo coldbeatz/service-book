@@ -1,18 +1,4 @@
-<div>
-	<div class="buttons-group" *ngIf="userCar.id">
-		<bootstrap-button
-			[text]="'Notes'"
-			[routerLink]="['/user-cars', userCar.id, 'note']"
-			[bootstrapIconId]="'bi-pencil-fill'">
-		</bootstrap-button>
-
-		<bootstrap-button
-			[text]="'Regulation maintenance'"
-			[routerLink]="['/user-cars', 'new']"
-			[bootstrapIconId]="'bi-wrench'">
-		</bootstrap-button>
-	</div>
-
+<div class="my-4">
 	<div class="form-container">
 		<div class="form-wrapper">
 			<div class="w-100">

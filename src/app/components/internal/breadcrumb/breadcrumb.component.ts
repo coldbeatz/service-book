@@ -107,7 +107,7 @@ export class BreadcrumbComponent implements OnChanges, OnInit {
 						label: 'BREADCRUMB_MY_CARS',
 						urlPart: 'user-cars',
 						items: [
-							{ label: 'BREADCRUMB_CREATE_USER_CAR', urlPart: 'new' },
+							{ label: 'BREADCRUMB_CREATE_USER_CAR', urlPart: 'create' },
 							{ label: this.userCar?.licensePlate, urlPart: this.userCar?.id }
 						]
 					}

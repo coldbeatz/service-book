@@ -1,0 +1,11 @@
+<main-root>
+	<app-breadcrumb [userCar]="userCar" [marginBottom]="0"></app-breadcrumb>
+
+	<div class="editor-container">
+		<left-panel [menuItems]="menuItems"></left-panel>
+
+		<div>
+			<router-outlet (activate)="onChildActivate($event)"></router-outlet>
+		</div>
+	</div>
+</main-root>
