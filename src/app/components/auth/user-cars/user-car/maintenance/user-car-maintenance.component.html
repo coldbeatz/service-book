@@ -1,0 +1,13 @@
+<div class="bd-callout bd-callout-info m-4" *ngIf="defaultMaintenances">
+	<span [innerHtml]="'USER_CAR_REGULATIONS_MAINTENANCE_DEFAULT_ATTENTION' | translate"></span>
+
+	<br>
+
+	<a href="mailto:{{ environment.contactEmail }}">{{ environment.contactEmail }}</a>
+</div>
+
+<div class="scroll-auto m-4">
+	<maintenance-table [editable]="false"
+					   [regulationsMaintenance]="maintenances">
+	</maintenance-table>
+</div>

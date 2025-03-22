@@ -12,7 +12,7 @@
 	responsiveLayout="scroll"
 	paginatorPosition="bottom"
 	[paginator]="true"
-	[rows]="5"
+	[rows]="20"
 	[rowsPerPageOptions]="[5, 10, 20]"
 	[globalFilterFields]="['workDescription.en', 'workDescription.ua']">
 
@@ -44,7 +44,7 @@
 				{{ column.label }}
 			</th>
 
-			<th></th>
+			<th *ngIf="editable"></th>
 		</tr>
 	</ng-template>
 
@@ -69,7 +69,7 @@
 				</ng-container>
 			</td>
 
-			<td>
+			<td *ngIf="editable">
 				<div class="flex-center" style="gap: 10px;">
 					<p-buttongroup>
 						<p-button label="Edit"

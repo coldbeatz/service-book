@@ -9,7 +9,7 @@ import { RegulationsMaintenance } from "../../models/regulations-maintenance.mod
 })
 export class RegulationsMaintenanceService {
 
-	private readonly API_URL: string = `${environment.apiUrl}/admin/regulations_maintenance`;
+	private readonly API_URL: string = `${environment.apiUrl}/regulations_maintenance`;
 
 	constructor(private http: HttpClient) {
 

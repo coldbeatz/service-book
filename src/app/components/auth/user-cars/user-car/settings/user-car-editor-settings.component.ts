@@ -28,6 +28,7 @@ import { UserCarService } from "../../../../../services/api/user-car.service";
 import { FuelTypeService } from "../../../../../services/fuel-type.service";
 import { CarTransmissionType } from "../../../../../models/car-transmission-type.model";
 import { NavigationService } from "../../../../../services/navigation.service";
+import { environment } from "../../../../../../environments/environment";
 
 @Component({
 	selector: 'user-car-editor-settings-root',
@@ -221,4 +222,11 @@ export class UserCarEditorSettingsComponent implements OnInit, AfterViewInit {
 			}
 		});
 	}
+
+	setDefaultImage($event: ErrorEvent) {
+		const imgElement = $event.target as HTMLImageElement;
+		imgElement.src = 'assets/images/no-picture.jpg';
+	}
+
+	protected readonly environment = environment;
 }

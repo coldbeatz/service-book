@@ -5,9 +5,17 @@
 				<alert-root *ngIf="userCarUpdated" text="{{ 'MY_CARS_USER_CAR_UPDATED' | translate }}"></alert-root>
 			</div>
 
+			<div class="bd-callout bd-callout-info" *ngIf="!userCar.id" style="max-width: max-content">
+				<span [innerHtml]="'USER_CAR_CREATE_ATTENTION' | translate"></span>
+
+				<br>
+
+				<a href="mailto:{{ environment.contactEmail }}">{{ environment.contactEmail }}</a>
+			</div>
+
 			<div class="form" *ngIf="brands">
 				<div class="data-container">
-					<div class="w-100 data-container__inputs">
+					<div class="data-container__inputs">
 						<div class="row">
 							<div class="mb-4 d-flex flex-column col-6">
 								<label class="form-label text-muted">
@@ -144,7 +152,10 @@
 							<custom-file-upload-root (fileSelected)="onFileSelected($event)"></custom-file-upload-root>
 						</div>
 
-						<img *ngIf="imagePreview" [src]="imagePreview" class="image" alt="preview">
+						<img [src]="imagePreview"
+							 class="preview-img"
+							 alt="preview"
+							 (error)="setDefaultImage($event)">
 					</div>
 				</div>
 

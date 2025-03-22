@@ -43,6 +43,8 @@ export class MaintenanceTableComponent implements OnInit, OnChanges {
 
 	mileageColumns: { value: number; label: string }[] = [];
 
+	@Input() editable: boolean = true;
+
 	mileageSuffix: string = "";
 
 	deleteClicked: boolean = false;

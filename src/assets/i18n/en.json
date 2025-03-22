@@ -271,6 +271,9 @@
 	"USER_CAR_DELETE_DIALOG_REJECT": "No",
 	"USER_CAR_DELETE_SUCCESS_MESSAGE": "The car has been successfully deleted",
 
+	"USER_CAR_CREATE_ATTENTION": "<b>Attention!</b> If you don't find the make or model of car you are looking for, please e-mail us and we will add that in:",
+	"USER_CAR_REGULATIONS_MAINTENANCE_DEFAULT_ATTENTION": "<b>Attention!</b> The standard scheduled services for all vehicles have been initialized.<br>If you would like to have the exact scheduled maintenance for a specific vehicle, please contact us by e-mail:",
+
 	"CAR_NOTE_INPUT_SHORT_DESCRIPTION": "Short description",
 	"CAR_NOTE_INPUT_SHORT_PLACEHOLDER": "Enter short description",
 	"CAR_NOTE_INPUT_SHORT_HELP": "The maximum number of characters is {{maxLength}}",
@@ -315,10 +318,13 @@
 	"CARS_DELETE_BUTTON": "Delete",
 
 	"SEARCH_INPUT": "Search",
+
 	"CARS_SEARCH_INPUT_PLACEHOLDER": "Enter car model",
 	"BRANDS_SEARCH_INPUT_PLACEHOLDER": "Enter car brand",
-	"USER_CARS_SEARCH_INPUT_PLACEHOLDER": "Enter car data",
+	"USER_CARS_SEARCH_INPUT_PLACEHOLDER": "Enter data",
+
 	"USER_CARS_SEARCH_INPUT_TOOLTIP": "License plate, VIN code, brand, model",
+	"USER_CARS_EMPTY": "<b>Car list</b> is empty or the filter did not find any cars",
 
 	"BRANDS_LIST": "Brands",
 	"REGULATIONS_MAINTENANCE": "Regulations maintenance",

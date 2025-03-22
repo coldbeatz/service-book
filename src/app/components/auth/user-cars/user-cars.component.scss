@@ -20,7 +20,7 @@
 
 .user-cars-container {
 	width: 100%;
-	max-width: 1300px;
+	max-width: 1400px;
 	padding: 25px;
 
 	.user-cars {
@@ -28,10 +28,11 @@
 
 		box-sizing: border-box;
 		display: grid !important;
-		grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+		grid-template-columns: repeat(auto-fit, minmax(550px, 1fr));
 
-		@media (max-width: 600px) {
-			grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+		@media (max-width: 1200px) {
+			display: flex !important;
+			flex-direction: column;
 		}
 
 		.user-car {
@@ -39,9 +40,8 @@
 			flex-direction: row;
 			width: 100%;
 
-			@media (max-width: 1200px) {
+			@media (max-width: 1000px) {
 				flex-direction: column;
-				align-items: center;
 			}
 
 			.card-img-top {
@@ -52,6 +52,10 @@
 
 				@media (max-width: 680px) {
 					border-radius: 0 0 10px 10px;
+				}
+
+				@media (max-width: 400px) {
+					max-width: 100%;
 				}
 			}
 
@@ -81,19 +85,3 @@
 		}
 	}
 }
-
-/*.p-dataview {
-	margin-top: 30px;
-
-	.p-dataview-content {
-		padding: 20px 20px 10px 20px;
-		display: grid;
-		grid-template-columns: repeat(2, 1fr);
-		gap: 25px;
-
-		@media (max-width: 600px) {
-			grid-template-columns: 1fr;
-		}
-	}
-}*/
-

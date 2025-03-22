@@ -52,6 +52,13 @@ export class UserCarComponent implements OnInit {
 
 		if (this.userCar.id) {
 			items.push({
+				label: this.translateService.instant("REGULATIONS_MAINTENANCE"),
+				id: "maintenance",
+				icon: PrimeIcons.WRENCH,
+				routerLink: `/user-cars/${this.userCar.id}/maintenance`,
+			});
+
+			items.push({
 				label: this.translateService.instant("NOTES"),
 				icon: 'pi pi-fw pi-cog',
 				expanded: true,

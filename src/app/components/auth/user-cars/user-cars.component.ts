@@ -7,7 +7,6 @@ import { FormsModule } from "@angular/forms";
 import { RouterLink } from "@angular/router";
 import { UserCarService } from "../../../services/api/user-car.service";
 import { UserCar } from "../../../models/user-car.model";
-import { DataView } from "primeng/dataview";
 import { Tag } from "primeng/tag";
 import { CarTransmissionType } from "../../../models/car-transmission-type.model";
 import { FuelType } from "../../../models/fuel-type.model";

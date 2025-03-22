@@ -15,7 +15,6 @@ import { ServicesComponent } from "./components/admin/services/services.componen
 import { BrandComponent } from "./components/admin/brands/brand/brand.component";
 import { AlertsComponent } from "./components/admin/news/alerts.component";
 import { SettingsComponent } from "./components/auth/settings/settings.component";
-import { MainComponent } from "./components/internal/main/main.component";
 import { HomeComponent } from "./components/home/home.component";
 import { UserCarsComponent } from "./components/auth/user-cars/user-cars.component";
 import { UserCarComponent } from "./components/auth/user-cars/user-car/user-car.component";
@@ -27,6 +26,9 @@ import {
 } from "./components/auth/user-cars/user-car/settings/user-car-editor-settings.component";
 import { UserCarResolver } from "./components/auth/user-cars/user-car/user-car.resolver";
 import { CarEditorComponent } from "./components/admin/cars/car/editor/car-editor.component";
+import {
+	UserCarMaintenanceComponent
+} from "./components/auth/user-cars/user-car/maintenance/user-car-maintenance.component";
 
 export const routes: Routes = [
 
@@ -37,22 +39,19 @@ export const routes: Routes = [
 
 	{ path: 'confirmation/:key', component: ConfirmationComponent },
 
-	{ path: 'test', component: MainComponent, canActivate: [AuthGuard] },
-
 	{ path: 'brands', component: BrandsComponent, canActivate: [AuthGuard] },
 	{ path: 'brands/create', component: BrandComponent, canActivate: [AuthGuard] },
 	{ path: 'brands/:id', component: BrandComponent, canActivate: [AuthGuard] },
 
-	{ path: 'cars/:brand', component: CarsComponent, canActivate: [AuthGuard] },
-
 	{
 		path: 'cars/:brand',
+		canActivate: [AuthGuard],
 		children: [
-			{ path: 'create', component: CarComponent, canActivate: [AuthGuard] },
+			{ path: '', component: CarsComponent },
+
 			{
 				path: ':carId',
 				component: CarComponent,
-				canActivate: [AuthGuard],
 				resolve: { car: CarResolver },
 				children: [
 					{ path: '', component: CarEditorComponent },
@@ -81,6 +80,7 @@ export const routes: Routes = [
 				resolve: { userCar: UserCarResolver },
 				children: [
 					{ path: '', component: UserCarEditorSettingsComponent },
+					{ path: 'maintenance', component: UserCarMaintenanceComponent },
 					{ path: 'note/:noteId', component: UserCarNoteComponent },
 					{ path: 'note/new', component: UserCarNoteComponent }
 				]
