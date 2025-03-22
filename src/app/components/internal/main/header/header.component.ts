@@ -1,7 +1,8 @@
-import { Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { AuthService } from "../../../../services/auth.service";
 import { RouterLink } from "@angular/router";
 import { TranslateModule } from "@ngx-translate/core";
+import { NavigationService } from "../../../../services/navigation.service";
 
 @Component({
 	selector: 'header-root',
@@ -14,7 +15,7 @@ import { TranslateModule } from "@ngx-translate/core";
 	],
 	standalone: true
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements AfterViewInit {
 
 	protected bodyLockStatus: boolean = true;
 
@@ -22,12 +23,13 @@ export class HeaderComponent implements OnInit {
 
 	@ViewChild('header') header!: ElementRef<HTMLElement>;
 
-	constructor(private authService: AuthService) {
+	constructor(private authService: AuthService,
+				private navigationService: NavigationService) {
 
 	}
 
-	ngOnInit(): void {
-
+	get currentUrl(): string {
+		return this.navigationService.getCurrentUrl();
 	}
 
 	ngAfterViewInit(): void {
@@ -39,12 +41,28 @@ export class HeaderComponent implements OnInit {
 				classList.toggle('menu-open');
 
 				this.bodyLockStatus = false;
+
 				setTimeout(() => this.bodyLockStatus = true, 500);
 			}
 		});
+
+		const header = document.querySelector("header.header");
+		if (header) {
+			window.addEventListener("scroll", () => {
+				header.classList.toggle("_header-scroll", window.scrollY >= 1);
+			});
+		}
 	}
 
 	logout(): void {
 		this.authService.logout();
+		this.closeHeader();
+	}
+
+	closeHeader() {
+		const classList = document.documentElement.classList;
+
+		classList.remove('lock');
+		classList.remove('menu-open');
 	}
 }

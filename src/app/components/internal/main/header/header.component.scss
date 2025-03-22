@@ -1,20 +1,30 @@
 .header {
 	font-size: 17px;
-	/*position: fixed;*/
 	top: 0;
 	left: 0;
 	width: 100%;
 	z-index: 2;
 
+	&._header-scroll {
+		@media (max-width: 1024px) {
+			background-color: rgba(33, 37, 41, .97) !important;
+			position: fixed;
+			transition: all 0.5s ease;
+
+			.header__container {
+				padding: 0;
+			}
+		}
+	}
+
 	&__container {
 		display: grid;
 		grid-template-columns: auto 1fr auto;
 		align-items: center;
-		transition: min-height .3s;
-		padding-top: 5px;
-		padding-bottom: 5px;
+		padding: 5px 0;
 		gap: 42px;
 		width: 100%;
+		transition: all 0.3s ease;
 
 		@media (max-width: 1024px) {
 			min-height: 50px;
@@ -84,10 +94,26 @@
 		flex-direction: column;
 		cursor: pointer;
 		font-size: 16px;
+		transition: all .3s;
 
 		&:hover {
 			color: rgba(255, 255, 255, 0.6) !important;
-			transition: all .2s;
+		}
+
+		@media (max-width: 1024px) {
+			min-height: 50px;
+		}
+	}
+
+	@media (min-width: 1025px) {
+		.nav-link-active {
+			transition: all .3s;
+			color: rgba(255, 255, 255, 0.8) !important;
+
+			i {
+				transition: transform 0.3s ease;
+				transform: rotate(20deg);
+			}
 		}
 	}
 
@@ -101,7 +127,6 @@
 		}
 	}
 }
-
 
 @media (max-width: 1024px) {
 	.menu-open {
@@ -185,3 +210,9 @@
 	}
 }
 
+.lock body {
+	overflow: hidden;
+	touch-action: none;
+	-ms-scroll-chaining: none;
+	overscroll-behavior: none;
+}
