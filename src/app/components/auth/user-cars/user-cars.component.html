@@ -47,80 +47,74 @@
 			</ng-template>
 		</left-panel>
 
-		<div>
+		<div class="user-cars-container">
 			<div class="mt-4 m-auto" style="max-width: 500px;" *ngIf="deletedSuccess">
 				<div class="mx-3">
 					<alert-root text="{{ 'USER_CAR_DELETE_SUCCESS_MESSAGE' | translate }}"></alert-root>
 				</div>
 			</div>
 
-			<p-dataview #dv
-						[value]="filteredUserCars"
-						[rows]="2"
-						[paginator]="true">
+			<div class="user-cars">
+				<div class="card user-car mb-3" *ngFor="let userCar of filteredUserCars">
+					<div class="row g-0">
+						<div class="col-md-4">
+							<img
+								src="{{ userCar.imageResource?.url }}"
+								class="card-img-top" alt="car"
+								(error)="setDefaultImage($event)">
+						</div>
 
-				<ng-template #list let-items>
-					<div *ngFor="let userCar of items;" class="card user-car">
-						<img
-							src="{{ userCar.imageResource?.url }}"
-							class="card-img-top" alt="car"
-							(error)="setDefaultImage($event)">
+						<div class="col-md-8">
+							<div class="card-body">
+								<h5 class="card-title">{{ userCar.car?.brand?.brand }}</h5>
+								<p class="card-text">{{ userCar.car?.model }}</p>
 
-						<div class="card-body" style="background: white">
-							<h5 class="card-title">{{ userCar.car?.brand?.brand }}</h5>
-							<p class="card-text">{{ userCar.car?.model }}</p>
+								<p class="text-muted">
+									<i class="bi bi-car-front-fill"></i>
 
-							<p class="text-muted">
-								<i class="bi bi-aspect-ratio"></i>
+									<b> {{ userCar.licensePlate }}</b> / {{ userCar.vinCode }}
+								</p>
 
-								{{ userCar.licensePlate }}
-							</p>
+								<div class="tags">
+									<p-tag [value]="userCar.vehicleYear?.toString()">
+										<ng-template pTemplate="icon">
+											<i class="pi pi-calendar"></i>
+										</ng-template>
+									</p-tag>
 
-							<p class="text-muted">
-								<i class="bi bi-car-front-fill"></i>
+									<p-tag [value]="(userCar.vehicleMileage | number: '1.0-0')?.toString()">
+										<ng-template pTemplate="icon">
+											<i class="bi bi-speedometer"></i>
+										</ng-template>
+									</p-tag>
 
-								{{ userCar.vinCode }}
-							</p>
+									<p-tag [value]="transmissionService.getLocalizedTransmission(userCar.transmissionType)">
+										<ng-template pTemplate="icon">
+											<i class="bi bi-diagram-2-fill"></i>
+										</ng-template>
+									</p-tag>
 
-							<div class="tags">
-								<p-tag [value]="userCar.vehicleYear">
-									<ng-template pTemplate="icon">
-										<i class="pi pi-calendar"></i>
-									</ng-template>
-								</p-tag>
+									<p-tag [value]="fuelTypeService.getLocalizedFuelType(userCar.fuelType)">
+										<ng-template pTemplate="icon">
+											<i class="bi bi-fuel-pump-fill"></i>
+										</ng-template>
+									</p-tag>
+								</div>
 
-								<p-tag [value]="(userCar.vehicleMileage | number: '1.0-0')?.toString()">
-									<ng-template pTemplate="icon">
-										<i class="bi bi-speedometer"></i>
-									</ng-template>
-								</p-tag>
+								<div class="d-flex gap-2">
+									<a [routerLink]="['/user-cars/', userCar.id]" class="btn btn-primary">
+										{{ 'MY_CARS_SELECT_CAR_BUTTON' | translate }}
+									</a>
 
-								<p-tag [value]="'TRANSMISSION_' + CarTransmissionType[userCar.transmissionType] | translate">
-									<ng-template pTemplate="icon">
-										<i class="bi bi-diagram-2-fill"></i>
-									</ng-template>
-								</p-tag>
-
-								<p-tag [value]="('FUEL_TYPE_' + FuelType[userCar.fuelType] | translate)">
-									<ng-template pTemplate="icon">
-										<i class="bi bi-fuel-pump-fill"></i>
-									</ng-template>
-								</p-tag>
-							</div>
-
-							<div class="d-flex gap-2">
-								<a [routerLink]="['/user-cars/', userCar.id]" class="btn btn-primary">
-									{{ 'MY_CARS_SELECT_CAR_BUTTON' | translate }}
-								</a>
-
-								<a (click)="deleteUserCar(userCar)" class="btn btn-danger">
-									{{ 'MY_CARS_DELETE_CAR_BUTTON' | translate }}
-								</a>
+									<a (click)="deleteUserCar(userCar)" class="btn btn-danger">
+										{{ 'MY_CARS_DELETE_CAR_BUTTON' | translate }}
+									</a>
+								</div>
 							</div>
 						</div>
 					</div>
-				</ng-template>
-			</p-dataview>
+				</div>
+			</div>
 		</div>
 	</div>
 </main-root>

@@ -21,6 +21,8 @@ import { InputGroup } from "primeng/inputgroup";
 import { InputGroupAddon } from "primeng/inputgroupaddon";
 import { InputText } from "primeng/inputtext";
 import { Tooltip } from "primeng/tooltip";
+import { FuelTypeService } from "../../../services/fuel-type.service";
+import { CarTransmissionService } from "../../../services/car-transmission.service";
 
 @Component({
 	selector: 'user-cars-root',
@@ -34,7 +36,6 @@ import { Tooltip } from "primeng/tooltip";
 		TranslateModule,
 		FormsModule,
 		RouterLink,
-		DataView,
 		Tag,
 		PrimeTemplate,
 		ConfirmDialog,
@@ -65,7 +66,9 @@ export class UserCarsComponent implements OnInit {
 
 	constructor(private userCarService: UserCarService,
 				private confirmationService: ConfirmationService,
-				private translateService: TranslateService) {
+				private translateService: TranslateService,
+				protected fuelTypeService: FuelTypeService,
+				protected transmissionService: CarTransmissionService) {
 
 	}
 

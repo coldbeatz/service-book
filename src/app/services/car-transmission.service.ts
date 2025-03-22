@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { CarTransmissionType } from "../models/car-transmission-type.model";
 import { TranslateService } from "@ngx-translate/core";
 import { BehaviorSubject } from "rxjs";
+import { FuelType } from "../models/fuel-type.model";
 
 export interface TransmissionOption {
 	value: CarTransmissionType;
@@ -18,6 +19,13 @@ export class CarTransmissionService {
 
 	constructor(private translate: TranslateService) {
 		this.loadTranslations();
+	}
+
+	public getLocalizedTransmission(transmission: CarTransmissionType | null): string {
+		const options = this.optionsSubject.value;
+
+		const option = options.find(option => option.value === transmission);
+		return option ? option.label : (transmission ? transmission.toString() : 'null');
 	}
 
 	/**
@@ -40,7 +48,7 @@ export class CarTransmissionService {
 
 
 	/**
-	 * Фільтрує доступні трансмісії за списком переданих типів.
+	 * Фільтрує доступні трансмісії за списком переданих типів
 	 */
 	getOptions(transmissions?: CarTransmissionType[]): TransmissionOption[] {
 		const allOptions = this.optionsSubject.value;
