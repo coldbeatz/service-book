@@ -19,15 +19,6 @@ export class UserCarService {
 	}
 
 	/**
-	 * Отримує записи користувача по його автомобілю
-	 *
-	 * @returns Observable<CarNote[]>
-	 */
-	public getNotes(userCar: UserCar): Observable<CarNote[]> {
-		return this.http.get<CarNote[]>(`${this.API_URL}/${userCar.id}/notes`);
-	}
-
-	/**
 	 * Видалити автомобіль користувача
 	 *
 	 * @param userCar Автомобіль користувача

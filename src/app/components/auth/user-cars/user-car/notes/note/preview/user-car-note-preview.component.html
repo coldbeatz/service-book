@@ -1,0 +1,23 @@
+<div class="card note-preview">
+	<div class="card-body">
+		<div class="d-flex justify-content-between" *ngIf="note.shortDescription || note.createdAt">
+			<h5 class="card-title" *ngIf="!routerLink">{{ note.shortDescription }}</h5>
+
+			<a *ngIf="routerLink"
+			   [routerLink]="routerLink"
+			   class="link-primary">
+
+				<i class="bi bi-pencil-fill"></i>
+				{{ note.shortDescription }}
+			</a>
+
+			<p class="card-text text-muted" *ngIf="note.createdAt">
+				<i class="bi bi-pencil"></i>
+
+				{{ note.createdAt | date:'dd.MM.yyyy HH:mm' }}
+			</p>
+		</div>
+
+		<p class="card-text mt-3" [innerHTML]="formattedText(note.content)"></p>
+	</div>
+</div>

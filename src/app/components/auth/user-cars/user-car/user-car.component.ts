@@ -5,12 +5,12 @@ import { BreadcrumbComponent } from "../../../internal/breadcrumb/breadcrumb.com
 import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { FormsModule } from "@angular/forms";
 import { UserCar } from "../../../../models/user-car.model";
-import { UserCarService } from "../../../../services/api/user-car.service";
 import { ActivatedRoute, RouterOutlet } from "@angular/router";
 import { CarNote } from "../../../../models/car-note.model";
 import { LeftPanelComponent } from "../../../shared/left-panel/left-panel.component";
 import { MenuItem, PrimeIcons } from "primeng/api";
-import { UserCarNoteComponent } from "./note/user-car-note.component";
+import { UserCarNoteComponent } from "./notes/note/user-car-note.component";
+import { UserCarNoteService } from "../../../../services/api/user-car-note.service";
 
 @Component({
 	selector: 'user-car-root',
@@ -34,7 +34,7 @@ export class UserCarComponent implements OnInit {
 
 	notes: CarNote[] = [];
 
-	constructor(private userCarService: UserCarService,
+	constructor(private userCarNoteService: UserCarNoteService,
 				private route: ActivatedRoute,
 				private translateService: TranslateService) {
 
@@ -64,16 +64,22 @@ export class UserCarComponent implements OnInit {
 				expanded: true,
 				items: [
 					{
+						label: this.translateService.instant("ENGINES_ALL_BUTTON"),
+						id: 'all_engines',
+						icon: PrimeIcons.EYE,
+						routerLink: `/user-cars/${this.userCar.id}/notes`,
+					},
+					{
 						label: this.translateService.instant("CREATE_NOTE"),
 						id: 'create_note',
 						icon: PrimeIcons.PLUS,
-						routerLink: `/user-cars/${this.userCar.id}/note/new`
+						routerLink: `/user-cars/${this.userCar.id}/notes/new`
 					},
 					...this.notes.map(note => ({
 						label: note.shortDescription,
 						id: `note_${note.id}`,
 						icon: PrimeIcons.EYE,
-						routerLink: `/user-cars/${this.userCar.id}/note/${note.id}`
+						routerLink: `/user-cars/${this.userCar.id}/notes/${note.id}`
 					}))
 				]
 			});
@@ -87,8 +93,9 @@ export class UserCarComponent implements OnInit {
 			this.userCar = data['userCar'];
 
 			if (this.userCar.id) {
-				this.userCarService.getNotes(this.userCar).subscribe({
+				this.userCarNoteService.getNotes(this.userCar).subscribe({
 					next: (notes: CarNote[]) => {
+						this.userCar.notes = notes;
 						this.notes = notes;
 					}
 				});

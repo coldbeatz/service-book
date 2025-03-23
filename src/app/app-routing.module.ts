@@ -20,7 +20,7 @@ import { UserCarsComponent } from "./components/auth/user-cars/user-cars.compone
 import { UserCarComponent } from "./components/auth/user-cars/user-car/user-car.component";
 import { CarMaintenanceComponent } from "./components/admin/cars/car/maintenance/car-maintenance.component";
 import { CarResolver } from "./components/admin/cars/car/car.resolver";
-import { UserCarNoteComponent } from "./components/auth/user-cars/user-car/note/user-car-note.component";
+import { UserCarNoteComponent } from "./components/auth/user-cars/user-car/notes/note/user-car-note.component";
 import {
 	UserCarEditorSettingsComponent
 } from "./components/auth/user-cars/user-car/settings/user-car-editor-settings.component";
@@ -29,6 +29,7 @@ import { CarEditorComponent } from "./components/admin/cars/car/editor/car-edito
 import {
 	UserCarMaintenanceComponent
 } from "./components/auth/user-cars/user-car/maintenance/user-car-maintenance.component";
+import { NotesComponent } from "./components/auth/user-cars/user-car/notes/notes.component";
 
 export const routes: Routes = [
 
@@ -81,8 +82,9 @@ export const routes: Routes = [
 				children: [
 					{ path: '', component: UserCarEditorSettingsComponent },
 					{ path: 'maintenance', component: UserCarMaintenanceComponent },
-					{ path: 'note/:noteId', component: UserCarNoteComponent },
-					{ path: 'note/new', component: UserCarNoteComponent }
+					{ path: 'notes', component: NotesComponent },
+					{ path: 'notes/:noteId', component: UserCarNoteComponent },
+					{ path: 'notes/new', component: UserCarNoteComponent }
 				]
 			}
 		]

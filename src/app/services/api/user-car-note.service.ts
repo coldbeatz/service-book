@@ -3,11 +3,11 @@ import { environment } from "../../../environments/environment";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { CarNote } from "../../models/car-note.model";
+import { UserCar } from "../../models/user-car.model";
 
 export interface UserCarNoteRequest {
 
 	id: number | null;
-	userCarId: number;
 	shortDescription: string;
 	content: string;
 }
@@ -17,13 +17,27 @@ export interface UserCarNoteRequest {
 })
 export class UserCarNoteService {
 
-	private readonly API_URL: string = `${environment.apiUrl}/user/cars/notes`;
+	private readonly API_URL: string = `${environment.apiUrl}/user/cars/`;
 
 	constructor(private http: HttpClient) {
 
 	}
-	public getNoteById(noteId: number): Observable<CarNote> {
-		return this.http.get<CarNote>(`${this.API_URL}/${noteId}`);
+
+	/**
+	 * Отримує записи користувача по його автомобілю
+	 *
+	 * @returns Observable<CarNote[]>
+	 */
+	public getNotes(userCar: UserCar): Observable<CarNote[]> {
+		const url = `${this.API_URL}${userCar.id}/notes`;
+
+		return this.http.get<CarNote[]>(url);
+	}
+
+	public getNoteById(noteId: number, userCarId: number): Observable<CarNote> {
+		const url = `${this.API_URL}${userCarId}/notes/${noteId}`;
+
+		return this.http.get<CarNote>(url);
 	}
 
 	/**
@@ -34,7 +48,8 @@ export class UserCarNoteService {
 	 * @returns Observable<void>
 	 */
 	public deleteNote(note: CarNote): Observable<void> {
-		const url = `${this.API_URL}/${note.id}`;
+		const url = `${this.API_URL}${note.userCar?.id}/notes/${note.id}`;
+
 		return this.http.delete<void>(url);
 	}
 
@@ -51,13 +66,14 @@ export class UserCarNoteService {
 
 		const requestBody: UserCarNoteRequest = {
 			id: note.id,
-			userCarId: note.userCar?.id,
 			shortDescription: note.shortDescription,
 			content: note.content,
 		};
 
+		const url = `${this.API_URL}${note.userCar?.id}/notes`;
+
 		return note.id
-			? this.http.put<CarNote>(`${this.API_URL}/${note.id}`, requestBody)
-			: this.http.post<CarNote>(`${this.API_URL}`, requestBody);
+			? this.http.put<CarNote>(`${url}/${note.id}`, requestBody)
+			: this.http.post<CarNote>(url, requestBody);
 	}
 }

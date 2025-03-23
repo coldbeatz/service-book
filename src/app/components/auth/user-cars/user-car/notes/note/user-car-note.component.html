@@ -6,8 +6,8 @@
 </p-confirmDialog>
 
 <div>
-	<div class="form-container">
-		<div class="form-wrapper">
+	<div class="m-4">
+		<div class="form-wrapper w-100" style="max-width: 700px;">
 			<div class="w-100 mt-4">
 				<alert-root *ngIf="response == NoteResponse.UPDATED_SUCCESS"
 							text="{{ 'CAR_NOTE_UPDATED' | translate }}"></alert-root>
@@ -42,19 +42,7 @@
 			</div>
 
 			<div *ngIf="windowType == NoteWindowType.PREVIEW" class="note__preview">
-				<div class="card">
-					<div class="card-body">
-						<div class="d-flex justify-content-between">
-							<h5 class="card-title">{{ note.shortDescription }}</h5>
-
-							<p class="card-text text-muted" *ngIf="note.createdAt">
-								{{ note.createdAt | date:'dd.MM.yyyy HH:mm' }}
-							</p>
-						</div>
-
-						<p class="card-text" [innerHTML]="formattedText(note.content)"></p>
-					</div>
-				</div>
+				<user-car-note-preview [note]="note"></user-car-note-preview>
 			</div>
 
 			<div *ngIf="windowType == NoteWindowType.EDIT" class="note__editor">

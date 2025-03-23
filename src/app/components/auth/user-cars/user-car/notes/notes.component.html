@@ -1,0 +1,32 @@
+<p-dataView #dv [value]="filteredNotes" [rows]="5" [paginator]="true" [rowsPerPageOptions]="[1, 5, 10]">
+	<ng-template #header>
+		<p-inputgroup>
+			<p-inputgroup-addon>
+				<i class="pi pi-search"></i>
+			</p-inputgroup-addon>
+
+			<input pInputText [(ngModel)]="searchTerm"
+				   placeholder="{{ 'USER_NOTES_SEARCH_INPUT_PLACEHOLDER' | translate }}"
+				   size="small" />
+
+			<p-inputgroup-addon>
+				<p-button icon="pi pi-times"
+						  severity="secondary"
+						  (click)="clearSearchInput()"
+						  pTooltip="{{ 'BRANDS_CLEAR_SEARCH_INPUT_BUTTON' | translate }}"
+						  tooltipPosition="bottom" />
+			</p-inputgroup-addon>
+		</p-inputgroup>
+	</ng-template>
+
+	<ng-template #list let-notes>
+		<div *ngFor="let note of notes; let i = index">
+			<user-car-note-preview
+				[note]="note"
+				[routerLink]="['/user-cars', userCar.id, 'notes', note.id]">
+			</user-car-note-preview>
+
+			<hr *ngIf="i < notes.length - 1" class="my-2">
+		</div>
+	</ng-template>
+</p-dataView>

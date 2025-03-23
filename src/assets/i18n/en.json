@@ -282,6 +282,7 @@
 	"CAR_NOTE_BUTTON_PREVIEW": "Note preview",
 	"CAR_NOTE_BUTTON_DELETE": "Delete note",
 	"CAR_NOTE_BUTTON_SAVE": "Save note",
+	"CAR_NOTE_PREVIEW_CONTENT_EMPTY": "Content is empty...",
 
 	"CAR_NOTE_DELETE_DIALOG_HEADER": "Confirming deletion",
 	"CAR_NOTE_DELETE_DIALOG_MESSAGE": "Are you sure you want to delete note?",
@@ -322,6 +323,7 @@
 	"CARS_SEARCH_INPUT_PLACEHOLDER": "Enter car model",
 	"BRANDS_SEARCH_INPUT_PLACEHOLDER": "Enter car brand",
 	"USER_CARS_SEARCH_INPUT_PLACEHOLDER": "Enter data",
+	"USER_NOTES_SEARCH_INPUT_PLACEHOLDER": "Enter text",
 
 	"USER_CARS_SEARCH_INPUT_TOOLTIP": "License plate, VIN code, brand, model",
 	"USER_CARS_EMPTY": "<b>Car list</b> is empty or the filter did not find any cars",

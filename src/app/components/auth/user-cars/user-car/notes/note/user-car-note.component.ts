@@ -1,17 +1,21 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from "@angular/core";
+import { Component, EventEmitter, OnInit, Output, ViewEncapsulation } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { TranslateModule } from "@ngx-translate/core";
 import { Editor } from "primeng/editor";
 import { FormsModule } from "@angular/forms";
-import { CarNote } from "../../../../../models/car-note.model";
-import { FormInputComponent } from "../../../../shared/form/form-input/form-input.component";
-import { BootstrapButtonComponent } from "../../../../shared/button/bootstrap-button.component";
-import { UserCarNoteService } from "../../../../../services/api/user-car-note.service";
-import { UserCar } from "../../../../../models/user-car.model";
-import { AlertComponent } from "../../../../internal/alert/alert.component";
+import { CarNote } from "../../../../../../models/car-note.model";
+import { FormInputComponent } from "../../../../../shared/form/form-input/form-input.component";
+import { BootstrapButtonComponent } from "../../../../../shared/button/bootstrap-button.component";
+import { UserCarNoteService } from "../../../../../../services/api/user-car-note.service";
+import { UserCar } from "../../../../../../models/user-car.model";
+import { AlertComponent } from "../../../../../internal/alert/alert.component";
 import { ConfirmDialog } from "primeng/confirmdialog";
 import { ConfirmationService } from "primeng/api";
 import { ActivatedRoute } from "@angular/router";
+import { EMPTY, switchMap, tap } from "rxjs";
+import { catchError } from "rxjs/operators";
+import { NavigationService } from "../../../../../../services/navigation.service";
+import { UserCarNotePreviewComponent } from "./preview/user-car-note-preview.component";
 
 enum NoteWindowType {
 	PREVIEW,
@@ -24,7 +28,7 @@ enum NoteResponse {
 }
 
 @Component({
-	selector: 'user-car-note-root',
+	selector: 'user-car-notes-root',
 	encapsulation: ViewEncapsulation.None,
 	templateUrl: 'user-car-note.component.html',
 	styleUrls: ['user-car-note.component.scss'],
@@ -36,13 +40,14 @@ enum NoteResponse {
 		FormInputComponent,
 		BootstrapButtonComponent,
 		AlertComponent,
-		ConfirmDialog
+		ConfirmDialog,
+		UserCarNotePreviewComponent
 	],
 	standalone: true
 })
 export class UserCarNoteComponent implements OnInit {
 
-	@Input() userCar!: UserCar;
+	userCar!: UserCar;
 
 	note: CarNote = new CarNote();
 
@@ -59,37 +64,42 @@ export class UserCarNoteComponent implements OnInit {
 
 	constructor(private userCarNoteService: UserCarNoteService,
 				private confirmationService: ConfirmationService,
-				private route: ActivatedRoute) {
+				private route: ActivatedRoute,
+				private navigationService: NavigationService) {
 
-	}
-
-	formattedText(text: string): string {
-		return !text ? 'Content is empty...' : text.replace(/&nbsp;/g, " ");
 	}
 
 	ngOnInit(): void {
-		this.route.parent?.data.subscribe(data => {
-			this.userCar = data['userCar'];
-			this.note.userCar = this.userCar;
-		});
-
-		this.route.paramMap.subscribe(params => {
-			const id = Number(params.get('noteId'));
-
-			if (id) {
-				this.userCarNoteService.getNoteById(id).subscribe({
-					next: (note: CarNote) => {
-						note.userCar = this.userCar;
-						this.note = note;
-					}
-				})
-			} else {
-				this.note = new CarNote();
+		this.route.parent?.data.pipe(
+			tap(data => {
+				this.userCar = data['userCar'];
 				this.note.userCar = this.userCar;
+			}),
+			switchMap(() => this.route.paramMap),
+			switchMap(params => {
+				const id = Number(params.get('noteId'));
 
-				this.windowType = NoteWindowType.EDIT;
-			}
-		});
+				if (!isNaN(id) && this.userCar?.id) {
+					return this.userCarNoteService.getNoteById(id, this.userCar.id).pipe(
+						tap(note => {
+							note.userCar = this.userCar;
+							this.note = note;
+						})
+					);
+				} else {
+					this.note = new CarNote();
+					this.note.userCar = this.userCar;
+					this.windowType = NoteWindowType.EDIT;
+
+					// Повертаємо порожній observable, якщо немає даних
+					return EMPTY;
+				}
+			}),
+			catchError(err => {
+				console.error('Error loading notes', err);
+				return EMPTY;
+			})
+		).subscribe();
 	}
 
 	onClickSaveButton(): void {
@@ -97,6 +107,10 @@ export class UserCarNoteComponent implements OnInit {
 
 		this.userCarNoteService.saveOrUpdateNote(this.note).subscribe({
 			next: (note) => {
+				if (!this.note.id && note.id) {
+					this.navigationService.updateUrlIfChanged([`/user-cars/${this.userCar.id}/notes/${note.id}`]);
+				}
+
 				this.note = note;
 				this.saved.emit(note);
 

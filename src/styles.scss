@@ -1,5 +1,12 @@
 @import "primeicons/primeicons.css";
 
+:root {
+	--p-inputtext-border-radius: 3px !important;
+	--p-inputtext-background: #fafafa !important;
+	--p-inputtext-focus-border-color: #4285f4 !important;
+	--p-inputtext-focus-ring-shadow: 0 0 0 0.25rem rgba(0,123,255,.25) !important;
+}
+
 input[type="checkbox"],
 input[type="checkbox"]+label {
 	cursor: pointer;
