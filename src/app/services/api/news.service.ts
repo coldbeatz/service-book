@@ -9,7 +9,7 @@ import { News } from "../../models/news.model";
 })
 export class NewsService {
 
-	private readonly API_URL: string = `${environment.apiUrl}/admin/news`;
+	private readonly API_URL: string = `${environment.apiUrl}/news`;
 
 	constructor(private http: HttpClient) {
 

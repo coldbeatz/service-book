@@ -32,9 +32,9 @@ export interface SettingsRequest {
 @Injectable({
 	providedIn: 'root'
 })
-export class SettingsService {
+export class ProfileService {
 
-	private readonly API_URL: string = `${environment.apiUrl}/settings`;
+	private readonly API_URL: string = `${environment.apiUrl}/user/profile`;
 
 	constructor(private http: HttpClient) {
 

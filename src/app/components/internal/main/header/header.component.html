@@ -11,6 +11,7 @@
 			<button type="button" #menuButton id="menu-button" class="icon-menu"><span></span></button>
 
 			<nav class="menu__body">
+				<!-- User role -->
 				<ul class="nav col-12 col-lg-auto justify-content-center my-md-0 text-small">
 					<li>
 						<a href="/"
@@ -37,7 +38,10 @@
 					</li>
 				</ul>
 
-				<ul class="nav col-12 col-lg-auto justify-content-center my-md-0 text-small">
+				<!-- Admin role -->
+				<ul class="nav col-12 col-lg-auto justify-content-center my-md-0 text-small"
+					*ngIf="authService.hasRole(Role.ADMIN) | async">
+
 					<li>
 						<a [routerLink]="['/brands']"
 						   class="nav-link text-secondary"

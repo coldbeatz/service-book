@@ -3,14 +3,14 @@ import { CommonModule } from "@angular/common";
 import { MainComponent } from "../../internal/main/main.component";
 import { BreadcrumbComponent } from "../../internal/breadcrumb/breadcrumb.component";
 import { TranslateModule } from "@ngx-translate/core";
-import { ApiRequestsService } from "../../../services/api-requests.service";
 import { environment } from "../../../../environments/environment";
 import { FormsModule } from "@angular/forms";
 import { User } from "../../../user/user";
 import { PasswordWithRepeatComponent } from "../../shared/password-with-repeat/password-with-repeat.component";
 import { AuthService } from "../../../services/auth.service";
-import { SettingsRequest, SettingsService } from "../../../services/api/settings.service";
+import { SettingsRequest, ProfileService } from "../../../services/api/profile.service";
 import { AlertComponent } from "../../internal/alert/alert.component";
+import { UserService } from "../../../services/api/user.service";
 
 @Component({
 	selector: 'settings-root',
@@ -39,8 +39,8 @@ export class SettingsComponent implements OnInit {
 
 	@ViewChild('passwordWithRepeat') passwordWithRepeatComponent!: PasswordWithRepeatComponent;
 
-	constructor(private apiRequestsService: ApiRequestsService,
-				private settingsService: SettingsService,
+	constructor(private userService: UserService,
+				private settingsService: ProfileService,
 				private authService: AuthService) {
 
 	}
@@ -50,7 +50,7 @@ export class SettingsComponent implements OnInit {
 	}
 
 	private loadUser(): void {
-		this.apiRequestsService.getUser().subscribe({
+		this.userService.getUser().subscribe({
 			next: (userData) => this.user = new User(userData)
 		})
 	}

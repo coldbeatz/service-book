@@ -16,10 +16,6 @@ export class ApiRequestsService {
 
 	}
 
-	public getUser(): Observable<User> {
-		return this.http.get<User>(`${environment.apiUrl}/user/me`);
-	}
-
 	public login(email: string, password: string): Observable<any> {
 		return this.http.post<any>(`${environment.apiUrl}/login`, {
 			email: email,

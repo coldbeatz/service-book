@@ -14,7 +14,7 @@ export interface BrandOption {
 })
 export class BrandService {
 
-	private readonly API_URL: string = `${environment.apiUrl}/admin/brands`;
+	private readonly API_URL: string = `${environment.apiUrl}/brands`;
 
 	constructor(private http: HttpClient) {
 
@@ -37,7 +37,7 @@ export class BrandService {
 
 		formData.append('brand', brand.brand);
 
-		file && formData.append('file', file);
+		file && formData.append('imageFile', file);
 		brand.country && formData.append('countryId', brand.country.id.toString());
 
 		if (brand.country) {

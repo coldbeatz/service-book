@@ -9,7 +9,7 @@ import { Country } from "../../models/country.model";
 })
 export class CountryService {
 
-	private readonly API_URL: string = `${environment.apiUrl}/admin/countries`;
+	private readonly API_URL: string = `${environment.apiUrl}/countries`;
 
 	constructor(private http: HttpClient) {
 

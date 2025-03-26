@@ -1,9 +1,23 @@
 import { Injectable } from '@angular/core';
 import { CookieService } from "ngx-cookie-service";
-import { lastValueFrom } from "rxjs";
+import { BehaviorSubject, interval, lastValueFrom, map, Observable, of, switchMap } from "rxjs";
 import { NavigationService } from "./navigation.service";
 import { environment } from "../../environments/environment";
 import { HttpClient } from "@angular/common/http";
+import { UserService } from "./api/user.service";
+import { User } from "../user/user";
+import { catchError } from "rxjs/operators";
+
+export enum Role {
+	/**
+	 * Звичайний користувач
+	 */
+	USER = 'USER',
+	/**
+	 * Адміністратор
+	 */
+	ADMIN = 'ADMIN'
+}
 
 @Injectable({
 	providedIn: 'root',
@@ -17,13 +31,77 @@ export class AuthService {
 
 	private isLoggedIn = false;
 
+	private roleSubject = new BehaviorSubject<Role | null>(null);
+
 	constructor(private cookieService: CookieService,
 				private http: HttpClient,
-				private navigationService: NavigationService) {
+				private navigationService: NavigationService,
+				private userService: UserService) {
 
 		// Перевіримо чи дані користувача збережено в cookie
 		this.remember = !!this.cookieService.get('token');
+
+		this.initRolePolling();
 	}
+
+	private initRolePolling(): void {
+		interval(10000)
+			.pipe(
+				switchMap(() => this.userService.getUser()),
+				catchError(() => of(null))
+			)
+			.subscribe((user: User | null) => {
+				if (user) {
+					this.roleSubject.next(user.role);
+				}
+			});
+	}
+
+	private decodeToken(): any {
+		const token = this.getToken();
+
+		if (!token) return null;
+
+		try {
+			const payload = token.split('.')[1];
+			return JSON.parse(atob(payload));
+		} catch (e) {
+			console.error("Cannot parse JWT token", e);
+			return null;
+		}
+	}
+
+	public hasRole(role: Role): Observable<boolean> {
+		return this.roleSubject.pipe(
+			switchMap(currentRole => {
+				if (currentRole !== null) {
+					return of(currentRole === role);
+				} else {
+					return this.userService.getUser().pipe(
+						map(user => {
+							this.roleSubject.next(user.role);
+							return user.role === role;
+						}),
+						catchError(() => of(false))
+					);
+				}
+			})
+		);
+	}
+
+	/*getRole(): Role | null {
+		const decoded = this.decodeToken();
+
+		if (!decoded || !decoded.role)
+			return null;
+
+		const rolesMap: Record<string, Role> = {
+			ADMIN: Role.ADMIN,
+			USER: Role.USER,
+		};
+
+		return rolesMap[decoded.role] || null;
+	}*/
 
 	/**
 	 * Отримати токен користувача
@@ -101,7 +179,6 @@ export class AuthService {
 	 */
 	private setStorage(name: string, value: string): void {
 		if (this.remember) {
-			console.log("cookie", name, value);
 			this.cookieService.set(name, value, {
 				expires: 30,
 				//secure: true,
@@ -109,10 +186,7 @@ export class AuthService {
 				path: '/'
 			});
 		} else {
-			console.log("sessionStorage", name, value);
 			sessionStorage.setItem(name, value);
 		}
-
-		console.log("Current cookies:", document.cookie);
 	}
 }

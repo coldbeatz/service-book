@@ -1,8 +1,9 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { AuthService } from "../../../../services/auth.service";
+import { AuthService, Role } from "../../../../services/auth.service";
 import { RouterLink } from "@angular/router";
 import { TranslateModule } from "@ngx-translate/core";
 import { NavigationService } from "../../../../services/navigation.service";
+import { CommonModule } from "@angular/common";
 
 @Component({
 	selector: 'header-root',
@@ -11,11 +12,12 @@ import { NavigationService } from "../../../../services/navigation.service";
 	styleUrls: ['header.component.scss'],
 	imports: [
 		RouterLink,
-		TranslateModule
+		TranslateModule,
+		CommonModule
 	],
 	standalone: true
 })
-export class HeaderComponent implements AfterViewInit {
+export class HeaderComponent implements AfterViewInit, OnInit {
 
 	protected bodyLockStatus: boolean = true;
 
@@ -23,8 +25,12 @@ export class HeaderComponent implements AfterViewInit {
 
 	@ViewChild('header') header!: ElementRef<HTMLElement>;
 
-	constructor(private authService: AuthService,
+	constructor(protected authService: AuthService,
 				private navigationService: NavigationService) {
+
+	}
+
+	ngOnInit(): void {
 
 	}
 
@@ -65,4 +71,6 @@ export class HeaderComponent implements AfterViewInit {
 		classList.remove('lock');
 		classList.remove('menu-open');
 	}
+
+	protected readonly Role = Role;
 }

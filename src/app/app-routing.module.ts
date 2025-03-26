@@ -30,23 +30,28 @@ import {
 	UserCarMaintenanceComponent
 } from "./components/auth/user-cars/user-car/maintenance/user-car-maintenance.component";
 import { NotesComponent } from "./components/auth/user-cars/user-car/notes/notes.component";
+import { AdminGuard } from "./guards/admin.guard";
 
 export const routes: Routes = [
 
+	/**
+	 * Guest
+	 */
 	{ path: 'login', component: LoginComponent, canActivate: [GuestGuard] },
 	{ path: 'registration', component: RegistrationComponent, canActivate: [GuestGuard] },
 	{ path: 'restore', component: RestoreComponent, canActivate: [GuestGuard] },
 	{ path: 'restore/:key', component: ChangePasswordComponent, canActivate: [GuestGuard] },
 
-	{ path: 'confirmation/:key', component: ConfirmationComponent },
-
-	{ path: 'brands', component: BrandsComponent, canActivate: [AuthGuard] },
-	{ path: 'brands/create', component: BrandComponent, canActivate: [AuthGuard] },
-	{ path: 'brands/:id', component: BrandComponent, canActivate: [AuthGuard] },
+	/**
+	 * Admin
+	 */
+	{ path: 'brands', component: BrandsComponent, canActivate: [AdminGuard] },
+	{ path: 'brands/create', component: BrandComponent, canActivate: [AdminGuard] },
+	{ path: 'brands/:id', component: BrandComponent, canActivate: [AdminGuard] },
 
 	{
 		path: 'cars/:brand',
-		canActivate: [AuthGuard],
+		canActivate: [AdminGuard],
 		children: [
 			{ path: '', component: CarsComponent },
 
@@ -65,9 +70,12 @@ export const routes: Routes = [
 		]
 	},
 
-	{ path: 'alerts', component: AlertsComponent, canActivate: [AuthGuard] },
-	{ path: 'services', component: ServicesComponent, canActivate: [AuthGuard] },
+	{ path: 'alerts', component: AlertsComponent, canActivate: [AdminGuard] },
+	{ path: 'services', component: ServicesComponent, canActivate: [AdminGuard] },
 
+	/**
+	 * User
+	 */
 	{ path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] },
 
 	{
@@ -90,7 +98,10 @@ export const routes: Routes = [
 		]
 	},
 
+	/**
+	 * All
+	 */
+	{ path: 'confirmation/:key', component: ConfirmationComponent },
 	{ path: '', component: HomeComponent },
-
-	{ path: '**', redirectTo: 'login' }
+	{ path: '**', redirectTo: 'login' },
 ];

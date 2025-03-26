@@ -25,7 +25,7 @@ export interface RegulationsMaintenanceRequest {
 })
 export class CarRegulationsMaintenanceService {
 
-	private readonly API_URL: string = `${environment.apiUrl}/admin/cars`;
+	private readonly API_URL: string = `${environment.apiUrl}/cars`;
 
 	constructor(private http: HttpClient) {
 

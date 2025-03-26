@@ -19,7 +19,7 @@ export interface EngineRequest {
 })
 export class EngineService {
 
-	private readonly API_URL: string = `${environment.apiUrl}/admin/cars/`;
+	private readonly API_URL: string = `${environment.apiUrl}/cars/`;
 
 	constructor(private http: HttpClient) {
 

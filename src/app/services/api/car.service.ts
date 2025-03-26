@@ -16,7 +16,7 @@ export interface CarOption {
 })
 export class CarService {
 
-	private readonly API_URL: string = `${environment.apiUrl}/admin/cars`;
+	private readonly API_URL: string = `${environment.apiUrl}/cars`;
 
 	constructor(private http: HttpClient) {
 

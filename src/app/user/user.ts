@@ -1,3 +1,5 @@
+import { Role } from "../services/auth.service";
+
 export class User {
 
 	/**
@@ -25,11 +27,14 @@ export class User {
 	 */
 	enableEmailNewsletter: boolean;
 
+	role: Role | null;
+
 	constructor(user?: Partial<User>) {
 		this.id = user?.id ?? null;
 		this.email = user?.email ?? '';
 		this.fullName = user?.fullName ?? '';
 		this.password = user?.password ?? null;
 		this.enableEmailNewsletter = user?.enableEmailNewsletter ?? false;
+		this.role = user?.role ?? null;
 	}
 }
