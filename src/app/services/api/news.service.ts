@@ -16,6 +16,15 @@ export class NewsService {
 	}
 
 	/**
+	 * Отримує доступний список новин для показу всім користувачам
+	 *
+	 * @returns Observable<News[]>
+	 */
+	public getAvailableWebsiteNews(): Observable<News[]> {
+		return this.http.get<News[]>(`${this.API_URL}/available`);
+	}
+
+	/**
 	 * Отримує список новин
 	 *
 	 * @returns Observable<News[]>

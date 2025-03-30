@@ -2,7 +2,9 @@
 
 .home {
 	gap: 30px;
+	text-align: center;
 	flex-wrap: wrap;
+	margin: 20px;
 
 	h1 {
 		font-family: "Bebas Neue", serif;
@@ -15,4 +17,16 @@
 		max-width: 500px;
 		width: 100%;
 	}
+}
+
+.p-carousel-indicator-button {
+	background: white !important;
+}
+
+.p-carousel-indicator-active .p-carousel-indicator-button {
+	background: var(--p-carousel-indicator-active-background) !important;
+}
+
+.p-card {
+	height: 100% !important;
 }

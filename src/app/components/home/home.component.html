@@ -4,14 +4,29 @@
 		<img src="assets/images/logo.png" alt="logo" class="home__logo">
 	</div>
 
-	<p-card header="Simple Card">
-		<p class="m-0">
-			Lorem ipsum dolor sit amet...
-		</p>
-	</p-card>
+	<div style="max-width: 1200px; margin: 0 auto;">
+		<p-carousel [value]="news"
+					[numVisible]="2"
+					[numScroll]="2"
+					[circular]="true"
+					[responsiveOptions]="responsiveOptions">
 
-	<p-fieldset *ngFor="let newsItem of news" [legend]="newsItem.title.en" [toggleable]="true">
-		<p>{{ localizationService.getLocalizedString(newsItem.content) }}</p>
-	</p-fieldset>
+			<ng-template let-newsItem #item>
+				<p-card [styleClass]="'mx-2'">
+					<div class="w-100">
+						<span class="text-secondary" style="font-weight: 500; font-size: 14px;">
+							{{ newsItem.delayedPostingDate | date:'dd.MM.yyyy HH:mm' }}
+						</span>
 
+						<h5 class="font-medium fw-bold my-3">
+							{{ localizationService.getLocalizedString(newsItem.title) }}
+						</h5>
+
+						<div class="text-sm text-secondary mt-2"
+							 [innerHTML]="formattedText(localizationService.getLocalizedString(newsItem.content))"></div>
+					</div>
+				</p-card>
+			</ng-template>
+		</p-carousel>
+	</div>
 </main-root>

@@ -6,6 +6,11 @@ import { Fieldset } from "primeng/fieldset";
 import { News } from "../../models/news.model";
 import { NewsService } from "../../services/api/news.service";
 import { LocalizationService } from "../../services/localization/localization.service";
+import { DataView } from "primeng/dataview";
+import { Button } from "primeng/button";
+import { Tag } from "primeng/tag";
+import { TooltipDirective } from "ngx-bootstrap/tooltip";
+import { Carousel } from "primeng/carousel";
 
 @Component({
 	selector: 'home-root',
@@ -16,22 +21,36 @@ import { LocalizationService } from "../../services/localization/localization.se
 		CommonModule,
 		MainComponent,
 		Card,
-		Fieldset
+		Carousel
 	],
 	standalone: true
 })
 export class HomeComponent implements OnInit {
 
-	news?: News[];
+	news: News[] = [];
+
+	responsiveOptions: any[] | undefined;
 
 	constructor(private newsService: NewsService,
 				protected localizationService: LocalizationService) {
 
 	}
 
+	formattedText(text: string): string {
+		return text.replace(/&nbsp;/g, " ");
+	}
+
 	ngOnInit(): void {
-		this.newsService.getNews().subscribe({
+		this.newsService.getAvailableWebsiteNews().subscribe({
 			next: (news) => this.news = news.map(n => new News(n))
-		})
+		});
+
+		this.responsiveOptions = [
+			{
+				breakpoint: '767px',
+				numVisible: 1,
+				numScroll: 1,
+			}
+		];
 	}
 }
