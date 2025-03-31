@@ -12,95 +12,113 @@
 
 			<nav class="menu__body">
 				<!-- User role -->
-				<ul class="nav col-12 col-lg-auto justify-content-center my-md-0 text-small">
-					<li>
-						<a href="/"
-						   class="nav-link text-secondary"
-						   [class.nav-link-active]="currentUrl === '/'"
-						   (click)="closeHeader()">
+				<div class="header__start">
+					<ul *ngIf="authService.isLogin()"
+						class="nav col-12 col-lg-auto justify-content-center my-md-0 text-small">
+						<li>
+							<a href="/"
+							   class="nav-link text-secondary"
+							   [class.nav-link-active]="currentUrl === '/'"
+							   (click)="closeHeader()">
 
-							<i class="bi bi-house-door-fill"></i>
+								<i class="bi bi-house-door-fill"></i>
 
-							{{ 'HEADER_MAIN' | translate }}
-						</a>
-					</li>
+								{{ 'HEADER_MAIN' | translate }}
+							</a>
+						</li>
 
-					<li>
-						<a [routerLink]="['/user-cars']"
-						   class="nav-link text-secondary"
-						   [class.nav-link-active]="currentUrl.includes('/user-cars')"
-						   (click)="closeHeader()">
+						<li>
+							<a [routerLink]="['/user-cars']"
+							   class="nav-link text-secondary"
+							   [class.nav-link-active]="currentUrl.includes('/user-cars')"
+							   (click)="closeHeader()">
 
-							<i class="bi bi-car-front-fill"></i>
+								<i class="bi bi-car-front-fill"></i>
 
-							{{ 'HEADER_MY_CARS' | translate }}
-						</a>
-					</li>
-				</ul>
+								{{ 'HEADER_MY_CARS' | translate }}
+							</a>
+						</li>
+					</ul>
+				</div>
 
 				<!-- Admin role -->
-				<ul class="nav col-12 col-lg-auto justify-content-center my-md-0 text-small"
-					*ngIf="authService.hasRole(Role.ADMIN) | async">
+				<div class="header__center">
+					<ul class="nav col-12 col-lg-auto justify-content-center my-md-0 text-small"
+						*ngIf="authService.isLogin() && (authService.hasRole(Role.ADMIN) | async)">
 
-					<li>
-						<a [routerLink]="['/brands']"
-						   class="nav-link text-secondary"
-						   [class.nav-link-active]="currentUrl.includes('/brands') || currentUrl.includes('/cars')"
-						   (click)="closeHeader()">
+						<li>
+							<a [routerLink]="['/brands']"
+							   class="nav-link text-secondary"
+							   [class.nav-link-active]="currentUrl.includes('/brands') || currentUrl.includes('/cars')"
+							   (click)="closeHeader()">
 
-							<i class="bi bi-car-front"></i>
+								<i class="bi bi-car-front"></i>
 
-							{{ 'HEADER_CARS' | translate }}
-						</a>
-					</li>
+								{{ 'HEADER_CARS' | translate }}
+							</a>
+						</li>
 
-					<li>
-						<a [routerLink]="['/services']"
-						   class="nav-link text-secondary"
-						   [class.nav-link-active]="currentUrl === '/services'"
-						   (click)="closeHeader()">
+						<li>
+							<a [routerLink]="['/services']"
+							   class="nav-link text-secondary"
+							   [class.nav-link-active]="currentUrl === '/services'"
+							   (click)="closeHeader()">
 
-							<i class="bi bi-clipboard-minus-fill"></i>
+								<i class="bi bi-clipboard-minus-fill"></i>
 
-							{{ 'HEADER_SERVICE_TYPES' | translate }}
-						</a>
-					</li>
+								{{ 'HEADER_SERVICE_TYPES' | translate }}
+							</a>
+						</li>
 
-					<li>
-						<a [routerLink]="['/alerts']"
-						   class="nav-link text-secondary"
-						   [class.nav-link-active]="currentUrl === '/alerts'"
-						   (click)="closeHeader()">
+						<li>
+							<a [routerLink]="['/alerts']"
+							   class="nav-link text-secondary"
+							   [class.nav-link-active]="currentUrl === '/alerts'"
+							   (click)="closeHeader()">
 
-							<i class="bi bi-send-exclamation-fill"></i>
+								<i class="bi bi-send-exclamation-fill"></i>
 
-							{{ 'HEADER_ALERTS' | translate }}
-						</a>
-					</li>
-				</ul>
+								{{ 'HEADER_ALERTS' | translate }}
+							</a>
+						</li>
+					</ul>
+				</div>
 
 				<div class="header__end">
-					<div class="mx-2">
-						<a [routerLink]="['/settings']"
-						   class="nav-link text-secondary"
-						   [class.nav-link-active]="currentUrl === '/settings'"
-						   (click)="closeHeader()">
+					<ng-container *ngIf="authService.isLogin(); else loginLink">
+						<div class="mx-2">
+							<a [routerLink]="['/settings']"
+							   class="nav-link text-secondary"
+							   [class.nav-link-active]="currentUrl === '/settings'"
+							   (click)="closeHeader()">
 
-							<i class="bi bi-gear-fill"></i>
+								<i class="bi bi-gear-fill"></i>
 
-							{{ 'HEADER_SETTINGS' | translate }}
-						</a>
-					</div>
+								{{ 'HEADER_SETTINGS' | translate }}
+							</a>
+						</div>
 
-					<div class="mx-2">
-						<a (click)="logout()"
-						   class="nav-link text-secondary">
+						<div class="mx-2">
+							<a (click)="logout()" class="nav-link text-secondary">
+								<i class="bi bi-key-fill"></i>
 
-							<i class="bi bi-key-fill"></i>
+								{{ 'HEADER_LOGOUT' | translate }}
+							</a>
+						</div>
+					</ng-container>
 
-							{{ 'HEADER_LOGOUT' | translate }}
-						</a>
-					</div>
+					<ng-template #loginLink>
+						<div class="mx-2">
+							<a [routerLink]="'/login'"
+							   class="nav-link text-secondary"
+							   [class.nav-link-active]="currentUrl === '/login'">
+
+								<i class="bi bi-key-fill"></i>
+
+								{{ 'HEADER_LOGIN' | translate }}
+							</a>
+						</div>
+					</ng-template>
 				</div>
 			</nav>
 		</div>

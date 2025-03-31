@@ -37,6 +37,6 @@ export class NavigationService {
 	}
 
 	private logNavigationError(error: any): void {
-		console.error('Error during navigation:', error);
+		console.error(error);
 	}
 }

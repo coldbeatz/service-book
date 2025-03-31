@@ -10,7 +10,7 @@ import {
 import { CommonModule } from "@angular/common";
 import { TranslateModule } from "@ngx-translate/core";
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
-import { PasswordInputComponent } from "../../registration/password-input/password-input.component";
+import { PasswordInputComponent } from "../password-input/password-input.component";
 
 @Component({
 	selector: 'password-with-repeat-root',

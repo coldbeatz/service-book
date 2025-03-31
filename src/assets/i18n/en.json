@@ -18,6 +18,7 @@
 	"REGISTRATION_PASSWORD_REPEAT": "Password repeat",
 	"REGISTRATION_SUBMIT_BUTTON": "Sign up",
 	"REGISTRATION_LOGIN_HINT": "Do you have an account?",
+	"REGISTRATION_LOGIN_HINT_OR": "or",
 	"REGISTRATION_LOGIN": "Login",
 	"REGISTRATION_ERROR_EMAIL_EXISTS": "E-mail is already registered",
 	"REGISTRATION_ERROR_EMAIL_INVALID": "You entered an incorrect e-mail",
@@ -46,6 +47,7 @@
 	"HEADER_ALERTS": "Alerts",
 	"HEADER_SETTINGS": "Settings",
 	"HEADER_LOGOUT": "Logout",
+	"HEADER_LOGIN": "Login",
 
 	"LOGIN_ERROR_INCORRECT_DATA": "Incorrect login or password",
 

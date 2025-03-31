@@ -1,11 +1,10 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import { ApiRequestsService } from "../../../services/api-requests.service";
-import { PasswordInputComponent } from "../../registration/password-input/password-input.component";
+import { PasswordInputComponent } from "../../shared/password-input/password-input.component";
 import {ActivatedRoute, RouterLink} from "@angular/router";
-import { ApiErrorsService } from "../../../services/api-errors.service";
-import {NgIf} from "@angular/common";
+import { NgIf, NgSwitch, NgSwitchCase, NgSwitchDefault } from "@angular/common";
 import {TranslateModule} from "@ngx-translate/core";
+import { RestoreService } from "../../../services/api/restore.service";
 
 @Component({
 	selector: 'change-password-root',
@@ -16,7 +15,10 @@ import {TranslateModule} from "@ngx-translate/core";
 		NgIf,
 		RouterLink,
 		PasswordInputComponent,
-		TranslateModule
+		TranslateModule,
+		NgSwitchCase,
+		NgSwitch,
+		NgSwitchDefault
 	],
 	standalone: true
 })
@@ -26,16 +28,14 @@ export class ChangePasswordComponent implements AfterViewInit, OnInit {
 
 	protected success: boolean = false;
 
-	protected errorMessage: string|null = null;
-	protected errorCode: string|null = null;
+	protected errorCode: string | null = null;
 
 	private key!: string;
 
 	@ViewChild('passwordInput') passwordInputComponent!: PasswordInputComponent;
 	@ViewChild('passwordRepeatInput') passwordRepeatInputComponent!: PasswordInputComponent;
 
-	constructor(private userService: ApiRequestsService,
-				private apiErrorsService: ApiErrorsService,
+	constructor(private restoreService: RestoreService,
 				private fb: FormBuilder,
 				private cdr: ChangeDetectorRef,
 				private route: ActivatedRoute) {
@@ -54,7 +54,7 @@ export class ChangePasswordComponent implements AfterViewInit, OnInit {
 				this.key = key;
 			}
 
-			this.userService.restoreCheckKey(this.key).subscribe({
+			this.restoreService.checkKey(this.key).subscribe({
 				next: (response) => {
 					if (response.result === 'success') {
 						this.cdr.detectChanges();
@@ -62,8 +62,6 @@ export class ChangePasswordComponent implements AfterViewInit, OnInit {
 				},
 				error: (e) => {
 					this.errorCode = e.error?.code;
-					this.errorMessage = this.apiErrorsService.getMessage('restore', this.errorCode);
-
 					this.cdr.detectChanges();
 				}
 			});
@@ -71,6 +69,8 @@ export class ChangePasswordComponent implements AfterViewInit, OnInit {
 	}
 
 	onSubmit() {
+		this.errorCode = null;
+
 		const value = this.form.value;
 
 		if (value.password !== value.passwordRepeat) {
@@ -80,10 +80,9 @@ export class ChangePasswordComponent implements AfterViewInit, OnInit {
 
 		this.passwordRepeatInputComponent.isInvalid = false;
 
-		this.userService.restoreSetPassword(this.key, value.password).subscribe({
+		this.restoreService.setPassword(this.key, value.password).subscribe({
 			next: (response) => {
 				if (response.result === 'success') {
-					this.errorCode = this.errorMessage = null;
 					this.success = true;
 
 					this.form.reset();
@@ -92,9 +91,7 @@ export class ChangePasswordComponent implements AfterViewInit, OnInit {
 			},
 			error: (e) => {
 				this.success = false;
-
 				this.errorCode = e.error?.code;
-				this.errorMessage = this.apiErrorsService.getMessage('restore', this.errorCode);
 
 				this.cdr.detectChanges();
 			}

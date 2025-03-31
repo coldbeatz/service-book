@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { CookieService } from "ngx-cookie-service";
 import { BehaviorSubject, interval, lastValueFrom, map, Observable, of, switchMap } from "rxjs";
 import { NavigationService } from "./navigation.service";
-import { environment } from "../../environments/environment";
 import { HttpClient } from "@angular/common/http";
 import { UserService } from "./api/user.service";
 import { User } from "../user/user";
 import { catchError } from "rxjs/operators";
+import { LoginService } from "./api/login.service";
 
 export enum Role {
 	/**
@@ -36,12 +36,17 @@ export class AuthService {
 	constructor(private cookieService: CookieService,
 				private http: HttpClient,
 				private navigationService: NavigationService,
-				private userService: UserService) {
+				private userService: UserService,
+				private loginService: LoginService) {
 
 		// Перевіримо чи дані користувача збережено в cookie
 		this.remember = !!this.cookieService.get('token');
 
 		this.initRolePolling();
+	}
+
+	public isLogin(): boolean {
+		return this.isLoggedIn;
 	}
 
 	private initRolePolling(): void {
@@ -66,7 +71,7 @@ export class AuthService {
 			const payload = token.split('.')[1];
 			return JSON.parse(atob(payload));
 		} catch (e) {
-			console.error("Cannot parse JWT token", e);
+			console.error(e);
 			return null;
 		}
 	}
@@ -117,13 +122,6 @@ export class AuthService {
 		return this.remember ? this.cookieService.get('email') : sessionStorage.getItem('email');
 	}
 
-	private tokenValidation() {
-		return this.http.post<any>(`${environment.apiUrl}/login/validation`, {
-			email: this.getEmail(),
-			token: this.getToken()
-		});
-	}
-
 	/**
 	 * Перевірити, чи авторизований користувач
 	 */
@@ -131,8 +129,11 @@ export class AuthService {
 		if (this.isLoggedIn) return true;
 
 		try {
-			const response = await lastValueFrom(this.tokenValidation());
-			this.isLoggedIn = response.result === 'success';
+			const response = await lastValueFrom(
+				this.loginService.tokenValidation(this.getEmail(), this.getToken())
+			);
+
+			this.isLoggedIn = true;
 		} catch (error) {
 			this.isLoggedIn = false;
 		}

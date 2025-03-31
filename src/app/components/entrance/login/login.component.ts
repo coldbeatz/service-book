@@ -1,13 +1,14 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { faFacebook, faGooglePlus } from '@fortawesome/free-brands-svg-icons';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
-import { ApiRequestsService } from "../../services/api-requests.service";
-import { ApiErrorsService } from "../../services/api-errors.service";
-import { AuthService } from "../../services/auth.service";
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
+import { AuthService } from "../../../services/auth.service";
 import { FaIconComponent } from "@fortawesome/angular-fontawesome";
-import { NgIf } from "@angular/common";
+import { CommonModule } from "@angular/common";
 import { RouterLink } from "@angular/router";
 import { TranslateModule } from "@ngx-translate/core";
+import { MainComponent } from "../../internal/main/main.component";
+import { LoginResponse, LoginService } from "../../../services/api/login.service";
+import { PasswordInputComponent } from "../../shared/password-input/password-input.component";
 
 @Component({
 	selector: 'login-root',
@@ -17,9 +18,11 @@ import { TranslateModule } from "@ngx-translate/core";
 	imports: [
 		ReactiveFormsModule,
 		FaIconComponent,
-		NgIf,
+		CommonModule,
 		RouterLink,
-		TranslateModule
+		TranslateModule,
+		MainComponent,
+		PasswordInputComponent
 	],
 	standalone: true
 })
@@ -30,10 +33,9 @@ export class LoginComponent {
 
 	protected form: FormGroup;
 
-	protected errorMessage: string|null = null;
+	protected errorCode: string | null = null;
 
-	constructor(private apiRequestsService: ApiRequestsService,
-				private apiErrorsService: ApiErrorsService,
+	constructor(private loginService: LoginService,
 				private authService: AuthService,
 				private fb: FormBuilder) {
 
@@ -44,22 +46,25 @@ export class LoginComponent {
 		});
 	}
 
+	get passwordControl(): FormControl {
+		return this.form.get('password') as FormControl;
+	}
+
 	onSubmit() {
+		this.errorCode = null;
+
 		const data = this.form.value;
 
-		this.apiRequestsService.login(data.email, data.password).subscribe({
-			next: (response) => {
+		this.loginService.login(data.email, data.password).subscribe({
+			next: (response: LoginResponse) => {
 				let token = response.token;
 
 				if (token != null) {
-					this.errorMessage = null;
-
-					this.authService.login(data.email, token, data.remember);
+					this.authService.login(response.email, token, data.remember);
 				}
 			},
 			error: (e) => {
-				let errorCode = e.error?.code;
-				this.errorMessage = this.apiErrorsService.getMessage('login', errorCode);
+				this.errorCode = e.error?.error;
 			}
 		});
 	}

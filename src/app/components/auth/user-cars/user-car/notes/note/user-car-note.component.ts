@@ -96,7 +96,7 @@ export class UserCarNoteComponent implements OnInit {
 				}
 			}),
 			catchError(err => {
-				console.error('Error loading notes', err);
+				console.error(err);
 				return EMPTY;
 			})
 		).subscribe();

@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from "./components/login/login.component";
-import { RegistrationComponent } from "./components/registration/registration.component";
-import { RestoreComponent } from "./components/restore/restore.component";
+import { LoginComponent } from "./components/entrance/login/login.component";
+import { RegistrationComponent } from "./components/entrance/registration/registration.component";
+import { RestoreComponent } from "./components/entrance/restore/restore.component";
 import { ConfirmationComponent } from "./components/confirmation/confirmation.component";
 import { ChangePasswordComponent } from "./components/restore/change-password/change-password.component";
 import { BrandsComponent} from "./components/admin/brands/brands.component";

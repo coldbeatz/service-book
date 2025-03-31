@@ -1,0 +1,70 @@
+<main-root>
+	<form class="login_form form" [formGroup]="form" (ngSubmit)="onSubmit()">
+		<div class="row mb-3 gap-3 w-100 m-auto">
+			<div class="col p-0">
+				<a href="#" class="btn login_form__social btn-primary facebook disabled">
+					<span>{{ 'LOGIN_SOCIAL_FACEBOOK' | translate }}</span>
+
+					<fa-icon [icon]="faFacebook"></fa-icon>
+				</a>
+			</div>
+
+			<div class="col p-0">
+				<a href="#" class="btn login_form__social btn-primary google disabled">
+					<span>{{ 'LOGIN_SOCIAL_GOOGLE' | translate }}</span>
+
+					<fa-icon [icon]="faGoogle"></fa-icon>
+				</a>
+			</div>
+		</div>
+
+		<div class="alert alert-danger" role="alert" *ngIf="errorMessage != null">
+			{{ errorMessage }}
+		</div>
+
+		<div class="alert alert-success" role="alert" *ngIf="success">
+			{{ 'REGISTRATION_SUCCESS' | translate }}
+		</div>
+
+		<div class="form-group mt-3">
+			<input type="text" name="email" formControlName="email"
+				   [ngClass]="{'is-invalid': errorCode === 'invalid_email' || errorCode === 'email_exists'}"
+				   class="form-control" placeholder="{{ 'LOGIN_EMAIL' | translate }}">
+		</div>
+
+		<div class="form-group mt-3">
+			<input type="text" name="fullName" formControlName="fullName"
+				   class="form-control" placeholder="{{ 'REGISTRATION_FULL_NAME' | translate }}">
+		</div>
+
+		<div class="alert alert-danger mt-3" role="alert" *ngIf="passwordRepeatInputComponent?.isInvalid">
+			{{ 'REGISTRATION_ERROR_PASSWORDS_NOT_MATCH' | translate }}
+		</div>
+
+		<div class="mt-3">
+			<password-input-root #passwordInput
+								 [formControl]="passwordControl"
+								 placeholder="{{ 'LOGIN_PASSWORD' | translate }}"></password-input-root>
+		</div>
+
+		<div class="mt-3">
+			<password-input-root #passwordRepeatInput
+								 [formControl]="passwordRepeatControl"
+								 placeholder="{{ 'REGISTRATION_PASSWORD_REPEAT' | translate }}"></password-input-root>
+		</div>
+
+		<div class="form__button-wrapper mt-4">
+			<button type="submit" [disabled]="form.invalid" class="btn btn-primary login-button">
+				{{ 'REGISTRATION_SUBMIT_BUTTON' | translate }}
+			</button>
+		</div>
+
+		<div class="form__message">
+			<p>{{ 'REGISTRATION_LOGIN_HINT' | translate }}
+				<a routerLink="/login">{{ 'REGISTRATION_LOGIN' | translate }}</a>
+				<span> or </span>
+				<a routerLink="/restore" class="link-danger">{{ 'LOGIN_FORGOT_PASSWORD' | translate }}</a>
+			</p>
+		</div>
+	</form>
+</main-root>

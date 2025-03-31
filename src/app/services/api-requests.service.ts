@@ -16,35 +16,9 @@ export class ApiRequestsService {
 
 	}
 
-	public login(email: string, password: string): Observable<any> {
-		return this.http.post<any>(`${environment.apiUrl}/login`, {
-			email: email,
-			password: password
-		});
-	}
-
 	public confirmUser(key: string): Observable<any> {
 		return this.http.post<any>(`${environment.apiUrl}/confirmation/confirm`, {
 			key: key
-		});
-	}
-
-	public restoreCheckKey(key: string): Observable<any> {
-		return this.http.post<any>(`${environment.apiUrl}/restore/checkkey`, {
-			key: key
-		});
-	}
-
-	public restoreSetPassword(key: string, password: string): Observable<any> {
-		return this.http.post<any>(`${environment.apiUrl}/restore/setpassword`, {
-			key: key,
-			password: password
-		});
-	}
-
-	public restore(email: string): Observable<any> {
-		return this.http.post<any>(`${environment.apiUrl}/restore/`, {
-			email: email
 		});
 	}
 

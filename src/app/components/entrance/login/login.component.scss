@@ -20,11 +20,19 @@
 	}
 
 	&__remember {
-		margin-top: 30px;
-		margin-bottom: 30px;
+		margin-top: 20px;
+		margin-bottom: 20px;
 		color: #999;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
 	}
+
+	.form-check-input:checked + .form-check-label {
+		font-weight: 400;
+	}
+}
+
+.content {
+	padding: 0 20px;
 }

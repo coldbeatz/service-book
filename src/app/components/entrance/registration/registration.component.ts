@@ -1,14 +1,15 @@
 import {AfterViewInit, ChangeDetectorRef, Component, ViewChild, ViewEncapsulation} from '@angular/core';
 import { faFacebook, faGooglePlus } from '@fortawesome/free-brands-svg-icons';
-import { User } from "../../user/user";
-import { ApiRequestsService } from "../../services/api-requests.service";
+import { User } from "../../../user/user";
+import { ApiRequestsService } from "../../../services/api-requests.service";
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
-import { PasswordInputComponent } from "./password-input/password-input.component";
-import { ApiErrorsService } from "../../services/api-errors.service";
+import { PasswordInputComponent } from "../../shared/password-input/password-input.component";
+import { ApiErrorsService } from "../../../services/api-errors.service";
 import { FaIconComponent } from "@fortawesome/angular-fontawesome";
 import { NgClass, NgIf } from "@angular/common";
 import { RouterLink } from "@angular/router";
 import { TranslateModule } from "@ngx-translate/core";
+import { MainComponent } from "../../internal/main/main.component";
 
 @Component({
 	selector: 'registration-root',
@@ -22,7 +23,8 @@ import { TranslateModule } from "@ngx-translate/core";
 		NgClass,
 		PasswordInputComponent,
 		RouterLink,
-		TranslateModule
+		TranslateModule,
+		MainComponent
 	],
 	standalone: true
 })

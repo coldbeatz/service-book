@@ -1,6 +1,9 @@
 import { Injectable } from "@angular/core";
 import { TranslateService } from "@ngx-translate/core";
 
+/**
+ * @deprecated
+ */
 @Injectable({
 	providedIn: 'root'
 })
@@ -21,9 +24,6 @@ export class ApiErrorsService {
 			email_not_confirmed: 'RESTORE_ERROR_EMAIL_NOT_CONFIRMED',
 			email_not_registered: 'RESTORE_ERROR_EMAIL_NOT_REGISTERED',
 			error_send_mail: 'SEND_MAIL_ERROR'
-		},
-		login: {
-			incorrect_login_or_password: 'LOGIN_ERROR_INCORRECT_DATA'
 		}
 	};
 
