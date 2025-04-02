@@ -18,8 +18,16 @@
 			</div>
 		</div>
 
-		<div class="alert alert-danger" role="alert" *ngIf="errorMessage != null">
-			{{ errorMessage }}
+		<div class="alert alert-danger" role="alert" *ngIf="errorCode" [ngSwitch]="errorCode">
+			<small *ngSwitchCase="'invalid_email'">
+				{{ 'REGISTRATION_ERROR_EMAIL_INVALID' | translate }}
+			</small>
+
+			<small *ngSwitchCase="'email_exists'">
+				{{ 'REGISTRATION_ERROR_EMAIL_EXISTS' | translate }}
+			</small>
+
+			<small *ngSwitchDefault>{{ 'UNKNOWN_ERROR' | translate }}</small>
 		</div>
 
 		<div class="alert alert-success" role="alert" *ngIf="success">

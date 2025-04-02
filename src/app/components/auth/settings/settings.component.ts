@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation } from "@angular/core";
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild, ViewEncapsulation } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { MainComponent } from "../../internal/main/main.component";
 import { BreadcrumbComponent } from "../../internal/breadcrumb/breadcrumb.component";
@@ -8,7 +8,7 @@ import { FormsModule } from "@angular/forms";
 import { User } from "../../../user/user";
 import { PasswordWithRepeatComponent } from "../../shared/password-with-repeat/password-with-repeat.component";
 import { AuthService } from "../../../services/auth.service";
-import { SettingsRequest, ProfileService } from "../../../services/api/profile.service";
+import { SettingsRequest, ProfileService, SettingsResponse } from "../../../services/api/profile.service";
 import { AlertComponent } from "../../internal/alert/alert.component";
 import { UserService } from "../../../services/api/user.service";
 
@@ -39,7 +39,8 @@ export class SettingsComponent implements OnInit {
 
 	@ViewChild('passwordWithRepeat') passwordWithRepeatComponent!: PasswordWithRepeatComponent;
 
-	constructor(private userService: UserService,
+	constructor(private cdr: ChangeDetectorRef,
+				private userService: UserService,
 				private settingsService: ProfileService,
 				private authService: AuthService) {
 
@@ -51,7 +52,11 @@ export class SettingsComponent implements OnInit {
 
 	private loadUser(): void {
 		this.userService.getUser().subscribe({
-			next: (userData) => this.user = new User(userData)
+			next: (userData) => {
+				this.user = new User(userData);
+
+				this.cdr.detectChanges();
+			}
 		})
 	}
 
@@ -66,6 +71,10 @@ export class SettingsComponent implements OnInit {
 
 		return !this.user.fullName || !this.user.email;
 
+	}
+
+	get showCurrentPassword(): boolean {
+		return this.user ? !this.user.passwordIsEmpty : false;
 	}
 
 	onSubmit() {
@@ -86,7 +95,7 @@ export class SettingsComponent implements OnInit {
 		}
 
 		this.settingsService.updateUserSettings(settings).subscribe({
-			next: (response) => {
+			next: (response: SettingsResponse) => {
 				if (response.emailConfirmationSent) {
 					this.desiredEmailHtml = `<b>${settings.email}</b>`;
 				}
@@ -94,6 +103,8 @@ export class SettingsComponent implements OnInit {
 				if (response.userUpdated) {
 					this.loadUser();
 					this.userUpdated = true;
+
+					this.passwordWithRepeatComponent.clear();
 				}
 
 				let token = response.token;
@@ -105,6 +116,5 @@ export class SettingsComponent implements OnInit {
 				this.errorCode = e.error;
 			}
 		});
-
 	}
 }

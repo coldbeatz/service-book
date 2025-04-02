@@ -14,16 +14,6 @@ export class ApiErrorsService {
 	private readonly codes: Record<string, Record<string, string>> = {
 		confirmation: {
 			key_is_missing: 'CONFIRMATION_KEY_IS_MISSING'
-		},
-		registration: {
-			invalid_email: 'REGISTRATION_ERROR_EMAIL_INVALID',
-			email_exists: 'REGISTRATION_ERROR_EMAIL_EXISTS'
-		},
-		restore: {
-			key_is_invalid: 'RESTORE_ERROR_INVALID_KEY',
-			email_not_confirmed: 'RESTORE_ERROR_EMAIL_NOT_CONFIRMED',
-			email_not_registered: 'RESTORE_ERROR_EMAIL_NOT_REGISTERED',
-			error_send_mail: 'SEND_MAIL_ERROR'
 		}
 	};
 

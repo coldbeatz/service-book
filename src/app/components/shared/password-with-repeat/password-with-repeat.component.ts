@@ -2,8 +2,8 @@ import {
 	AfterViewInit,
 	ChangeDetectorRef,
 	Component,
-	Input,
-	OnInit,
+	Input, OnChanges,
+	OnInit, SimpleChanges,
 	ViewChild,
 	ViewEncapsulation
 } from "@angular/core";
@@ -26,7 +26,7 @@ import { PasswordInputComponent } from "../password-input/password-input.compone
 	],
 	standalone: true
 })
-export class PasswordWithRepeatComponent implements AfterViewInit, OnInit {
+export class PasswordWithRepeatComponent implements AfterViewInit, OnInit, OnChanges {
 
 	@ViewChild('currentPasswordInput') currentPasswordInputComponent?: PasswordInputComponent;
 	@ViewChild('passwordInput') passwordInputComponent!: PasswordInputComponent;
@@ -37,6 +37,8 @@ export class PasswordWithRepeatComponent implements AfterViewInit, OnInit {
 	 */
 	@Input() useFieldCurrentPassword: boolean = false;
 
+	@Input() passwordRequired: boolean = true;
+
 	protected form: FormGroup;
 
 	constructor(private fb: FormBuilder, private cdr: ChangeDetectorRef) {
@@ -44,6 +46,12 @@ export class PasswordWithRepeatComponent implements AfterViewInit, OnInit {
 			password: ['', [Validators.required]],
 			passwordRepeat: ['', [Validators.required]]
 		});
+	}
+
+	ngOnChanges(changes: SimpleChanges): void {
+		if (changes['useFieldCurrentPassword'] && changes['useFieldCurrentPassword'].currentValue) {
+			this.form.addControl('currentPassword', new FormControl('', [Validators.required]));
+		}
 	}
 
 	ngOnInit(): void {
@@ -54,6 +62,10 @@ export class PasswordWithRepeatComponent implements AfterViewInit, OnInit {
 
 	ngAfterViewInit(): void {
 		this.cdr.detectChanges();
+	}
+
+	public clear(): void {
+		this.form.reset();
 	}
 
 	get passwordControl(): FormControl {
@@ -87,7 +99,7 @@ export class PasswordWithRepeatComponent implements AfterViewInit, OnInit {
 			}
 		} else {
 			// Не введено пароль
-			if (!this.password) {
+			if (this.passwordRequired && !this.password) {
 				this.passwordInputComponent.isInvalid = true;
 				return false;
 			}

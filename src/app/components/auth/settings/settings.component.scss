@@ -11,6 +11,10 @@
 		transition: width 0.3s ease, height 0.3s ease;
 		cursor: pointer;
 
+		img {
+			border-radius: 100px;
+		}
+
 		.pi, .bi {
 			font-size: 1.7rem;
 		}

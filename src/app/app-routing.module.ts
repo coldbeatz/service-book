@@ -31,6 +31,8 @@ import {
 } from "./components/auth/user-cars/user-car/maintenance/user-car-maintenance.component";
 import { NotesComponent } from "./components/auth/user-cars/user-car/notes/notes.component";
 import { AdminGuard } from "./guards/admin.guard";
+import { SharedGuard } from "./guards/shared.guard";
+import { Oauth2RedirectComponent } from "./components/oauth2/redirect/oauth2-redirect.component";
 
 export const routes: Routes = [
 
@@ -102,6 +104,7 @@ export const routes: Routes = [
 	 * All
 	 */
 	{ path: 'confirmation/:key', component: ConfirmationComponent },
-	{ path: '', component: HomeComponent },
-	{ path: '**', redirectTo: 'login' },
+	{ path: 'oauth2/redirect', component: Oauth2RedirectComponent, canActivate: [GuestGuard] },
+	{ path: '', component: HomeComponent, canActivate: [SharedGuard] },
+	{ path: '**', redirectTo: '' },
 ];

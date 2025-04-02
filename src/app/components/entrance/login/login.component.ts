@@ -7,8 +7,9 @@ import { CommonModule } from "@angular/common";
 import { RouterLink } from "@angular/router";
 import { TranslateModule } from "@ngx-translate/core";
 import { MainComponent } from "../../internal/main/main.component";
-import { LoginResponse, LoginService } from "../../../services/api/login.service";
 import { PasswordInputComponent } from "../../shared/password-input/password-input.component";
+import { LoginRequest, LoginResponse, UserService } from "../../../services/api/user.service";
+import { environment } from '../../../../environments/environment';
 
 @Component({
 	selector: 'login-root',
@@ -35,7 +36,9 @@ export class LoginComponent {
 
 	protected errorCode: string | null = null;
 
-	constructor(private loginService: LoginService,
+	protected environment = environment;
+
+	constructor(private userService: UserService,
 				private authService: AuthService,
 				private fb: FormBuilder) {
 
@@ -55,7 +58,12 @@ export class LoginComponent {
 
 		const data = this.form.value;
 
-		this.loginService.login(data.email, data.password).subscribe({
+		const request: LoginRequest = {
+			email: data.email,
+			password: data.password
+		}
+
+		this.userService.login(request).subscribe({
 			next: (response: LoginResponse) => {
 				let token = response.token;
 

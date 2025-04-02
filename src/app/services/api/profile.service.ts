@@ -18,6 +18,11 @@ export interface SettingsResponse {
 	 * Токен авторизації (якщо пароль користувача був оновлений)
 	 */
 	token?: string;
+
+	/**
+	 * Пароль було змінено або встановлено
+	 */
+	updatedPassword: boolean;
 }
 
 export interface SettingsRequest {

@@ -6,7 +6,6 @@ import { HttpClient } from "@angular/common/http";
 import { UserService } from "./api/user.service";
 import { User } from "../user/user";
 import { catchError } from "rxjs/operators";
-import { LoginService } from "./api/login.service";
 
 export enum Role {
 	/**
@@ -36,8 +35,7 @@ export class AuthService {
 	constructor(private cookieService: CookieService,
 				private http: HttpClient,
 				private navigationService: NavigationService,
-				private userService: UserService,
-				private loginService: LoginService) {
+				private userService: UserService) {
 
 		// Перевіримо чи дані користувача збережено в cookie
 		this.remember = !!this.cookieService.get('token');
@@ -130,10 +128,12 @@ export class AuthService {
 
 		try {
 			const response = await lastValueFrom(
-				this.loginService.tokenValidation(this.getEmail(), this.getToken())
+				this.userService.tokenValidation(this.getEmail(), this.getToken())
 			);
 
-			this.isLoggedIn = true;
+			if (response.result === 'token_valid') {
+				this.isLoggedIn = true;
+			}
 		} catch (error) {
 			this.isLoggedIn = false;
 		}
@@ -160,7 +160,7 @@ export class AuthService {
 
 		this.isLoggedIn = true;
 
-		this.navigationService.navigate(['brands']);
+		this.navigationService.navigate(['/']);
 	}
 
 	public logout(): void {

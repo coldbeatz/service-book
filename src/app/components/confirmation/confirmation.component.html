@@ -1,19 +1,23 @@
-<form class="form">
-	<p class="text-muted">
-		<small>{{ 'CONFIRMATION_HINT' | translate }}</small>
-	</p>
+<main-root>
+	<div class="px-4">
+		<form class="form">
+			<p class="text-danger" *ngIf="errorCode" [ngSwitch]="errorCode">
+				<small *ngSwitchCase="'key_is_missing'">
+					{{ 'CONFIRMATION_KEY_IS_MISSING' | translate }}
+				</small>
 
-	<p class="text-danger" *ngIf="errorMessage != null">
-		<small>{{ errorMessage }}</small>
-	</p>
+				<small *ngSwitchDefault>{{ 'UNKNOWN_ERROR' | translate }}</small>
+			</p>
 
-	<p class="text-success" *ngIf="activationSuccess">
-		<small>{{ 'CONFIRMATION_SUCCESS' | translate }}</small>
-	</p>
+			<p class="text-success" *ngIf="activationSuccess">
+				<small>{{ 'CONFIRMATION_SUCCESS' | translate }}</small>
+			</p>
 
-	<div class="form__button-wrapper mb-0">
-		<a routerLink="/login" class="btn btn-primary login-button">
-			{{ 'CONFIRMATION_LOGIN_BUTTON' | translate }}
-		</a>
+			<div class="form__button-wrapper mb-0">
+				<a routerLink="/login" class="btn btn-primary login-button">
+					{{ 'CONFIRMATION_LOGIN_BUTTON' | translate }}
+				</a>
+			</div>
+		</form>
 	</div>
-</form>
+</main-root>

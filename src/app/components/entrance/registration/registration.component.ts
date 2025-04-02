@@ -1,15 +1,13 @@
 import {AfterViewInit, ChangeDetectorRef, Component, ViewChild, ViewEncapsulation} from '@angular/core';
 import { faFacebook, faGooglePlus } from '@fortawesome/free-brands-svg-icons';
-import { User } from "../../../user/user";
-import { ApiRequestsService } from "../../../services/api-requests.service";
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { PasswordInputComponent } from "../../shared/password-input/password-input.component";
-import { ApiErrorsService } from "../../../services/api-errors.service";
 import { FaIconComponent } from "@fortawesome/angular-fontawesome";
-import { NgClass, NgIf } from "@angular/common";
+import { CommonModule } from "@angular/common";
 import { RouterLink } from "@angular/router";
 import { TranslateModule } from "@ngx-translate/core";
 import { MainComponent } from "../../internal/main/main.component";
+import { UserRegistrationRequest, UserService } from "../../../services/api/user.service";
 
 @Component({
 	selector: 'registration-root',
@@ -19,12 +17,11 @@ import { MainComponent } from "../../internal/main/main.component";
 	imports: [
 		ReactiveFormsModule,
 		FaIconComponent,
-		NgIf,
-		NgClass,
 		PasswordInputComponent,
 		RouterLink,
 		TranslateModule,
-		MainComponent
+		MainComponent,
+		CommonModule
 	],
 	standalone: true
 })
@@ -33,9 +30,7 @@ export class RegistrationComponent implements AfterViewInit {
 	protected faFacebook = faFacebook;
 	protected faGoogle = faGooglePlus;
 
-	protected errorMessage: string|null = null;
-	protected errorCode: string|null = null;
-
+	protected errorCode: string | null = null;
 	protected success: boolean = false;
 
 	@ViewChild('passwordInput') passwordInputComponent!: PasswordInputComponent;
@@ -43,14 +38,9 @@ export class RegistrationComponent implements AfterViewInit {
 
 	protected form: FormGroup;
 
-	private user: User;
-
-	constructor(private userService: ApiRequestsService,
-				private apiErrorsService: ApiErrorsService,
+	constructor(private userService: UserService,
 				private cdr: ChangeDetectorRef,
 				private fb: FormBuilder) {
-
-		this.user = new User();
 
 		this.form = this.fb.group({
 			email: ['', [Validators.required]],
@@ -61,7 +51,9 @@ export class RegistrationComponent implements AfterViewInit {
 	}
 
 	onSubmit() {
+		this.errorCode = null;
 		this.success = false;
+
 		this.passwordRepeatInputComponent.isInvalid = false;
 
 		const userData = this.form.value;
@@ -71,15 +63,16 @@ export class RegistrationComponent implements AfterViewInit {
 			return;
 		}
 
-		this.user.email = userData.email;
-		this.user.fullName = userData.fullName;
-		this.user.password = userData.password;
+		const request: UserRegistrationRequest = {
+			email: userData.email,
+			fullName: userData.fullName,
+			password: userData.password
+		}
 
-		this.userService.save(this.user).subscribe({
+		this.userService.register(request).subscribe({
 			next: (response) => {
 				if (response.result === 'success') {
 					this.success = true;
-					this.errorMessage = this.errorCode = null;
 
 					this.form.reset();
 					this.cdr.detectChanges();
@@ -87,9 +80,8 @@ export class RegistrationComponent implements AfterViewInit {
 			},
 			error: (e) => {
 				this.success = false;
+				this.errorCode = e.error?.error;
 
-				this.errorCode = e.error?.code;
-				this.errorMessage = this.apiErrorsService.getMessage('registration', this.errorCode);
 				this.cdr.detectChanges();
 			}
 		});

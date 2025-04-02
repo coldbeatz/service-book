@@ -1,19 +1,19 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { ActivatedRoute, RouterLink } from "@angular/router";
-import { ApiErrorsService } from "../../services/api-errors.service";
-import { ApiRequestsService } from "../../services/api-requests.service";
-import { NgIf } from "@angular/common";
+import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { RouterLink } from "@angular/router";
+import { CommonModule } from "@angular/common";
 import { TranslateModule } from "@ngx-translate/core";
-import { AuthService } from "../../services/auth.service";
+import { MainComponent } from "../internal/main/main.component";
+import { ConfirmationService } from "../../services/api/confirmation.service";
 
 @Component({
 	selector: 'confirmation-root',
 	encapsulation: ViewEncapsulation.None,
 	templateUrl: 'confirmation.component.html',
 	imports: [
-		NgIf,
+		CommonModule,
 		RouterLink,
-		TranslateModule
+		TranslateModule,
+		MainComponent
 	],
 	standalone: true
 })
@@ -21,43 +21,35 @@ export class ConfirmationComponent implements OnInit {
 
 	protected activationSuccess: boolean = false;
 
-	protected errorMessage: string|null = null;
+	protected errorCode: string | null = null;
 
-	constructor(private route: ActivatedRoute,
-				private apiRequestsService: ApiRequestsService,
-				private apiErrorsService: ApiErrorsService,
-				private authService: AuthService) {
+	@Input() key: string | null = null;
+
+	constructor(private confirmationService: ConfirmationService) {
 
 	}
 
 	ngOnInit(): void {
-		this.route.paramMap.subscribe(params => {
-			const key = params.get('key');
-
-			if (key != null) {
-				this.activation(key);
-			}
-		});
+		if (this.key) {
+			this.activation(this.key);
+		}
 	}
 
 	private activation(key: string) {
-		this.apiRequestsService.confirmUser(key).subscribe({
+		this.errorCode = null;
+		this.activationSuccess = false;
+
+		this.confirmationService.confirmUser(key).subscribe({
 			next: (response) => {
-				console.log(response);
+				const { result } = response;
 
-				const { token, email } = response;
-
-				if (token && email) {
-					this.errorMessage = null;
+				if (result === 'confirmation_success') {
 					this.activationSuccess = true;
-
-					this.authService.updateAuthData(email, token);
 				}
 			},
 			error: (e) => {
 				this.activationSuccess = false;
-
-				this.errorMessage = this.apiErrorsService.getMessage('confirmation', e.error?.code);
+				this.errorCode = e.error?.error;
 			}
 		});
 	}

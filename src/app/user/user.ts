@@ -21,6 +21,7 @@ export class User {
 	 * Пароль користувача
 	 */
 	password: string | null;
+	passwordIsEmpty: boolean;
 
 	/**
 	 * Чи підписаний користувач на email-розсилку
@@ -29,6 +30,8 @@ export class User {
 
 	role: Role | null;
 
+	profilePictureUrl: string | null;
+
 	constructor(user?: Partial<User>) {
 		this.id = user?.id ?? null;
 		this.email = user?.email ?? '';
@@ -36,5 +39,7 @@ export class User {
 		this.password = user?.password ?? null;
 		this.enableEmailNewsletter = user?.enableEmailNewsletter ?? false;
 		this.role = user?.role ?? null;
+		this.passwordIsEmpty = user?.passwordIsEmpty ?? false;
+		this.profilePictureUrl = user?.profilePictureUrl ?? null;
 	}
 }
