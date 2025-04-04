@@ -164,14 +164,15 @@ export class AuthService {
 	}
 
 	public logout(): void {
-		this.cookieService.delete('token');
-		this.cookieService.delete('email');
+		this.cookieService.delete('token', '/');
+		this.cookieService.delete('email', '/');
 
 		sessionStorage.removeItem('token');
 		sessionStorage.removeItem('email');
 
 		this.isLoggedIn = false;
 
+		console.log(sessionStorage.getItem('token'), this.cookieService.get('token'));
 		this.navigationService.navigate(['login']);
 	}
 

@@ -115,7 +115,7 @@ export class BrandComponent implements OnInit {
 
 				if (brand.id) {
 					if (isNewBrand) {
-						this.navigationService.navigate(['/brands', brand.id]);
+						this.navigationService.navigate(['brands', brand.id]);
 					}
 
 					this.success = true;

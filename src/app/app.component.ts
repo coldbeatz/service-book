@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { TranslateService } from "@ngx-translate/core";
 import { RouterOutlet } from "@angular/router";
+import { LanguageService } from "./services/language.service";
 
 @Component({
 	selector: 'app-root',
@@ -12,10 +13,9 @@ import { RouterOutlet } from "@angular/router";
 })
 export class AppComponent {
 
-	private translate = inject(TranslateService);
+	private languageService = inject(LanguageService);
 
 	constructor() {
-		this.translate.addLangs(['en']); // , 'ua'
-		this.translate.use('en');
+		this.languageService.initializeLanguage();
 	}
 }

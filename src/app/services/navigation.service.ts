@@ -1,13 +1,18 @@
-import { Injectable } from "@angular/core";
+import { Injectable, Injector } from "@angular/core";
 import { NavigationExtras, Router } from "@angular/router";
+import { LanguageService } from "./language.service";
 
 @Injectable({
 	providedIn: 'root'
 })
 export class NavigationService {
 
-	constructor(public router: Router) {
+	private languageService!: LanguageService;
 
+	constructor(private router: Router, private injector: Injector) {
+		setTimeout(() => {
+			this.languageService = this.injector.get(LanguageService);
+		});
 	}
 
 	public createUrl(commands: any[]): string {
@@ -26,8 +31,12 @@ export class NavigationService {
 	}
 
 	public navigate(commands: any[], extras: NavigationExtras = {}) {
-		this.router.navigate(commands, extras)
-			.then(success => this.logNavigationStatus(commands, success))
+		const lang = this.languageService.language;
+
+		const segments = commands[0] === lang ? commands : [lang, ...commands];
+
+		this.router.navigate(segments, extras)
+			.then(success => this.logNavigationStatus(segments, success))
 			.catch(this.logNavigationError);
 	}
 

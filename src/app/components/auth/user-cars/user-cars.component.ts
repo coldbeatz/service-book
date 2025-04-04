@@ -119,13 +119,13 @@ export class UserCarsComponent implements OnInit {
 						label: this.translateService.instant("CARS_ADD_CAR_BUTTON"),
 						id: 'create_car',
 						icon: PrimeIcons.PLUS,
-						routerLink: '/user-cars/create'
+						routerLink: ['user-cars', 'create']
 					},
 					...this.filteredUserCars.map(userCar => ({
 						label: userCar.licensePlate,
 						id: `car_${userCar.id}`,
 						icon: PrimeIcons.CAR,
-						routerLink: ['/user-cars/', userCar.id]
+						routerLink: ['user-cars', userCar.id]
 					}))
 				]
 			}

@@ -1,9 +1,12 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { AuthService, Role } from "../../../../services/auth.service";
 import { RouterLink } from "@angular/router";
 import { TranslateModule } from "@ngx-translate/core";
 import { NavigationService } from "../../../../services/navigation.service";
 import { CommonModule } from "@angular/common";
+import { LanguageSelectorComponent } from "./lang/language-selector.component";
+import { LanguageLinkPipe } from "../../../../services/language-link.pipe";
+import { LanguageService } from "../../../../services/language.service";
 
 @Component({
 	selector: 'header-root',
@@ -13,11 +16,13 @@ import { CommonModule } from "@angular/common";
 	imports: [
 		RouterLink,
 		TranslateModule,
-		CommonModule
+		CommonModule,
+		LanguageSelectorComponent,
+		LanguageLinkPipe
 	],
 	standalone: true
 })
-export class HeaderComponent implements AfterViewInit, OnInit {
+export class HeaderComponent implements AfterViewInit {
 
 	protected bodyLockStatus: boolean = true;
 
@@ -26,11 +31,8 @@ export class HeaderComponent implements AfterViewInit, OnInit {
 	@ViewChild('header') header!: ElementRef<HTMLElement>;
 
 	constructor(protected authService: AuthService,
+				protected languageService: LanguageService,
 				private navigationService: NavigationService) {
-
-	}
-
-	ngOnInit(): void {
 
 	}
 

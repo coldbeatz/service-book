@@ -8,7 +8,6 @@ import { CommonModule } from "@angular/common";
 import { MainComponent } from "../../../internal/main/main.component";
 import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { BrandService } from "../../../../services/api/brand.service";
-import { CarService } from "../../../../services/api/car.service";
 import { LeftPanelComponent } from "../../../shared/left-panel/left-panel.component";
 import { MenuItem, PrimeIcons } from "primeng/api";
 import { EngineEventService } from "./engines/engine/engine-event.service";
@@ -33,8 +32,7 @@ export class CarComponent implements OnInit {
 
 	car: Car = new Car();
 
-	constructor(private carService: CarService,
-				private brandService: BrandService,
+	constructor(private brandService: BrandService,
 				private navigationService: NavigationService,
 				private route: ActivatedRoute,
 				private translateService: TranslateService,
@@ -46,16 +44,16 @@ export class CarComponent implements OnInit {
 		return [
 			{
 				label: this.translateService.instant("CAR_SETTINGS"),
-				id: "settings",
+				id: "profile",
 				icon: PrimeIcons.COG,
-				routerLink: `/cars/${this.car?.brand?.id}/${this.car.id}`,
+				routerLink: ['cars', this.car?.brand?.id, this.car.id],
 			},
 			...(this.car.id? [
 				{
 					label: this.translateService.instant("REGULATIONS_MAINTENANCE"),
 					id: "maintenance",
 					icon: PrimeIcons.WRENCH,
-					routerLink: `/cars/${this.car?.brand?.id}/${this.car.id}/maintenance`,
+					routerLink: ['cars', this.car?.brand?.id, this.car.id, 'maintenance'],
 				},
 				{
 					label: this.translateService.instant("ENGINES_LIST"),
@@ -67,19 +65,19 @@ export class CarComponent implements OnInit {
 							label: this.translateService.instant("ENGINES_ALL_BUTTON"),
 							id: 'all_engines',
 							icon: PrimeIcons.EYE,
-							routerLink: `/cars/${this.car?.brand?.id}/${this.car.id}/engines`,
+							routerLink: ['cars', this.car?.brand?.id, this.car.id, 'engines'],
 						},
 						{
 							label: this.translateService.instant("ENGINES_ADD_CAR_ENGINE_BUTTON"),
 							id: 'create_engine',
 							icon: PrimeIcons.PLUS,
-							routerLink: `/cars/${this.car?.brand?.id}/${this.car.id}/engines/create`
+							routerLink: ['cars', this.car?.brand?.id, this.car.id, 'engines', 'create']
 						},
 						...this.car.engines.map(engine => ({
 							label: engine.name,
 							id: `engine_${engine.id}`,
 							icon: PrimeIcons.COG,
-							routerLink: `/cars/${this.car?.brand?.id}/${this.car.id}/engines/${engine.id}`
+							routerLink: ['cars', this.car?.brand?.id, this.car.id, 'engines', engine.id]
 						}))
 					]
 				}

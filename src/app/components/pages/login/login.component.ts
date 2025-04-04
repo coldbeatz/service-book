@@ -10,6 +10,7 @@ import { MainComponent } from "../../internal/main/main.component";
 import { PasswordInputComponent } from "../../shared/password-input/password-input.component";
 import { LoginRequest, LoginResponse, UserService } from "../../../services/api/user.service";
 import { environment } from '../../../../environments/environment';
+import { LanguageLinkPipe } from "../../../services/language-link.pipe";
 
 @Component({
 	selector: 'login-root',
@@ -23,7 +24,8 @@ import { environment } from '../../../../environments/environment';
 		RouterLink,
 		TranslateModule,
 		MainComponent,
-		PasswordInputComponent
+		PasswordInputComponent,
+		LanguageLinkPipe
 	],
 	standalone: true
 })

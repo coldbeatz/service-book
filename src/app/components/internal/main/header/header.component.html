@@ -18,7 +18,7 @@
 						<li>
 							<a href="/"
 							   class="nav-link text-secondary"
-							   [class.nav-link-active]="currentUrl === '/'"
+							   [class.nav-link-active]="currentUrl === ('/' + languageService.language)"
 							   (click)="closeHeader()">
 
 								<i class="bi bi-house-door-fill"></i>
@@ -28,7 +28,7 @@
 						</li>
 
 						<li>
-							<a [routerLink]="['/user-cars']"
+							<a [routerLink]="'user-cars' | langLink"
 							   class="nav-link text-secondary"
 							   [class.nav-link-active]="currentUrl.includes('/user-cars')"
 							   (click)="closeHeader()">
@@ -47,7 +47,7 @@
 						*ngIf="authService.isLogin() && (authService.hasRole(Role.ADMIN) | async)">
 
 						<li>
-							<a [routerLink]="['/brands']"
+							<a [routerLink]="'brands' | langLink"
 							   class="nav-link text-secondary"
 							   [class.nav-link-active]="currentUrl.includes('/brands') || currentUrl.includes('/cars')"
 							   (click)="closeHeader()">
@@ -59,9 +59,9 @@
 						</li>
 
 						<li>
-							<a [routerLink]="['/services']"
+							<a [routerLink]="'services' | langLink"
 							   class="nav-link text-secondary"
-							   [class.nav-link-active]="currentUrl === '/services'"
+							   [class.nav-link-active]="currentUrl.includes('/services')"
 							   (click)="closeHeader()">
 
 								<i class="bi bi-clipboard-minus-fill"></i>
@@ -71,9 +71,9 @@
 						</li>
 
 						<li>
-							<a [routerLink]="['/alerts']"
+							<a [routerLink]="'alerts' | langLink"
 							   class="nav-link text-secondary"
-							   [class.nav-link-active]="currentUrl === '/alerts'"
+							   [class.nav-link-active]="currentUrl.includes('/alerts')"
 							   (click)="closeHeader()">
 
 								<i class="bi bi-send-exclamation-fill"></i>
@@ -85,11 +85,13 @@
 				</div>
 
 				<div class="header__end">
+					<header-language-selector></header-language-selector>
+
 					<ng-container *ngIf="authService.isLogin(); else loginLink">
 						<div class="mx-2">
-							<a [routerLink]="['/settings']"
+							<a [routerLink]="'profile' | langLink"
 							   class="nav-link text-secondary"
-							   [class.nav-link-active]="currentUrl === '/settings'"
+							   [class.nav-link-active]="currentUrl.includes('/profile')"
 							   (click)="closeHeader()">
 
 								<i class="bi bi-gear-fill"></i>
@@ -109,9 +111,9 @@
 
 					<ng-template #loginLink>
 						<div class="mx-2">
-							<a [routerLink]="'/login'"
+							<a [routerLink]="'login' | langLink"
 							   class="nav-link text-secondary"
-							   [class.nav-link-active]="currentUrl === '/login'">
+							   [class.nav-link-active]="currentUrl.includes('/login')">
 
 								<i class="bi bi-key-fill"></i>
 

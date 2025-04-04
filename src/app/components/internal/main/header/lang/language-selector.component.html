@@ -1,0 +1,35 @@
+<div class="dropdown">
+	<button class="btn btn-secondary dropdown-toggle"
+			type="button"
+			id="languageMenu"
+			data-bs-toggle="dropdown"
+			aria-expanded="false">
+
+			<ng-container *ngIf="selectedLanguage">
+				<img class="me-2"
+					 src="{{ selectedLanguage.resource }}"
+					 alt="{{ selectedLanguage.text }}"
+					 width="20"
+					 height="20">
+
+				<span>
+					{{ selectedLanguage.text }}
+				</span>
+			</ng-container>
+
+	</button>
+
+	<ul class="dropdown-menu" aria-labelledby="languageMenu">
+		<li *ngFor="let lang of languages ">
+			<a class="dropdown-item" (click)="switchLanguage(lang)">
+				<img class="me-2"
+					 src="{{ lang.resource }}"
+					 alt="{{ lang.text }}"
+					 width="20"
+					 height="20">
+
+				{{ lang.text }}
+			</a>
+		</li>
+	</ul>
+</div>

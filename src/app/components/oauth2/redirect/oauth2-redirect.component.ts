@@ -14,6 +14,7 @@ export class Oauth2RedirectComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
+		console.log(13123);
 		this.route.queryParams.subscribe(params => {
 			const token = params['token'];
 			const email = params['email'];

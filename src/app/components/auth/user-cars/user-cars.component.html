@@ -15,7 +15,7 @@
 					<bootstrap-button
 						[text]="'MY_CARS_ADD_CAR_BUTTON' | translate"
 						[bootstrapIconId]="'bi-car-front-fill'"
-						[routerLink]="['/user-cars', 'create']">
+						[routerLink]="['create']">
 					</bootstrap-button>
 				</div>
 
@@ -109,7 +109,7 @@
 
 						<div style="margin: 15px">
 							<div class="d-flex gap-2">
-								<a [routerLink]="['/user-cars/', userCar.id]" class="btn btn-primary">
+								<a [routerLink]="[userCar.id]" class="btn btn-primary">
 									{{ 'MY_CARS_SELECT_CAR_BUTTON' | translate }}
 								</a>
 

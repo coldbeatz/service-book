@@ -10,6 +10,7 @@ import { ConfirmationService } from "primeng/api";
 import { EngineService } from "../../../../../services/api/engine.service";
 import { AlertComponent } from "../../../../internal/alert/alert.component";
 import { EngineEventService } from "./engine/engine-event.service";
+import { BootstrapButtonComponent } from "../../../../shared/button/bootstrap-button.component";
 
 @Component({
 	selector: 'engines-root',
@@ -21,7 +22,8 @@ import { EngineEventService } from "./engine/engine-event.service";
 		CommonModule,
 		TranslateModule,
 		ConfirmDialog,
-		AlertComponent
+		AlertComponent,
+		BootstrapButtonComponent
 	],
 	standalone: true
 })

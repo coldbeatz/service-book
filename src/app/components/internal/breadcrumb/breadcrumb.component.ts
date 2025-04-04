@@ -8,6 +8,8 @@ import { Engine } from "../../../models/engine.model";
 import { MenuItem, PrimeTemplate } from "primeng/api";
 import { Breadcrumb } from "primeng/breadcrumb";
 import { UserCar } from "../../../models/user-car.model";
+import { LanguageService } from "../../../services/language.service";
+import { LanguageLinkPipe } from "../../../services/language-link.pipe";
 
 interface BreadcrumbItem {
 	label: string | undefined;
@@ -22,7 +24,7 @@ interface BreadcrumbItem {
 	standalone: true,
 	encapsulation: ViewEncapsulation.None,
 	imports: [
-		CommonModule, RouterLink, TranslateModule, Breadcrumb, PrimeTemplate
+		CommonModule, RouterLink, TranslateModule, Breadcrumb, PrimeTemplate, LanguageLinkPipe
 	]
 })
 export class BreadcrumbComponent implements OnChanges, OnInit {
@@ -47,7 +49,7 @@ export class BreadcrumbComponent implements OnChanges, OnInit {
 		return this.car ?? this.engine?.car;
 	}
 
-	constructor(private router: Router) {
+	constructor(private router: Router, private languageService: LanguageService) {
 
 	}
 
@@ -102,7 +104,7 @@ export class BreadcrumbComponent implements OnChanges, OnInit {
 					},
 					{ label: 'BREADCRUMB_SERVICES', urlPart: 'services' },
 					{ label: 'BREADCRUMB_ALERTS', urlPart: 'alerts' },
-					{ label: 'BREADCRUMB_SETTINGS', urlPart: 'settings' },
+					{ label: 'BREADCRUMB_SETTINGS', urlPart: 'profile' },
 					{
 						label: 'BREADCRUMB_MY_CARS',
 						urlPart: 'user-cars',
@@ -121,7 +123,12 @@ export class BreadcrumbComponent implements OnChanges, OnInit {
 	private buildBreadcrumbs(items: BreadcrumbItem[]): void {
 		this.menuItems = [];
 		const urlSegments = this.router.url.split('/').filter(Boolean);
-		let currentPath = '';
+
+		if (urlSegments[0] === this.languageService.language) {
+			urlSegments.splice(0, 1);
+		}
+
+		let currentPath = [];
 
 		for (const segment of urlSegments) {
 			const item = this.findBreadcrumbItem(items, segment);
@@ -129,11 +136,12 @@ export class BreadcrumbComponent implements OnChanges, OnInit {
 				break;
 			}
 
-			currentPath += `/${segment}`;
 			this.menuItems.push({
 				label: item.label,
-				routerLink: currentPath
+				routerLink: [...currentPath, segment]
 			});
+
+			currentPath.push(segment);
 
 			items = item.items ?? [];
 		}

@@ -53,7 +53,8 @@ export class LeftPanelComponent implements OnChanges {
 		this.expandedMap.set(item.id!, !isOpen);
 
 		if (item.routerLink) {
-			this.navigationService.navigate([item.routerLink]);
+			const commands = Array.isArray(item.routerLink) ? item.routerLink : [item.routerLink];
+			this.navigationService.navigate(commands);
 			return;
 		}
 
@@ -79,6 +80,8 @@ export class LeftPanelComponent implements OnChanges {
 		if (event) {
 			if (item.routerLink) {
 				const commands = Array.isArray(item.routerLink) ? item.routerLink : [item.routerLink];
+
+				console.log(commands);
 				this.navigationService.navigate(commands);
 			} else {
 				item.command?.({ originalEvent: event, item: item });

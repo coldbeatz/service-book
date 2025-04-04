@@ -5,6 +5,7 @@ import { RouterLink } from "@angular/router";
 import { TranslateModule } from "@ngx-translate/core";
 import { MainComponent } from "../../internal/main/main.component";
 import { RestoreService } from "../../../services/api/restore.service";
+import { LanguageLinkPipe } from "../../../services/language-link.pipe";
 
 @Component({
 	selector: 'restore-root',
@@ -17,7 +18,8 @@ import { RestoreService } from "../../../services/api/restore.service";
 		RouterLink,
 		TranslateModule,
 		MainComponent,
-		FormsModule
+		FormsModule,
+		LanguageLinkPipe
 	],
 	standalone: true
 })

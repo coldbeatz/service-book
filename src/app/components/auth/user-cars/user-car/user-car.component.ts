@@ -44,9 +44,9 @@ export class UserCarComponent implements OnInit {
 		const items: MenuItem[] = [
 			{
 				label: this.translateService.instant("CAR_SETTINGS"),
-				id: 'settings',
+				id: 'profile',
 				icon: PrimeIcons.COG,
-				routerLink: this.userCar.id ? `/user-cars/${this.userCar.id}` : `/user-cars/create`
+				routerLink: ['user-cars', this.userCar.id ? this.userCar.id : 'create' ]
 			}
 		];
 
@@ -55,7 +55,7 @@ export class UserCarComponent implements OnInit {
 				label: this.translateService.instant("REGULATIONS_MAINTENANCE"),
 				id: "maintenance",
 				icon: PrimeIcons.WRENCH,
-				routerLink: `/user-cars/${this.userCar.id}/maintenance`,
+				routerLink: ['user-cars', this.userCar.id, 'maintenance'],
 			});
 
 			items.push({
@@ -67,19 +67,19 @@ export class UserCarComponent implements OnInit {
 						label: this.translateService.instant("ENGINES_ALL_BUTTON"),
 						id: 'all_engines',
 						icon: PrimeIcons.EYE,
-						routerLink: `/user-cars/${this.userCar.id}/notes`,
+						routerLink: ['user-cars', this.userCar.id, 'notes'],
 					},
 					{
 						label: this.translateService.instant("CREATE_NOTE"),
 						id: 'create_note',
 						icon: PrimeIcons.PLUS,
-						routerLink: `/user-cars/${this.userCar.id}/notes/new`
+						routerLink: ['user-cars', this.userCar.id, 'notes', 'new']
 					},
 					...this.notes.map(note => ({
 						label: note.shortDescription,
 						id: `note_${note.id}`,
 						icon: PrimeIcons.EYE,
-						routerLink: `/user-cars/${this.userCar.id}/notes/${note.id}`
+						routerLink: ['user-cars', this.userCar.id, 'notes', note.id]
 					}))
 				]
 			});

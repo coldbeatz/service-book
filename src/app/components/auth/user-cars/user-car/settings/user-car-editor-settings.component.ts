@@ -31,7 +31,7 @@ import { NavigationService } from "../../../../../services/navigation.service";
 import { environment } from "../../../../../../environments/environment";
 
 @Component({
-	selector: 'user-car-editor-settings-root',
+	selector: 'user-car-editor-profile-root',
 	encapsulation: ViewEncapsulation.None,
 	templateUrl: 'user-car-editor-settings.component.html',
 	styleUrls: ['user-car-editor-settings.component.scss'],
@@ -214,7 +214,7 @@ export class UserCarEditorSettingsComponent implements OnInit, AfterViewInit {
 		this.userCarService.saveOrUpdateUserCar(this.userCar, this.selectedFile).subscribe({
 			next: (userCar) => {
 				if (!this.userCar.id) {
-					this.navigationService.navigate([`/user-cars`, userCar.id]);
+					this.navigationService.navigate([`user-cars`, userCar.id]);
 				}
 
 				this.initUserCar(userCar);

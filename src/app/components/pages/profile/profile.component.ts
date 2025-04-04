@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild, ViewEncapsulation } from "@angular/core";
+import { ChangeDetectorRef, Component, OnInit, ViewChild, ViewEncapsulation } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { MainComponent } from "../../internal/main/main.component";
 import { BreadcrumbComponent } from "../../internal/breadcrumb/breadcrumb.component";
@@ -13,10 +13,10 @@ import { AlertComponent } from "../../internal/alert/alert.component";
 import { UserService } from "../../../services/api/user.service";
 
 @Component({
-	selector: 'settings-root',
+	selector: 'profile-root',
 	encapsulation: ViewEncapsulation.None,
-	templateUrl: 'settings.component.html',
-	styleUrls: ['settings.component.scss'],
+	templateUrl: 'profile.component.html',
+	styleUrls: ['profile.component.scss'],
 	imports: [
 		CommonModule,
 		MainComponent,
@@ -28,7 +28,9 @@ import { UserService } from "../../../services/api/user.service";
 	],
 	standalone: true
 })
-export class SettingsComponent implements OnInit {
+export class ProfileComponent implements OnInit {
+
+	protected readonly environment = environment;
 
 	user!: User;
 
@@ -59,8 +61,6 @@ export class SettingsComponent implements OnInit {
 			}
 		})
 	}
-
-	protected readonly environment = environment;
 
 	disabledSubmitButton(): boolean {
 		if (this.passwordWithRepeatComponent) {

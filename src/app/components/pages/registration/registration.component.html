@@ -10,7 +10,7 @@
 			</div>
 
 			<div class="col p-0">
-				<a href="#" class="btn login_form__social btn-primary google disabled">
+				<a [href]="environment.oauth2ApiUrl" class="btn login_form__social btn-primary google">
 					<span>{{ 'LOGIN_SOCIAL_GOOGLE' | translate }}</span>
 
 					<fa-icon [icon]="faGoogle"></fa-icon>
@@ -69,9 +69,15 @@
 
 		<div class="form__message">
 			<p>{{ 'REGISTRATION_LOGIN_HINT' | translate }}
-				<a routerLink="/login">{{ 'REGISTRATION_LOGIN' | translate }}</a>
+				<a [routerLink]="['login'] | langLink">
+					{{ 'REGISTRATION_LOGIN' | translate }}
+				</a>
+
 				<span> or </span>
-				<a routerLink="/restore" class="link-danger">{{ 'LOGIN_FORGOT_PASSWORD' | translate }}</a>
+
+				<a [routerLink]="['restore'] | langLink" class="link-danger">
+					{{ 'LOGIN_FORGOT_PASSWORD' | translate }}
+				</a>
 			</p>
 		</div>
 	</form>

@@ -108,7 +108,7 @@ export class UserCarNoteComponent implements OnInit {
 		this.userCarNoteService.saveOrUpdateNote(this.note).subscribe({
 			next: (note) => {
 				if (!this.note.id && note.id) {
-					this.navigationService.updateUrlIfChanged([`/user-cars/${this.userCar.id}/notes/${note.id}`]);
+					this.navigationService.navigate(['user-cars', this.userCar.id, 'notes', note.id]);
 				}
 
 				this.note = note;

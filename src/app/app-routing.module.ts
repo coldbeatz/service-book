@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from "./components/entrance/login/login.component";
-import { RegistrationComponent } from "./components/entrance/registration/registration.component";
-import { RestoreComponent } from "./components/entrance/restore/restore.component";
+import { LoginComponent } from "./components/pages/login/login.component";
+import { RegistrationComponent } from "./components/pages/registration/registration.component";
+import { RestoreComponent } from "./components/pages/restore/restore.component";
 import { ConfirmationComponent } from "./components/confirmation/confirmation.component";
 import { ChangePasswordComponent } from "./components/restore/change-password/change-password.component";
 import { BrandsComponent} from "./components/admin/brands/brands.component";
@@ -14,7 +14,7 @@ import { EnginesComponent } from "./components/admin/cars/car/engines/engines.co
 import { ServicesComponent } from "./components/admin/services/services.component";
 import { BrandComponent } from "./components/admin/brands/brand/brand.component";
 import { AlertsComponent } from "./components/admin/news/alerts.component";
-import { SettingsComponent } from "./components/auth/settings/settings.component";
+import { ProfileComponent } from "./components/pages/profile/profile.component";
 import { HomeComponent } from "./components/home/home.component";
 import { UserCarsComponent } from "./components/auth/user-cars/user-cars.component";
 import { UserCarComponent } from "./components/auth/user-cars/user-car/user-car.component";
@@ -35,76 +35,83 @@ import { SharedGuard } from "./guards/shared.guard";
 import { Oauth2RedirectComponent } from "./components/oauth2/redirect/oauth2-redirect.component";
 
 export const routes: Routes = [
-
-	/**
-	 * Guest
-	 */
-	{ path: 'login', component: LoginComponent, canActivate: [GuestGuard] },
-	{ path: 'registration', component: RegistrationComponent, canActivate: [GuestGuard] },
-	{ path: 'restore', component: RestoreComponent, canActivate: [GuestGuard] },
-	{ path: 'restore/:key', component: ChangePasswordComponent, canActivate: [GuestGuard] },
-
-	/**
-	 * Admin
-	 */
-	{ path: 'brands', component: BrandsComponent, canActivate: [AdminGuard] },
-	{ path: 'brands/create', component: BrandComponent, canActivate: [AdminGuard] },
-	{ path: 'brands/:id', component: BrandComponent, canActivate: [AdminGuard] },
-
-	{
-		path: 'cars/:brand',
-		canActivate: [AdminGuard],
-		children: [
-			{ path: '', component: CarsComponent },
-
-			{
-				path: ':carId',
-				component: CarComponent,
-				resolve: { car: CarResolver },
-				children: [
-					{ path: '', component: CarEditorComponent },
-					{ path: 'maintenance', component: CarMaintenanceComponent },
-					{ path: 'engines', component: EnginesComponent },
-					{ path: 'engines/create', component: EngineComponent },
-					{ path: 'engines/:engine', component: EngineComponent }
-				]
-			}
-		]
-	},
-
-	{ path: 'alerts', component: AlertsComponent, canActivate: [AdminGuard] },
-	{ path: 'services', component: ServicesComponent, canActivate: [AdminGuard] },
-
-	/**
-	 * User
-	 */
-	{ path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] },
-
-	{
-		path: 'user-cars',
-		canActivate: [AuthGuard],
-		children: [
-			{ path: '', component: UserCarsComponent },
-			{
-				path: ':userCarId',
-				component: UserCarComponent,
-				resolve: { userCar: UserCarResolver },
-				children: [
-					{ path: '', component: UserCarEditorSettingsComponent },
-					{ path: 'maintenance', component: UserCarMaintenanceComponent },
-					{ path: 'notes', component: NotesComponent },
-					{ path: 'notes/:noteId', component: UserCarNoteComponent },
-					{ path: 'notes/new', component: UserCarNoteComponent }
-				]
-			}
-		]
-	},
-
-	/**
-	 * All
-	 */
-	{ path: 'confirmation/:key', component: ConfirmationComponent },
 	{ path: 'oauth2/redirect', component: Oauth2RedirectComponent, canActivate: [GuestGuard] },
-	{ path: '', component: HomeComponent, canActivate: [SharedGuard] },
-	{ path: '**', redirectTo: '' },
+
+	{
+		path: ':lang',
+		children: [
+			/**
+			 * Guest
+			 */
+			{ path: 'login', component: LoginComponent, canActivate: [GuestGuard] },
+			{ path: 'registration', component: RegistrationComponent, canActivate: [GuestGuard] },
+			{ path: 'restore', component: RestoreComponent, canActivate: [GuestGuard] },
+			{ path: 'restore/:key', component: ChangePasswordComponent, canActivate: [GuestGuard] },
+
+			/**
+			 * Admin
+			 */
+			{ path: 'brands', component: BrandsComponent, canActivate: [AdminGuard] },
+			{ path: 'brands/create', component: BrandComponent, canActivate: [AdminGuard] },
+			{ path: 'brands/:id', component: BrandComponent, canActivate: [AdminGuard] },
+
+			{
+				path: 'cars/:brand',
+				canActivate: [AdminGuard],
+				children: [
+					{ path: '', component: CarsComponent },
+
+					{
+						path: ':carId',
+						component: CarComponent,
+						resolve: { car: CarResolver },
+						children: [
+							{ path: '', component: CarEditorComponent },
+							{ path: 'maintenance', component: CarMaintenanceComponent },
+							{ path: 'engines', component: EnginesComponent },
+							{ path: 'engines/create', component: EngineComponent },
+							{ path: 'engines/:engine', component: EngineComponent }
+						]
+					}
+				]
+			},
+
+			{ path: 'alerts', component: AlertsComponent, canActivate: [AdminGuard] },
+			{ path: 'services', component: ServicesComponent, canActivate: [AdminGuard] },
+
+			/**
+			 * User
+			 */
+			{ path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
+
+			{
+				path: 'user-cars',
+				canActivate: [AuthGuard],
+				children: [
+					{ path: '', component: UserCarsComponent },
+					{
+						path: ':userCarId',
+						component: UserCarComponent,
+						resolve: { userCar: UserCarResolver },
+						children: [
+							{ path: '', component: UserCarEditorSettingsComponent },
+							{ path: 'maintenance', component: UserCarMaintenanceComponent },
+							{ path: 'notes', component: NotesComponent },
+							{ path: 'notes/:noteId', component: UserCarNoteComponent },
+							{ path: 'notes/new', component: UserCarNoteComponent }
+						]
+					}
+				]
+			},
+			/**
+			 * All
+			 */
+			{ path: 'confirmation/:key', component: ConfirmationComponent },
+			{ path: '', component: HomeComponent, canActivate: [SharedGuard] },
+			{ path: '**', redirectTo: '' },
+		]
+	},
+
+	{ path: '', redirectTo: '/en', pathMatch: 'full' },
+	{ path: '**', redirectTo: '/en' },
 ];

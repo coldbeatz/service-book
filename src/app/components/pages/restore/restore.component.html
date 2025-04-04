@@ -18,7 +18,9 @@
 
 		<div class="form-group">
 			<label for="email" class="text-muted">
-				<small>{{ 'RESTORE_TIP' | translate }}</small>
+				<small>
+					{{ 'RESTORE_TIP' | translate }}
+				</small>
 			</label>
 
 			<input type="email" name="email" id="email"
@@ -35,11 +37,11 @@
 
 		<div class="form__message">
 			<p>{{ 'REGISTRATION_LOGIN_HINT' | translate }}
-				<a routerLink="/login">{{ 'REGISTRATION_LOGIN' | translate }}</a>
+				<a [routerLink]="['login'] | langLink">{{ 'REGISTRATION_LOGIN' | translate }}</a>
 
 				<span> {{ 'REGISTRATION_LOGIN_HINT_OR' | translate }} </span>
 
-				<a routerLink="/registration">{{ 'LOGIN_SIGN_UP' | translate }}</a>
+				<a [routerLink]="['registration'] | langLink">{{ 'LOGIN_SIGN_UP' | translate }}</a>
 			</p>
 		</div>
 	</form>

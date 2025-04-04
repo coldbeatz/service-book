@@ -2,7 +2,7 @@
 	<p-breadcrumb class="max-w-full" [model]="menuItems" [home]="home">
 		<ng-template pTemplate="item" let-item>
 			<ng-container *ngIf="item.routerLink; else elseBlock">
-				<a [routerLink]="item.routerLink" class="p-breadcrumb-item-link">
+				<a [routerLink]="item.routerLink | langLink" class="p-breadcrumb-item-link">
 					<span class="font-semibold" style="color: #334155;">
 						{{ item.label | translate }}
 					</span>

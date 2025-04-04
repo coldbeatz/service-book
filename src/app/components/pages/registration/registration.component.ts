@@ -8,21 +8,24 @@ import { RouterLink } from "@angular/router";
 import { TranslateModule } from "@ngx-translate/core";
 import { MainComponent } from "../../internal/main/main.component";
 import { UserRegistrationRequest, UserService } from "../../../services/api/user.service";
+import { environment } from "../../../../environments/environment";
+import { LanguageLinkPipe } from "../../../services/language-link.pipe";
 
 @Component({
 	selector: 'registration-root',
 	encapsulation: ViewEncapsulation.None,
 	templateUrl: 'registration.component.html',
 	styleUrls: ['../login/login.component.scss'],
-	imports: [
-		ReactiveFormsModule,
-		FaIconComponent,
-		PasswordInputComponent,
-		RouterLink,
-		TranslateModule,
-		MainComponent,
-		CommonModule
-	],
+    imports: [
+        ReactiveFormsModule,
+        FaIconComponent,
+        PasswordInputComponent,
+        RouterLink,
+        TranslateModule,
+        MainComponent,
+        CommonModule,
+        LanguageLinkPipe
+    ],
 	standalone: true
 })
 export class RegistrationComponent implements AfterViewInit {
@@ -98,4 +101,6 @@ export class RegistrationComponent implements AfterViewInit {
 	ngAfterViewInit(): void {
 		this.cdr.detectChanges();
 	}
+
+    protected readonly environment = environment;
 }

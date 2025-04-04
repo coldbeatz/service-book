@@ -11,6 +11,14 @@
 				text="{{ 'ENGINES_DELETE_SUCCESS_MESSAGE' | translate }}">
 	</alert-root>
 
+	<div class="w-100 mb-4">
+		<bootstrap-button
+			[text]="'ENGINES_ADD_CAR_ENGINE_BUTTON' | translate"
+			[bootstrapIconId]="'bi-pencil-fill'"
+			[routerLink]="['create']">
+		</bootstrap-button>
+	</div>
+
 	<div class="cards engines">
 		<ng-container *ngFor="let engine of engines">
 			<div class="card engines__card">
@@ -50,7 +58,7 @@
 					</ul>
 
 					<div class="card-buttons mt-3">
-						<a [routerLink]="['/cars', car.brand?.id, car.id, 'engines', engine.id]" class="btn btn-primary">
+						<a [routerLink]="[engine.id]" class="btn btn-primary">
 							<i class="bi bi-nut-fill"></i>
 							{{ 'ENGINES_VIEW_BUTTON' | translate }}
 						</a>

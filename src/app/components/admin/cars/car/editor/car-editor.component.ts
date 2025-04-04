@@ -150,7 +150,7 @@ export class CarEditorComponent implements OnInit, OnChanges {
 			next: (car) => {
 				if (car.id != null) {
 					if (!this.car.id) {
-						this.navigationService.navigate([`/cars`, this.car.brand?.id, car.id]);
+						this.navigationService.navigate(['cars', this.car.brand?.id, car.id]);
 					}
 
 					this.car = car;

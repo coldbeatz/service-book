@@ -1,7 +1,7 @@
 <div class="my-4">
 	<div class="form-container">
 		<div class="form-wrapper">
-			<div class="w-100">
+			<div>
 				<alert-root *ngIf="userCarUpdated" text="{{ 'MY_CARS_USER_CAR_UPDATED' | translate }}"></alert-root>
 			</div>
 
@@ -163,9 +163,9 @@
 					<button type="submit" class="btn btn-primary flex-center" style="max-width: 300px;"
 							[disabled]="buttonDisabled()" (click)="onSubmit()">
 
-									<span class="mx-3">
-										{{ ('EDIT_BRAND_SUBMIT_BUTTON') | translate }}
-									</span>
+						<span class="mx-3">
+							{{ ('EDIT_BRAND_SUBMIT_BUTTON') | translate }}
+						</span>
 					</button>
 				</div>
 			</div>

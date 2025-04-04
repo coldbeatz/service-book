@@ -23,6 +23,7 @@ import { InputGroup } from "primeng/inputgroup";
 import { Tooltip } from "primeng/tooltip";
 import { ConfirmDialog } from "primeng/confirmdialog";
 import { AlertComponent } from "../../internal/alert/alert.component";
+import { LanguageLinkPipe } from "../../../services/language-link.pipe";
 
 enum CarsResponseType {
 	CAR_DELETE_HAS_DEPENDENCIES_ERROR,
@@ -34,24 +35,25 @@ enum CarsResponseType {
 	encapsulation: ViewEncapsulation.None,
 	templateUrl: 'cars.component.html',
 	styleUrls: ['cars.component.scss'],
-	imports: [
-		RouterLink,
-		MainComponent,
-		BreadcrumbComponent,
-		CommonModule,
-		TranslateModule,
-		FormsModule,
-		LeftPanelComponent,
-		BootstrapButtonComponent,
-		MultiSelect,
-		InputText,
-		InputGroupAddon,
-		Button,
-		InputGroup,
-		Tooltip,
-		ConfirmDialog,
-		AlertComponent
-	],
+    imports: [
+        RouterLink,
+        MainComponent,
+        BreadcrumbComponent,
+        CommonModule,
+        TranslateModule,
+        FormsModule,
+        LeftPanelComponent,
+        BootstrapButtonComponent,
+        MultiSelect,
+        InputText,
+        InputGroupAddon,
+        Button,
+        InputGroup,
+        Tooltip,
+        ConfirmDialog,
+        AlertComponent,
+        LanguageLinkPipe
+    ],
 	standalone: true
 })
 export class CarsComponent implements OnInit {
@@ -102,7 +104,7 @@ export class CarsComponent implements OnInit {
 						id: 'create_car',
 						icon: PrimeIcons.PLUS,
 						command: () => {
-							this.navigationService.navigate(['/cars', this.brand?.id, 'create']);
+							this.navigationService.navigate(['cars', this.brand?.id, 'create']);
 						}
 					},
 					...this.cars.map(car => ({
@@ -110,7 +112,7 @@ export class CarsComponent implements OnInit {
 						id: `car_${car.id}`,
 						icon: PrimeIcons.CAR,
 						command: () => {
-							this.navigationService.navigate(['/cars', this.brand?.id, car.id]);
+							this.navigationService.navigate(['cars', this.brand?.id, car.id]);
 						}
 					}))
 				]

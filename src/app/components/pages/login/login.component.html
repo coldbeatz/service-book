@@ -44,16 +44,22 @@
 		</div>
 
 		<div class="form__button-wrapper">
-			<button type="submit" class="btn btn-primary login-button">{{ 'LOGIN_SUBMIT_BUTTON' | translate }}</button>
+			<button type="submit" class="btn btn-primary login-button">
+				{{ 'LOGIN_SUBMIT_BUTTON' | translate }}
+			</button>
 		</div>
 
 		<div class="form__message">
 			<p>{{ 'LOGIN_SIGN_UP_HINT' | translate }}
-				<a routerLink="/registration">{{ 'LOGIN_SIGN_UP' | translate }}</a>
+				<a [routerLink]="['registration'] | langLink">
+					{{ 'LOGIN_SIGN_UP' | translate }}
+				</a>
 
 				<span> {{ 'REGISTRATION_LOGIN_HINT_OR' | translate }} </span>
 
-				<a routerLink="/restore" class="link-danger">{{ 'LOGIN_FORGOT_PASSWORD' | translate }}</a>
+				<a [routerLink]="['restore'] | langLink" class="link-danger">
+					{{ 'LOGIN_FORGOT_PASSWORD' | translate }}
+				</a>
 			</p>
 		</div>
 	</form>

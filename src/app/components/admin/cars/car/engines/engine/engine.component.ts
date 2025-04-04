@@ -96,7 +96,7 @@ export class EngineComponent implements OnInit {
 				this.engineEventService.engineListChanged$.next(this.car.engines);
 
 				if (!this.engine.id) {
-					this.navigationService.navigate([`/cars/${this.car.brand?.id}/${this.car.id}/engines`]);
+					this.navigationService.navigate(['cars', this.car.brand?.id, this.car.id, 'engines']);
 				}
 
 				this.engine = engine;

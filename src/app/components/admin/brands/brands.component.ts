@@ -18,29 +18,31 @@ import { InputGroupAddon } from "primeng/inputgroupaddon";
 import { InputText } from "primeng/inputtext";
 import { Tooltip } from "primeng/tooltip";
 import { NavigationService } from "../../../services/navigation.service";
+import { LanguageLinkPipe } from "../../../services/language-link.pipe";
 
 @Component({
 	selector: 'brands-root',
 	encapsulation: ViewEncapsulation.None,
 	templateUrl: 'brands.component.html',
 	styleUrls: ['brands.component.scss'],
-	imports: [
-		BreadcrumbComponent,
-		MainComponent,
-		RouterLink,
-		DropdownComponent,
-		FormsModule,
-		NgForOf,
-		NgIf,
-		TranslateModule,
-		LeftPanelComponent,
-		BootstrapButtonComponent,
-		Button,
-		InputGroup,
-		InputGroupAddon,
-		InputText,
-		Tooltip
-	],
+    imports: [
+        BreadcrumbComponent,
+        MainComponent,
+        RouterLink,
+        DropdownComponent,
+        FormsModule,
+        NgForOf,
+        NgIf,
+        TranslateModule,
+        LeftPanelComponent,
+        BootstrapButtonComponent,
+        Button,
+        InputGroup,
+        InputGroupAddon,
+        InputText,
+        Tooltip,
+        LanguageLinkPipe
+    ],
 	standalone: true
 })
 export class BrandsComponent implements OnInit {
@@ -73,7 +75,7 @@ export class BrandsComponent implements OnInit {
 						id: 'create_brand',
 						icon: PrimeIcons.PLUS,
 						command: () => {
-							this.navigationService.navigate(['/brands', 'create']);
+							this.navigationService.navigate(['brands', 'create']);
 						}
 					},
 					...this.filteredBrands.map(brand => ({
@@ -81,7 +83,7 @@ export class BrandsComponent implements OnInit {
 						id: `brand_${brand.id}`,
 						icon: PrimeIcons.CAR,
 						command: () => {
-							this.navigationService.navigate(['/cars', brand.id]);
+							this.navigationService.navigate(['cars', brand.id]);
 						}
 					}))
 				]

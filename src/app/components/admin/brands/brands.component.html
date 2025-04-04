@@ -8,7 +8,7 @@
 					<bootstrap-button
 						[text]="'BRANDS_ADD_CAR_BRAND_BUTTON' | translate"
 						[bootstrapIconId]="'bi-car-front-fill'"
-						[routerLink]="['/brands', 'create']">
+						[routerLink]="['brands', 'create'] | langLink">
 					</bootstrap-button>
 				</div>
 
@@ -74,11 +74,11 @@
 							</div>
 
 							<div class="card-buttons mt-3">
-								<a [routerLink]="['/cars', brand.id]" class="btn btn-primary" style="width: 100% !important;">
+								<a [routerLink]="['cars', brand.id] | langLink" class="btn btn-primary" style="width: 100% !important;">
 									{{ 'BRANDS_VIEW_CARS_BUTTON' | translate }}
 								</a>
 
-								<a [routerLink]="['/brands', brand.id]" class="btn btn-primary">
+								<a [routerLink]="['brands', brand.id] | langLink" class="btn btn-primary">
 									<i class="bi bi-pencil-fill"></i>
 								</a>
 							</div>

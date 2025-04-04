@@ -19,7 +19,7 @@ export class CarResolver implements Resolve<Car> {
 		if (carId) {
 			return this.carService.getCarById(carId).pipe(
 				catchError(() => {
-					this.navigationService.navigate(['/brands']);
+					this.navigationService.navigate(['brands']);
 					return of(new Car());
 				})
 			);
