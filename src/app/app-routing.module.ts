@@ -2,37 +2,33 @@ import { Routes } from '@angular/router';
 import { LoginComponent } from "./components/pages/login/login.component";
 import { RegistrationComponent } from "./components/pages/registration/registration.component";
 import { RestoreComponent } from "./components/pages/restore/restore.component";
-import { ConfirmationComponent } from "./components/confirmation/confirmation.component";
-import { ChangePasswordComponent } from "./components/restore/change-password/change-password.component";
-import { BrandsComponent} from "./components/admin/brands/brands.component";
+import { ConfirmationComponent } from "./components/pages/confirmation/confirmation.component";
+import { ChangePasswordComponent } from "./components/pages/restore/change-password/change-password.component";
+import { BrandsComponent} from "./components/pages/brands/brands.component";
 import { AuthGuard } from "./guards/auth.guard";
 import { GuestGuard } from "./guards/guest.guard";
-import { CarComponent } from "./components/admin/cars/car/car.component";
-import { CarsComponent } from "./components/admin/cars/cars.component";
-import { EngineComponent } from "./components/admin/cars/car/engines/engine/engine.component";
-import { EnginesComponent } from "./components/admin/cars/car/engines/engines.component";
-import { ServicesComponent } from "./components/admin/services/services.component";
-import { BrandComponent } from "./components/admin/brands/brand/brand.component";
-import { AlertsComponent } from "./components/admin/news/alerts.component";
+import { CarComponent } from "./components/pages/cars/car/car.component";
+import { CarsComponent } from "./components/pages/cars/cars.component";
+import { EngineComponent } from "./components/pages/cars/car/engines/engine/engine.component";
+import { EnginesComponent } from "./components/pages/cars/car/engines/engines.component";
+import { ServicesComponent } from "./components/pages/services/services.component";
+import { BrandComponent } from "./components/pages/brands/brand/brand.component";
+import { AlertsComponent } from "./components/pages/alerts/alerts.component";
 import { ProfileComponent } from "./components/pages/profile/profile.component";
-import { HomeComponent } from "./components/home/home.component";
-import { UserCarsComponent } from "./components/auth/user-cars/user-cars.component";
-import { UserCarComponent } from "./components/auth/user-cars/user-car/user-car.component";
-import { CarMaintenanceComponent } from "./components/admin/cars/car/maintenance/car-maintenance.component";
-import { CarResolver } from "./components/admin/cars/car/car.resolver";
-import { UserCarNoteComponent } from "./components/auth/user-cars/user-car/notes/note/user-car-note.component";
-import {
-	UserCarEditorSettingsComponent
-} from "./components/auth/user-cars/user-car/settings/user-car-editor-settings.component";
-import { UserCarResolver } from "./components/auth/user-cars/user-car/user-car.resolver";
-import { CarEditorComponent } from "./components/admin/cars/car/editor/car-editor.component";
-import {
-	UserCarMaintenanceComponent
-} from "./components/auth/user-cars/user-car/maintenance/user-car-maintenance.component";
-import { NotesComponent } from "./components/auth/user-cars/user-car/notes/notes.component";
+import { HomeComponent } from "./components/pages/home/home.component";
+import { UserCarsComponent } from "./components/pages/user-cars/user-cars.component";
+import { UserCarComponent } from "./components/pages/user-cars/user-car/user-car.component";
+import { CarResolver } from "./components/pages/cars/car/car.resolver";
+import { UserCarNoteComponent } from "./components/pages/user-cars/user-car/notes/note/user-car-note.component";
+import { UserCarEditorSettingsComponent } from "./components/pages/user-cars/user-car/settings/user-car-editor-settings.component";
+import { UserCarResolver } from "./components/pages/user-cars/user-car/user-car.resolver";
+import { CarEditorComponent } from "./components/pages/cars/car/editor/car-editor.component";
+import { NotesComponent } from "./components/pages/user-cars/user-car/notes/notes.component";
 import { AdminGuard } from "./guards/admin.guard";
 import { SharedGuard } from "./guards/shared.guard";
-import { Oauth2RedirectComponent } from "./components/oauth2/redirect/oauth2-redirect.component";
+import { Oauth2RedirectComponent } from "./components/pages/oauth2/redirect/oauth2-redirect.component";
+import { UserCarMaintenanceComponent } from "./components/pages/user-cars/user-car/maintenance/user-car-maintenance.component";
+import { CarMaintenanceComponent } from "./components/pages/cars/car/maintenance/car-maintenance.component";
 
 export const routes: Routes = [
 	{ path: 'oauth2/redirect', component: Oauth2RedirectComponent, canActivate: [GuestGuard] },

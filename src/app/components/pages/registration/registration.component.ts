@@ -6,10 +6,10 @@ import { FaIconComponent } from "@fortawesome/angular-fontawesome";
 import { CommonModule } from "@angular/common";
 import { RouterLink } from "@angular/router";
 import { TranslateModule } from "@ngx-translate/core";
-import { MainComponent } from "../../internal/main/main.component";
 import { UserRegistrationRequest, UserService } from "../../../services/api/user.service";
 import { environment } from "../../../../environments/environment";
-import { LanguageLinkPipe } from "../../../services/language-link.pipe";
+import { LanguageLinkPipe } from "../../../pipes/language-link.pipe";
+import { MainComponent } from "../../shared/main/main.component";
 
 @Component({
 	selector: 'registration-root',

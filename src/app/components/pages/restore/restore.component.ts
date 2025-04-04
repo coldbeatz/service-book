@@ -3,9 +3,9 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { RouterLink } from "@angular/router";
 import { TranslateModule } from "@ngx-translate/core";
-import { MainComponent } from "../../internal/main/main.component";
 import { RestoreService } from "../../../services/api/restore.service";
-import { LanguageLinkPipe } from "../../../services/language-link.pipe";
+import { LanguageLinkPipe } from "../../../pipes/language-link.pipe";
+import { MainComponent } from "../../shared/main/main.component";
 
 @Component({
 	selector: 'restore-root',

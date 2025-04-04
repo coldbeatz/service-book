@@ -1,16 +1,16 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild, ViewEncapsulation } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { MainComponent } from "../../internal/main/main.component";
-import { BreadcrumbComponent } from "../../internal/breadcrumb/breadcrumb.component";
+import { BreadcrumbComponent } from "../../shared/breadcrumb/breadcrumb.component";
 import { TranslateModule } from "@ngx-translate/core";
 import { environment } from "../../../../environments/environment";
 import { FormsModule } from "@angular/forms";
-import { User } from "../../../user/user";
+import { User } from "../../../models/user";
 import { PasswordWithRepeatComponent } from "../../shared/password-with-repeat/password-with-repeat.component";
 import { AuthService } from "../../../services/auth.service";
 import { SettingsRequest, ProfileService, SettingsResponse } from "../../../services/api/profile.service";
-import { AlertComponent } from "../../internal/alert/alert.component";
+import { AlertComponent } from "../../shared/alert/alert.component";
 import { UserService } from "../../../services/api/user.service";
+import { MainComponent } from "../../shared/main/main.component";
 
 @Component({
 	selector: 'profile-root',

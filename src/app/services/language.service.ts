@@ -51,7 +51,7 @@ export class LanguageService {
 
 			localStorage.setItem(this.storageKey, lang);
 
-			// Отримуємо поточний URL та замінюємо lang
+			// Отримуємо поточний URL та замінюємо language-selector
 			const currentUrl = this.router.url.split('/');
 			if (currentUrl.length > 1 && this.translate.getLangs().includes(currentUrl[1])) {
 				currentUrl[1] = lang;

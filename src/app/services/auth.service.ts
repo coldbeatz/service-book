@@ -4,7 +4,7 @@ import { BehaviorSubject, interval, lastValueFrom, map, Observable, of, switchMa
 import { NavigationService } from "./navigation.service";
 import { HttpClient } from "@angular/common/http";
 import { UserService } from "./api/user.service";
-import { User } from "../user/user";
+import { User } from "../models/user";
 import { catchError } from "rxjs/operators";
 
 export enum Role {
