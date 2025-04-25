@@ -12,6 +12,7 @@ import { InputGroupAddon } from "primeng/inputgroupaddon";
 import { InputText } from "primeng/inputtext";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { Tooltip } from "primeng/tooltip";
+import { LanguageLinkPipe } from "../../../../../pipes/language-link.pipe";
 
 @Component({
 	selector: 'notes-root',
@@ -30,7 +31,8 @@ import { Tooltip } from "primeng/tooltip";
 		InputText,
 		ReactiveFormsModule,
 		Tooltip,
-		FormsModule
+		FormsModule,
+		LanguageLinkPipe
 	],
 	standalone: true
 })

@@ -62,13 +62,4 @@ export class EngineService {
 		const url = `${this.API_URL}${engine.car.id}/engines/${engine.id}`;
 		return this.http.delete<void>(url);
 	}
-
-	/**
-	 * Отримує двигун по унікальному id
-	 *
-	 * @returns Observable<Engine>
-	 */
-	//public getEngineById(engineId: number) {
-	//	return this.http.get<Engine>(`${this.API_URL}/${engineId}`);
-	//}
 }

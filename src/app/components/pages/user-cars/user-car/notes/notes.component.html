@@ -23,7 +23,7 @@
 		<div *ngFor="let note of notes; let i = index">
 			<user-car-note-preview
 				[note]="note"
-				[routerLink]="['user-cars', userCar.id, 'notes', note.id]">
+				[routerLink]="['user-cars', userCar.id, 'notes', note.id] | langLink">
 			</user-car-note-preview>
 
 			<hr *ngIf="i < notes.length - 1" class="my-2">

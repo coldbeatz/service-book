@@ -32,7 +32,6 @@ export class News {
 	createdAt: Date | null;
 
 	constructor(news?: Partial<News>) {
-
 		this.id = news?.id ?? null;
 		this.title = news?.title ?? { en: '', ua: '' };
 		this.content = news?.content ?? { en: '', ua: '' };
