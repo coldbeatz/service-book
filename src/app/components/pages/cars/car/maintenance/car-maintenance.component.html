@@ -33,7 +33,8 @@
 </div>
 
 <primeng-dialog-service-root
-	(maintenanceSaved)="handleMaintenanceSaved($event)">
+	(maintenanceSaved)="handleMaintenanceSaved($event)"
+	[car]="car">
 </primeng-dialog-service-root>
 
 <div style="padding: 0 20px;" [ngSwitch]="successType">

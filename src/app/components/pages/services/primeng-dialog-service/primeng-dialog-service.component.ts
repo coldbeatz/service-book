@@ -18,6 +18,7 @@ import { FuelType } from "../../../../models/fuel-type.model";
 import { RegulationsMaintenanceTask } from "../../../../models/regulations-maintenance-task.model";
 import { cloneDeep } from "lodash";
 import { RegulationsMaintenanceService } from "../../../../services/api/regulations-maintenance.service";
+import { Car } from "../../../../models/car.model";
 
 @Component({
 	selector: 'primeng-dialog-service-root',
@@ -48,6 +49,9 @@ export class PrimengDialogServiceComponent implements OnInit {
 	availableFuelTypes: { value: FuelType; label: string } [] = [];
 
 	private _maintenance!: RegulationsMaintenance;
+
+	@Input()
+	public car?: Car;
 
 	@Input()
 	set maintenance(value: RegulationsMaintenance | null) {
@@ -129,6 +133,10 @@ export class PrimengDialogServiceComponent implements OnInit {
 
 	onSaveChangesClick() {
 		if (this.maintenance) {
+			if (this.car) {
+				this.maintenance.carId = this.car.id;
+			}
+
 			this.regulationsMaintenanceService.saveOrUpdateRegulationsMaintenance(this.maintenance).subscribe({
 				next: (maintenance) => {
 					this.maintenanceSaved.emit(maintenance);

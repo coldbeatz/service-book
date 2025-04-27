@@ -42,7 +42,7 @@ export const routes: Routes = [
 			{ path: 'login', component: LoginComponent, canActivate: [GuestGuard] },
 			{ path: 'registration', component: RegistrationComponent, canActivate: [GuestGuard] },
 			{ path: 'restore', component: RestoreComponent, canActivate: [GuestGuard] },
-			{ path: 'restore/:key', component: ChangePasswordComponent, canActivate: [GuestGuard] },
+			{ path: 'restore/:key', component: ChangePasswordComponent, canActivate: [SharedGuard] },
 
 			/**
 			 * Admin

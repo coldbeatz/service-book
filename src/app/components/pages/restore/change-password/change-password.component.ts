@@ -6,6 +6,7 @@ import { CommonModule, NgIf, NgSwitch, NgSwitchCase, NgSwitchDefault } from "@an
 import {TranslateModule} from "@ngx-translate/core";
 import { RestoreService } from "../../../../services/api/restore.service";
 import { LanguageLinkPipe } from "../../../../pipes/language-link.pipe";
+import { MainComponent } from "../../../shared/main/main.component";
 
 @Component({
 	selector: 'change-password-root',
@@ -17,7 +18,8 @@ import { LanguageLinkPipe } from "../../../../pipes/language-link.pipe";
 		PasswordInputComponent,
 		TranslateModule,
 		CommonModule,
-		LanguageLinkPipe
+		LanguageLinkPipe,
+		MainComponent
 	],
 	standalone: true
 })
@@ -60,7 +62,7 @@ export class ChangePasswordComponent implements AfterViewInit, OnInit {
 					}
 				},
 				error: (e) => {
-					this.errorCode = e.error?.code;
+					this.errorCode = e.error?.error;
 					this.cdr.detectChanges();
 				}
 			});
@@ -81,7 +83,7 @@ export class ChangePasswordComponent implements AfterViewInit, OnInit {
 
 		this.restoreService.setPassword(this.key, value.password).subscribe({
 			next: (response) => {
-				if (response.result === 'success') {
+				if (response.result === 'password_updated') {
 					this.success = true;
 
 					this.form.reset();
