@@ -51,8 +51,9 @@
 	<ng-template pTemplate="body" let-maintenance let-maintenanceIndex="rowIndex">
 		<tr>
 			<td>{{ maintenanceIndex + 1 }}</td>
+
 			<td style="max-width: 300px;">
-				{{ maintenance.workDescription?.en }}
+				{{ localizationService.getLocalizedString(maintenance.workDescription) }}
 			</td>
 
 			<td *ngFor="let column of mileageColumns" class="text-center">

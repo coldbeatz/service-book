@@ -12,6 +12,7 @@ import { InputIcon } from "primeng/inputicon";
 import { InputText } from "primeng/inputtext";
 import { ConfirmationService } from "primeng/api";
 import { ConfirmDialog } from "primeng/confirmdialog";
+import { LocalizationService } from "../../../services/localization.service";
 
 @Component({
 	selector: 'maintenance-table',
@@ -50,7 +51,8 @@ export class MaintenanceTableComponent implements OnInit, OnChanges {
 	deleteClicked: boolean = false;
 
 	constructor(private translateService: TranslateService,
-				private confirmationService: ConfirmationService) {
+				private confirmationService: ConfirmationService,
+				protected localizationService: LocalizationService) {
 
 	}
 
