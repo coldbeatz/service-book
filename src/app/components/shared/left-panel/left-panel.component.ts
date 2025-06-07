@@ -1,7 +1,7 @@
 import {
 	Component,
 	ContentChild,
-	Input, OnChanges, SimpleChanges,
+	Input, OnChanges, OnInit, SimpleChanges,
 	TemplateRef,
 	ViewEncapsulation
 } from '@angular/core';
@@ -10,6 +10,7 @@ import { CommonModule } from "@angular/common";
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { BoldDigitsPipe } from "../../../pipes/bold-digits-pipe";
 import { NavigationService } from "../../../services/navigation.service";
+import { LocalizationService } from "../../../services/localization.service";
 
 @Component({
 	selector: 'left-panel',
@@ -29,7 +30,7 @@ import { NavigationService } from "../../../services/navigation.service";
 		])
 	]
 })
-export class LeftPanelComponent implements OnChanges {
+export class LeftPanelComponent implements OnChanges, OnInit {
 
 	@Input() menuItems: MenuItem[] = [];
 	@Input() selectedItemId: string | null = null;
@@ -44,7 +45,7 @@ export class LeftPanelComponent implements OnChanges {
 	@ContentChild('topContentTemplate', { static: false }) topContentTemplate!: TemplateRef<any>;
 	@ContentChild('bottomContentTemplate', { static: false }) bottomContentTemplate!: TemplateRef<any>;
 
-	constructor(private navigationService: NavigationService) {
+	constructor(private navigationService: NavigationService, private localizationService: LocalizationService) {
 
 	}
 
@@ -81,7 +82,6 @@ export class LeftPanelComponent implements OnChanges {
 			if (item.routerLink) {
 				const commands = Array.isArray(item.routerLink) ? item.routerLink : [item.routerLink];
 
-				console.log(commands);
 				this.navigationService.navigate(commands);
 			} else {
 				item.command?.({ originalEvent: event, item: item });
@@ -93,11 +93,29 @@ export class LeftPanelComponent implements OnChanges {
 		return item.id!;
 	}
 
+	private prepareCurrentUrl(): string {
+		let currentUrl = this.navigationService.getCurrentUrl();
+
+		let url = currentUrl.split('/');
+		if (url.length < 2) return currentUrl;
+
+		if (url[0] === '') {
+			url.splice(0, 1);
+		}
+
+		if (url[0] === this.localizationService.currentLanguage) {
+			url.splice(0, 1);
+		}
+
+		return url.join('/');
+	}
+
 	private tryActivateMenuItem(): boolean {
-		const currentUrl = this.navigationService.getCurrentUrl();
+		const currentUrl = this.prepareCurrentUrl();
 
 		let matchedItem: MenuItem | undefined;
 		for (const item of this.menuItems) {
+			console.log(currentUrl, this.navigationService.createUrl(item.routerLink));
 			if (item.routerLink && this.navigationService.createUrl(item.routerLink) === currentUrl) {
 				matchedItem = item;
 				break;
@@ -141,5 +159,9 @@ export class LeftPanelComponent implements OnChanges {
 				}
 			}
 		}
+	}
+
+	ngOnInit(): void {
+		this.tryActivateMenuItem();
 	}
 }

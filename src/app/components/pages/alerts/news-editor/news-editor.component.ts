@@ -17,6 +17,7 @@ import { Localization } from "../../../../models/localization/localization.model
 import { LocalizationHandlers } from "../../../../models/localization/localization-handlers";
 import { cloneDeep } from "lodash";
 import { NewsService } from "../../../../services/api/news.service";
+import { LocalizationService } from "../../../../services/localization.service";
 
 @Component({
 	selector: 'news-editor-root',
@@ -79,8 +80,10 @@ export class NewsEditorComponent implements OnInit {
 
 	@Output() onSaved = new EventEmitter<News>();
 
-	constructor(private newsService: NewsService) {
+	constructor(private newsService: NewsService, localizationService: LocalizationService) {
 		this.news = new News();
+
+		this.selectedTextLocalizationOption = localizationService.language;
 	}
 
 	ngOnInit(): void {

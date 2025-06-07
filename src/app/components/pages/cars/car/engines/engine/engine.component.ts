@@ -61,8 +61,18 @@ export class EngineComponent implements OnInit {
 	private loadEngineById(engineId: number): Engine {
 		if (engineId) {
 			const engine: Engine | undefined = this.car.engines.find(engine => engine.id === engineId);
+
 			if (engine) {
-				return engine;
+				return {
+					id: engine.id,
+					name: engine.name,
+					displacement: engine.displacement,
+					fuelType: engine.fuelType,
+					horsepower: engine.horsepower,
+					createdAt: engine.createdAt,
+					updatedAt: engine.updatedAt,
+					car: engine.car
+				};
 			}
 		}
 
@@ -91,7 +101,13 @@ export class EngineComponent implements OnInit {
 
 		this.engineService.saveOrUpdateEngine(this.engine).subscribe({
 			next: (engine) => {
-				this.car.engines.push(engine);
+				const index = this.car.engines.findIndex(e => e.id === engine.id);
+
+				if (index === -1) {
+					this.car.engines.push(engine);
+				} else {
+					this.car.engines[index] = engine;
+				}
 
 				this.engineEventService.engineListChanged$.next(this.car.engines);
 

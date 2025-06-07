@@ -5,7 +5,7 @@
 		<form class="form" (ngSubmit)="onSubmit()" *ngIf="user">
 			<div class="settings-form__icon-circle">
 				<i class="bi bi-person-fill-gear" *ngIf="!user.profilePictureUrl"></i>
-				<img src="{{ user.profilePictureUrl }}" *ngIf="user.profilePictureUrl" alt="Profile">
+				<img src="{{ user.profilePictureUrl }}" *ngIf="user.profilePictureUrl" alt="Profile" (error)="onImageError($event)">
 			</div>
 
 			<div class="mb-4">

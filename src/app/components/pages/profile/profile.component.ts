@@ -77,6 +77,10 @@ export class ProfileComponent implements OnInit {
 		return this.user ? !this.user.passwordIsEmpty : false;
 	}
 
+	onImageError($event: ErrorEvent) {
+		this.user.profilePictureUrl = null;
+	}
+
 	onSubmit() {
 		this.desiredEmailHtml = null;
 		this.userUpdated = false;

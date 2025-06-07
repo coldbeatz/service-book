@@ -24,11 +24,15 @@ export class LocalizationService {
 		return this.translate.currentLang;
 	}
 
-	getLocalizedString(localized: Localized): string {
+	get language(): Localization {
 		let language: Localization | undefined = this.languages.get(this.currentLanguage);
 		if (language == undefined)
 			language = this.defaultLanguage;
 
-		return LocalizationHandlers[language].getValue(localized);
+		return language;
+	}
+
+	getLocalizedString(localized: Localized): string {
+		return LocalizationHandlers[this.language].getValue(localized);
 	}
 }

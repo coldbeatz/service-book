@@ -5,6 +5,14 @@
 	@media (max-width: 768px) {
 		flex-direction: column;
 	}
+
+	.left-panel {
+		min-width: 300px;
+
+		.p-multiselect {
+			width: 100%;
+		}
+	}
 }
 
 .news-container {

@@ -93,7 +93,7 @@ export class AlertsComponent implements OnInit {
 						}
 					},
 					...this.sortedNews.map(item => ({
-						label: LocalizationHandlers[Localization.EN].getValue(item.title) || this.translateService.instant("NEWS_NO_TITLE"),
+						label: this.localizationService.getLocalizedString(item.title) || this.translateService.instant("NEWS_NO_TITLE"),
 						id: `news_${item.id}`,
 						icon: PrimeIcons.PENCIL,
 						command: () => {
