@@ -95,7 +95,7 @@
 
 	"ENGINES_ADD_CAR_ENGINE_BUTTON": "Створити двигун",
 	"ENGINES_ALL_BUTTON": "Переглянути всі",
-	"ENGINES_VIEW_BUTTON": "Переглянути",
+	"ENGINES_VIEW_BUTTON": "Перегляд",
 	"ENGINES_DELETE_BUTTON": "Видалити",
 	"ENGINES_LIST": "Двигуни",
 
@@ -317,7 +317,7 @@
 	"CAR_MAINTENANCES_DELETE_ALL_DIALOG_REJECT": "Ні",
 	"CAR_MAINTENANCES_DELETE_ALL_SUCCESS_MESSAGE": "Усі ТО авто успішно видалено",
 
-	"CARS_VIEW_BUTTON": "Переглянути",
+	"CARS_VIEW_BUTTON": "Перегляд",
 	"CARS_DELETE_BUTTON": "Видалити",
 
 	"SEARCH_INPUT": "Пошук",

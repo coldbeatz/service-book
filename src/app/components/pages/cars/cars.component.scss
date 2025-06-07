@@ -58,6 +58,12 @@
 		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 
 		.cars__card {
+			max-width: 500px;
+
+			@media (max-width: 768px) {
+				max-width: 100%;
+			}
+
 			.card-buttons {
 				margin: 15px;
 

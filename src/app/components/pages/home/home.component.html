@@ -5,7 +5,7 @@
 	</div>
 
 	<div style="max-width: 1200px; margin: 0 auto;">
-		<p-carousel [value]="news"
+		<p-carousel [value]="news.reverse()"
 					[numVisible]="2"
 					[numScroll]="2"
 					[circular]="true"
@@ -22,8 +22,7 @@
 							{{ localizationService.getLocalizedString(newsItem.title) }}
 						</h5>
 
-						<div class="text-sm text-secondary mt-2" style="max-height: 300px;
-    overflow-y: auto;"
+						<div class="text-sm text-secondary mt-2" style="max-height: 300px; overflow-y: auto;"
 							 [innerHTML]="formattedText(localizationService.getLocalizedString(newsItem.content))"></div>
 					</div>
 				</p-card>
